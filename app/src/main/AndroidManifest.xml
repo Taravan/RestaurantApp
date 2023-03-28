@@ -16,6 +16,9 @@
         android:theme="@style/Theme.RestaurantApp"
         tools:targetApi="31">
         <activity
+            android:name=".TableMainMenu"
+            android:exported="false" />
+        <activity
             android:name=".TableMainScreen"
             android:exported="false"
             android:label="@string/title_activity_table_main_screen"

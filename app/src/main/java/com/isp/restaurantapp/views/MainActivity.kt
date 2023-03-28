@@ -1,7 +1,6 @@
 package com.isp.restaurantapp.views
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +10,8 @@ import android.view.Window
 import android.widget.Toast
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -133,20 +130,6 @@ class MainActivity : AppCompatActivity() {
             barcodeScanner.process(inputImage).addOnSuccessListener { barcodeList ->
                 val barcode = barcodeList.getOrNull(0)
 
-//                barcode?.rawValue?.let { value ->
-////                        binding.bottomText.text =
-////                          getString(R.string.barcode_value, value)
-//
-//                        if (value == "Zkouska appky") {
-//                            //binding.bottomText.text = "Vítej u zkusebniho stolu"
-//                            val intent = Intent(this, secActivity::class.java).also {
-//                                it.putExtra("extraMsg", "Vítej u zkusebniho stolu")
-//                            }
-//                            startActivity(intent)
-//                        }
-//                }
-
-
 
                 for (bc in barcodeList) {
                     val qrCode = bc.rawValue
@@ -154,12 +137,10 @@ class MainActivity : AppCompatActivity() {
                     if (qrCode == correctQrCode) {
                         cameraProvider.unbindAll()
 
-                        val newAct = Intent(this, TableMainScreen::class.java)
+                        val newAct = Intent(this, TableMainMenu::class.java)
                             .also { it.putExtra("text", "Stul cislo 5") }
                         startActivity(newAct)
                     }
-
-
 
                 }
 

@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -17,28 +18,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
-            android:text="@{viewModel.user.name}" />
-            <!-- change to @= so it is two way binding -->
-
+            android:text="@={viewModel.name}"
+            />
 
         <EditText
-            android:id="@+id/editTextAge"
+            android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="mail"
-            android:text="@{viewModel.user.email}" />
+            android:text="@={viewModel.email}"/>
 
         <TextView
             android:id="@+id/textViewName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.user.name}" />
+            android:text="@{viewModel.name}" />
 
         <TextView
             android:id="@+id/textViewAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.user.email}" />
+            android:text="@{viewModel.email}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTables"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="3" />
+
+
 
     </LinearLayout>
 

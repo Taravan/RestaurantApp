@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.TableMainMenu">
+    tools:context=".views.StaffMainScreen">
 
     <TextView
-        android:id="@+id/tFirst"
+        android:text="StaffMainScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="100dp"
         android:textAlignment="center"
         android:textSize="50sp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

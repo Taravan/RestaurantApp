@@ -5,12 +5,6 @@ plugins {
 
 android {
 
-    // Enable view binding
-    viewBinding {
-        enabled = true
-    }
-    //
-
     namespace 'com.isp.restaurantapp'
     compileSdk 33
 

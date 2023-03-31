@@ -5,11 +5,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.Window
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.Barcode
@@ -20,13 +24,19 @@ import com.google.mlkit.vision.common.InputImage
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
 import java.util.concurrent.Executors
+import kotlin.math.abs
 
 private const val CAMERA_PERMISSION_REQUEST_CODE = 1
 
 @ExperimentalGetImage
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
+
+    private val NUMBER_OF_SWIPES = 6
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var gestureDetector: GestureDetector
+
+    private var swipeCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -34,6 +44,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        gestureDetector = GestureDetector(this, this)
+        binding.swipingLayout.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            true
+        }
 
 
         if (hasCameraPermission()) {
@@ -138,7 +154,7 @@ class MainActivity : AppCompatActivity() {
                     if (qrCode == correctQrCode) {
                         cameraProvider.unbindAll()
 
-                        val newAct = Intent(this, TableMainMenu::class.java)
+                        val newAct = Intent(this, TableMainScreen::class.java)
                             .also { it.putExtra("text", "Stul cislo 5") }
                         startActivity(newAct)
                     }
@@ -158,8 +174,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onFling(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
+        if (p0.y > p1.y) {
+            swipeCounter++
+            if (swipeCounter >= NUMBER_OF_SWIPES) {
+                val intent = Intent(this, StaffMainScreen::class.java)
+                startActivity(intent)
 
+                swipeCounter = 0
+                return true
+            }
+        } else {
+            swipeCounter = 0
+        }
 
+        return false
+    }
+
+    override fun onDown(p0: MotionEvent): Boolean {
+        return true
+    }
+
+    override fun onShowPress(p0: MotionEvent) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSingleTapUp(p0: MotionEvent): Boolean {
+        return true
+    }
+
+    override fun onScroll(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
+        return true
+    }
+
+    override fun onLongPress(p0: MotionEvent) {
+        TODO("Not yet implemented")
+    }
 
 
 }

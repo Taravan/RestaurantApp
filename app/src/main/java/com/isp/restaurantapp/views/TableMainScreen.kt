@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.widget.TextView
 import com.isp.restaurantapp.R
 
-class TableMainMenu : AppCompatActivity() {
+class TableMainScreen : AppCompatActivity() {
 
     lateinit var tv : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_table_main_menu)
+        setContentView(R.layout.activity_table_main_screen)
 
 
         tv = findViewById(R.id.tFirst)

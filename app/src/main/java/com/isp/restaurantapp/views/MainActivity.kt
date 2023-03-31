@@ -3,11 +3,11 @@ package com.isp.restaurantapp.views
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
@@ -17,8 +17,8 @@ import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
-import com.isp.restaurantapp.databinding.ActivityMainBinding
 import com.isp.restaurantapp.R
+import com.isp.restaurantapp.databinding.ActivityMainBinding
 import java.util.concurrent.Executors
 
 private const val CAMERA_PERMISSION_REQUEST_CODE = 1
@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
             bindCameraUseCases()
         } else {
             Toast.makeText(this, "Camera permission required", Toast.LENGTH_LONG).show()
@@ -123,7 +124,7 @@ class MainActivity : AppCompatActivity() {
 
 
     // Analyze found qr code
-    private fun processImageProxy(barcodeScanner: BarcodeScanner, imageProxy: ImageProxy, cameraProvider: ProcessCameraProvider ) {
+    private fun processImageProxy(barcodeScanner: BarcodeScanner, imageProxy: ImageProxy, cameraProvider: ProcessCameraProvider) {
         imageProxy.image?.let { image ->
             val inputImage = InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees)
 

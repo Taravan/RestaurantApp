@@ -1,4 +1,4 @@
-package com.isp.restaurantapp.views
+package com.isp.restaurantapp.views.customerPart
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

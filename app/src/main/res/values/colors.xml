@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="qrBackground">#3C81A1</color>
+    <color name="recycleLine">#D8D6D6</color>
+    <color name="dark_gray">#706868</color>
 </resources>

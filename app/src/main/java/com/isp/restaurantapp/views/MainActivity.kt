@@ -8,12 +8,10 @@ import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.Window
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.mlkit.vision.barcode.Barcode
@@ -23,8 +21,11 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
+import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.repositories.dataMock
+import com.isp.restaurantapp.views.customerPart.CustomerActivity
+import com.isp.restaurantapp.views.customerPart.StaffMainScreen
 import java.util.concurrent.Executors
-import kotlin.math.abs
 
 private const val CAMERA_PERMISSION_REQUEST_CODE = 1
 
@@ -32,10 +33,11 @@ private const val CAMERA_PERMISSION_REQUEST_CODE = 1
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     private val NUMBER_OF_SWIPES = 6
+    private val data = dataMock()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var gestureDetector: GestureDetector
-
+    private lateinit var tables: List<Table>
     private var swipeCounter = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +46,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        tables = getTables()
+
 
         gestureDetector = GestureDetector(this, this)
         binding.swipingLayout.setOnTouchListener { _, event ->
@@ -150,14 +156,23 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
                 for (bc in barcodeList) {
                     val qrCode = bc.rawValue
-                    val correctQrCode = "SpravnyKod"
-                    if (qrCode == correctQrCode) {
-                        cameraProvider.unbindAll()
+//                    val correctQrCode = "SpravnyKod"
+//                    if (qrCode == correctQrCode) {
+//                        cameraProvider.unbindAll()
+//
+//                        val newAct = Intent(this, TableMainScreen::class.java)
+//                            .also { it.putExtra("text", "Stul cislo 5") }
+//                        startActivity(newAct)
+//                    }
 
-                        val newAct = Intent(this, TableMainScreen::class.java)
-                            .also { it.putExtra("text", "Stul cislo 5") }
+                    val tableToGo = tables.find { it.qrCode == qrCode }
+                    if (tableToGo != null) {
+                        cameraProvider.unbindAll()
+                        val newAct = Intent(this, CustomerActivity::class.java)
+                            .also { it.putExtra("tableNumber", tableToGo.tableNumber) }
                         startActivity(newAct)
                     }
+
 
                 }
 
@@ -209,6 +224,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     override fun onLongPress(p0: MotionEvent) {
         TODO("Not yet implemented")
+    }
+
+    private fun getTables(): List<Table> {
+        return data.getTables().toList()
     }
 
 

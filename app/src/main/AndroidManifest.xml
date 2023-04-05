@@ -16,10 +16,11 @@
         android:theme="@style/Theme.RestaurantApp"
         tools:targetApi="31">
         <activity
-            android:name=".views.StaffMainScreen"
-            android:exported="false" />
+            android:name=".views.customerPart.CustomerActivity"
+            android:exported="false"
+            android:label="@string/title_activity_customer" />
         <activity
-            android:name=".views.TableMainScreen"
+            android:name=".views.customerPart.StaffMainScreen"
             android:exported="false" />
         <activity
             android:name=".views.MainActivity"

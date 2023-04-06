@@ -18,11 +18,11 @@ class dataMock {
     )
 
     private val items = listOf(
-        Item(0, "Rohlik", "Toto je rohlik.", 0, 5.50),
-        Item(1, "Klobása", "Toto je klobasa.", 1, 35.90),
-        Item(0, "Párek", "Toto je párek.", 1, 20.00),
-        Item(0, "Houska", "Toto je houska.", 0, 6.50),
-        Item(0, "Kobliha", "Toto je kobliha.", 0, 10.90)
+        Item(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
+        Item(1, "Klobása", "Toto je klobasa.", 1, "Uzeniny",35.90),
+        Item(0, "Párek", "Toto je párek.", 1, "Uzeniny", 20.00),
+        Item(0, "Houska", "Toto je houska.", 0, "Pečivo", 6.50),
+        Item(0, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
     )
 
     fun getTables(): List<Table> {

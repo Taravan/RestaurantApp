@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class LoginVM : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "This is log in Fragment"
     }
     val text: LiveData<String> = _text
 }

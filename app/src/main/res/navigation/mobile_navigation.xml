@@ -5,11 +5,18 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_menu">
 
+<!--    <fragment-->
+<!--        android:id="@+id/nav_menu"-->
+<!--        android:name="com.isp.restaurantapp.views.customerPart.MenuFragment"-->
+<!--        android:label="@string/title_menu"-->
+<!--        tools:layout="@layout/fragment_menu" >-->
+<!--    </fragment>-->
+
     <fragment
         android:id="@+id/nav_menu"
-        android:name="com.isp.restaurantapp.views.customerPart.MenuFragment"
+        android:name="com.isp.restaurantapp.views.customerPart.MenuHolderFragment"
         android:label="@string/title_menu"
-        tools:layout="@layout/fragment_menu" >
+        tools:layout="@layout/fragment_menu_holder">
     </fragment>
 
     <fragment

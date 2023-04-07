@@ -1,22 +1,18 @@
 package com.isp.restaurantapp.viewModels
 
 import android.app.Application
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.*
 import com.isp.restaurantapp.coroutines.Coroutines
 import com.isp.restaurantapp.models.Item
 import com.isp.restaurantapp.models.MenuCategory
-import com.isp.restaurantapp.repositories.dataMock
+import com.isp.restaurantapp.repositories.DataMock
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.newSingleThreadContext
-import kotlin.coroutines.coroutineContext
 
 class MenuHolderVM(application: Application): AndroidViewModel(application) {
 
     private lateinit var job: Job
-    private val data: dataMock = dataMock()
+    private val data: DataMock = DataMock()
 
     private val _menuItems = MutableLiveData<List<Item>>()
     val menuItems: LiveData<List<Item>> = _menuItems

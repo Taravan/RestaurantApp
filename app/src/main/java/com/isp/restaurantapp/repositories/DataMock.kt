@@ -4,7 +4,7 @@ import com.isp.restaurantapp.models.Category
 import com.isp.restaurantapp.models.Item
 import com.isp.restaurantapp.models.Table
 
-class dataMock {
+class DataMock {
 
     private val tables = listOf(
         Table(0, 5, "kodStoluCisloPet"),

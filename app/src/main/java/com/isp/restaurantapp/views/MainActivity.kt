@@ -22,7 +22,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
 import com.isp.restaurantapp.models.Table
-import com.isp.restaurantapp.repositories.dataMock
+import com.isp.restaurantapp.repositories.DataMock
 import com.isp.restaurantapp.views.customerPart.CustomerActivity
 import com.isp.restaurantapp.views.customerPart.StaffMainScreen
 import java.util.concurrent.Executors
@@ -33,7 +33,7 @@ private const val CAMERA_PERMISSION_REQUEST_CODE = 1
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     private val NUMBER_OF_SWIPES = 6
-    private val data = dataMock()
+    private val data = DataMock()
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var gestureDetector: GestureDetector

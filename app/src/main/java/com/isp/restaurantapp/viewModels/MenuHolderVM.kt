@@ -17,7 +17,7 @@ class MenuHolderVM(application: Application): AndroidViewModel(application) {
     private val _menuItems = MutableLiveData<List<Item>>()
     val menuItems: LiveData<List<Item>> = _menuItems
 
-    val menuCategories: LiveData<List<MenuCategory>> = Transformations.map(menuItems) { items ->
+    val menuCategories: LiveData<List<MenuCategory>> = _menuItems.map() { items ->
         items.groupBy { it.categoryId }
             .map { MenuCategory(it.value.first().categoryName, it.value) }
     }

@@ -8,9 +8,10 @@ import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.AllergenDefRowBinding
 import com.isp.restaurantapp.models.Allergen
 import com.isp.restaurantapp.viewModels.MainActivityVM
+import com.isp.restaurantapp.viewModels.MainActivityVMOLD
 
 class AllergenDefinitionAdapter (
-    private val viewModel: MainActivityVM,  // pass view-model,
+    private val viewModel: MainActivityVMOLD,  // pass view-model,
     private var allAllergensList: List<Allergen> = emptyList()
 
 ) : RecyclerView.Adapter<AllergenDefinitionAdapter.AllergenViewHolder>() {

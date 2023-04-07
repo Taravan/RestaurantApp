@@ -6,7 +6,6 @@
         <variable
             name="viewModel"
             type="com.isp.restaurantapp.viewModels.MenuHolderVM"/>
-            <!--type="com.isp.restaurantapp.viewModels.MenuVM" /> -->
         <variable
             name="category"
             type="com.isp.restaurantapp.models.MenuCategory" />

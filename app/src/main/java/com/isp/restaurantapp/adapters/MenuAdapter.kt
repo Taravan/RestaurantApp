@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ItemMenuBinding
 import com.isp.restaurantapp.models.Item
+import com.isp.restaurantapp.viewModels.MenuHolderVM
 
-class MenuAdapter(private var itemsList: List<Item> = emptyList()):
+class MenuAdapter(private var itemsList: List<Item> = emptyList(), private val viewModel: MenuHolderVM):
     RecyclerView.Adapter<MenuAdapter.ItemsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
@@ -29,7 +30,7 @@ class MenuAdapter(private var itemsList: List<Item> = emptyList()):
     }
 
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
-        holder.bind(itemsList[position])
+        holder.bind(itemsList[position], viewModel)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -39,8 +40,13 @@ class MenuAdapter(private var itemsList: List<Item> = emptyList()):
     }
 
     inner class ItemsViewHolder(private val binding: ItemMenuBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Item){
+        fun bind(item: Item, viewModel: MenuHolderVM){
             binding.item = item
+
+            binding.btnOrder.setOnClickListener {
+                viewModel.orderButtonClicked(item)
+            }
+
             binding.executePendingBindings()
         }
     }

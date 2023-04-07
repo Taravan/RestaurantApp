@@ -1,18 +1,19 @@
 package com.isp.restaurantapp.viewModels
 
+import android.app.Application
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.isp.restaurantapp.coroutines.Coroutines
 import com.isp.restaurantapp.models.Item
 import com.isp.restaurantapp.models.MenuCategory
 import com.isp.restaurantapp.repositories.dataMock
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.newSingleThreadContext
+import kotlin.coroutines.coroutineContext
 
-class MenuHolderVM: ViewModel() {
+class MenuHolderVM(application: Application): AndroidViewModel(application) {
 
     private lateinit var job: Job
     private val data: dataMock = dataMock()
@@ -25,9 +26,6 @@ class MenuHolderVM: ViewModel() {
             .map { MenuCategory(it.value.first().categoryName, it.value) }
     }
 
-
-
-
     fun getCategories() {
 
         job = Coroutines.ioTheMain(
@@ -35,6 +33,10 @@ class MenuHolderVM: ViewModel() {
             { _menuItems.value = it }
         )
 
+    }
+
+    fun orderButtonClicked(item: Item) {
+        Toast.makeText(getApplication(), "Buy item Id: " + item.id.toString() + " " + item.name + " for: " + item.price.toString() + " Kč.", Toast.LENGTH_LONG).show()
     }
 
     override fun onCleared() {

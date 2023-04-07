@@ -1,10 +1,9 @@
-package com.isp.restaurantapp.adapters
+package com.isp.restaurantapp.views.customerPart.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ItemMenuBinding

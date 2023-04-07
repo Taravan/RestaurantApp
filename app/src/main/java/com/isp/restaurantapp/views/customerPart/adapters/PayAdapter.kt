@@ -1,4 +1,4 @@
-package com.isp.restaurantapp.adapters
+package com.isp.restaurantapp.views.customerPart.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

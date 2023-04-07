@@ -58,6 +58,8 @@ class CustomerActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
 
+
+
         val navView: BottomNavigationView = binding.navView
 
         navController = findNavController(R.id.nav_host_fragment_activity_customer)

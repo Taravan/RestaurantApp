@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         tables = getTables()
 
 
+        val newAct = Intent(this, CustomerActivity::class.java)
+            .also { it.putExtra("tableNumber", tables[0].tableNumber) }
+        startActivity(newAct)
+
         gestureDetector = GestureDetector(this, this)
         binding.swipingLayout.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
@@ -120,10 +124,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
 
-            analysisUseCase.setAnalyzer(
-                Executors.newSingleThreadExecutor(),
-                { imageProxy -> processImageProxy(scanner, imageProxy, cameraProvider) }
-            )
+            analysisUseCase.setAnalyzer( Executors.newSingleThreadExecutor()) {
+                    imageProxy -> processImageProxy(scanner, imageProxy, cameraProvider)
+            }
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 

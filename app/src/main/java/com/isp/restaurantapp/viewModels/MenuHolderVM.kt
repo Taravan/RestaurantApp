@@ -7,6 +7,7 @@ import com.isp.restaurantapp.coroutines.Coroutines
 import com.isp.restaurantapp.models.Item
 import com.isp.restaurantapp.models.MenuCategory
 import com.isp.restaurantapp.repositories.DataMock
+import com.isp.restaurantapp.repositories.MyApi
 import kotlinx.coroutines.Job
 
 class MenuHolderVM(application: Application): AndroidViewModel(application) {

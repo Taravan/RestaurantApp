@@ -8,9 +8,10 @@ import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.TableRvRowBinding
 import com.isp.restaurantapp.models.Table
 import com.isp.restaurantapp.viewModels.MainActivityVM
+import com.isp.restaurantapp.viewModels.MainActivityVMOLD
 
 class TablesBindableAdapter (
-    private val viewModel: MainActivityVM,
+    private val viewModel: MainActivityVMOLD,
     private var dataset: List<Table> = emptyList()
 ) : RecyclerView.Adapter<TablesBindableAdapter.MyViewHolder>() {
 
@@ -27,7 +28,7 @@ class TablesBindableAdapter (
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val myData = dataset[position]
-        holder.bind(myData, viewModel)
+        holder.bind(myData)
     }
 
     override fun getItemCount(): Int {
@@ -42,7 +43,7 @@ class TablesBindableAdapter (
     inner class MyViewHolder(private val binding: TableRvRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(table: Table, viewModel: MainActivityVM) {
+        fun bind(table: Table) {
             binding.table = table
             // binding.viewModel = viewModel
 

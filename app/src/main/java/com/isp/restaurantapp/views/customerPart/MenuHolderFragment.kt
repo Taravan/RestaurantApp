@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.isp.restaurantapp.R
-import com.isp.restaurantapp.adapters.MenuHolderAdapter
+import com.isp.restaurantapp.views.customerPart.adapters.MenuHolderAdapter
 import com.isp.restaurantapp.databinding.FragmentMenuHolderBinding
 import com.isp.restaurantapp.viewModels.MenuHolderVM
 

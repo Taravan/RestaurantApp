@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.isp.restaurantapp.R
-import com.isp.restaurantapp.adapters.MenuHolderAdapter
-import com.isp.restaurantapp.adapters.PayAdapter
+import com.isp.restaurantapp.views.customerPart.adapters.PayAdapter
 import com.isp.restaurantapp.databinding.FragmentPayBinding
 import com.isp.restaurantapp.viewModels.PayVM
 

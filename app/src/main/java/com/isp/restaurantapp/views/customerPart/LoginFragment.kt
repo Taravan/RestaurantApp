@@ -12,22 +12,25 @@ import com.isp.restaurantapp.viewModels.LoginVM
 
 class LoginFragment : Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
+    private lateinit var _binding: FragmentLoginBinding
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val loginVM =
-            ViewModelProvider(this).get(LoginVM::class.java)
+        savedInstanceState: Bundle?): View {
+
+        val loginVM = ViewModelProvider(this)[LoginVM::class.java]
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding.viewModel = loginVM
+
+        _binding.lifecycleOwner
         val root: View = binding.root
+
 
         val textView: TextView = binding.textLogIntoYourAccount
         loginVM.text.observe(viewLifecycleOwner) {
@@ -38,6 +41,5 @@ class LoginFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 }

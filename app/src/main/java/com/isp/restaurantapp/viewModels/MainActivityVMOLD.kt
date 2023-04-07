@@ -199,6 +199,15 @@ class MainActivityVMOLD: ViewModel() {
 
 
     }
+    // This funcs is not required if its put into adapter, not in view
+    fun onTableButtonClick(table: Table){
+        _selectedTable.value = table
+    }
+
+    fun onTableButtonClickComplete(){
+        _selectedTable.value = null
+    }
+
 
     fun registerNewUser(){
         if (email.value.isNullOrEmpty() || password.value.isNullOrEmpty()){
@@ -217,15 +226,6 @@ class MainActivityVMOLD: ViewModel() {
                 throw e
             }
         }
-    }
-
-    // This funcs is not required if its put into adapter, not in view
-    fun onTableButtonClick(table: Table){
-        _selectedTable.value = table
-    }
-
-    fun onTableButtonClickComplete(){
-        _selectedTable.value = null
     }
 
     fun logInAndLoadUsersAllergens() {

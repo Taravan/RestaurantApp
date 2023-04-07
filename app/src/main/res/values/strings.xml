@@ -15,8 +15,8 @@
     // Login/Signup fragment
     <string name="login_welcome_text">Log into your account</string>
     <string name="create_acc_welcome_text">Create your account</string>
-    <string name="username">Username:</string>
-    <string name="username_hint">Username</string>
+    <string name="username">Email:</string>
+    <string name="username_hint">Email</string>
     <string name="psswd">Password:</string>
     <string name="psswd_hint">Password</string>
     <string name="psswd_confirm">Confirm password:</string>

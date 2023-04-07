@@ -1,10 +1,8 @@
 package com.isp.restaurantapp.views.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.AllergenDefRowBinding
@@ -12,7 +10,6 @@ import com.isp.restaurantapp.models.Allergen
 import com.isp.restaurantapp.viewModels.MainActivityVM
 
 class AllergenDefinitionAdapter (
-    private val lifecycleOwner: LifecycleOwner,
     private val viewModel: MainActivityVM,  // pass view-model,
     private var allAllergensList: List<Allergen> = emptyList()
 

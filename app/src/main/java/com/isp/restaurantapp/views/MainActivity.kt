@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
             if (user != null) {
                 viewModel.fetchUserDefinedAllergens(viewModel.loggedUser.value?.uid ?: "none")
                 val allgAdapter = AllergenDefinitionAdapter(
-                    this, viewModel
+                    viewModel
                 )
                 binding.recyclerViewAllergens.adapter = allgAdapter
 

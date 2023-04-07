@@ -1,3 +1,50 @@
 <resources>
+
+    // App info
     <string name="app_name">RestaurantApp</string>
+
+    // Main activity
+    <string name="welcome_text">Scan QR Code of your table</string>
+    <string name="top_logo">Top screen logo</string>
+    <string name="qr_reader">Transparent for qr reader</string>
+
+    // Customer activity
+    <string name="title_activity_customer">CustomerActivity</string>
+    <string name="table_number">TABLE NUMBER</string>
+
+    // Login/Signup fragment
+    <string name="login_welcome_text">Log into your account</string>
+    <string name="create_acc_welcome_text">Create your account</string>
+    <string name="username">Username:</string>
+    <string name="username_hint">Username</string>
+    <string name="psswd">Password:</string>
+    <string name="psswd_hint">Password</string>
+    <string name="psswd_confirm">Confirm password:</string>
+    <string name="psswd_confirm_hint">Confirm password</string>
+    <string name="btn_login">Log In</string>
+    <string name="btn_signup">Sign Up</string>
+    <string name="btn_create_acc">Create</string>
+    <string name="btn_back_to_login">Back to Log in</string>
+
+    // Account fragment
+    <string name="account_welcome_text">Your account</string>
+    <string name="acc_name">Account name</string>
+
+    // FoodMenu fragment
+    <string name="item_name">Item Name</string>
+    <string name="btn_price">0.0</string>
+    <string name="check_all">All</string>
+
+
+    // Pay fragment
+    <string name="btn_pay">Pay</string>
+    <string name="pay_welcome_text">Select what to pay</string>
+
+
+    // Bottom menu
+    <string name="title_menu">Menu</string>
+    <string name="title_pay">Pay</string>
+    <string name="title_login">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

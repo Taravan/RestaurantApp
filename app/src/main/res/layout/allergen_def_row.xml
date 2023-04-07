@@ -16,7 +16,7 @@
             type="com.isp.restaurantapp.models.Allergen" />
         <variable
             name="vm"
-            type="com.isp.restaurantapp.viewModels.MainActivityVM" />
+            type="com.isp.restaurantapp.viewModels.MainActivityVMOLD" />
     </data>
 
     <androidx.cardview.widget.CardView

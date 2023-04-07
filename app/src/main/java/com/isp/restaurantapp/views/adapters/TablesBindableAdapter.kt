@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.TableRvRowBinding
 import com.isp.restaurantapp.models.Table
-import com.isp.restaurantapp.viewModels.MainActivityVM
+import com.isp.restaurantapp.viewModels.MainActivityVMOLD
 
 class TablesBindableAdapter (
-    private val viewModel: MainActivityVM,
+    private val viewModel: MainActivityVMOLD,
     private var dataset: List<Table> = emptyList()
 ) : RecyclerView.Adapter<TablesBindableAdapter.MyViewHolder>() {
 
@@ -42,7 +42,7 @@ class TablesBindableAdapter (
     inner class MyViewHolder(private val binding: TableRvRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(table: Table, viewModel: MainActivityVM) {
+        fun bind(table: Table, viewModel: MainActivityVMOLD) {
             binding.table = table
             // binding.viewModel = viewModel
 

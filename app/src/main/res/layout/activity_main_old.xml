@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.isp.restaurantapp.viewModels.MainActivityVM" />
+            type="com.isp.restaurantapp.viewModels.MainActivityVMOLD" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

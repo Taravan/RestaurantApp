@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class MainActivityVM: ViewModel() {
+class MainActivityVMOLD: ViewModel() {
 
     // static const
     companion object val TAG = "MainActivityVM"

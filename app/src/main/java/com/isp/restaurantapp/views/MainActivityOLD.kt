@@ -8,23 +8,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.FirebaseApp
 import com.isp.restaurantapp.R
-import com.isp.restaurantapp.databinding.ActivityMainBinding
-import com.isp.restaurantapp.viewModels.MainActivityVM
+import com.isp.restaurantapp.databinding.ActivityMainOldBinding
+import com.isp.restaurantapp.viewModels.MainActivityVMOLD
 import com.isp.restaurantapp.views.adapters.AllergenDefinitionAdapter
 import com.isp.restaurantapp.views.adapters.TablesBindableAdapter
 
-class MainActivity : AppCompatActivity() {
+class MainActivityOLD : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
-    lateinit var viewModel: MainActivityVM
+    lateinit var binding: ActivityMainOldBinding
+    lateinit var viewModel: MainActivityVMOLD
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         FirebaseApp.initializeApp(this)
 
         // enable data binding and provide view-model
-        this.binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        this.viewModel = ViewModelProvider(this)[MainActivityVM::class.java]
+        this.binding = DataBindingUtil.setContentView(this, R.layout.activity_main_old)
+        this.viewModel = ViewModelProvider(this)[MainActivityVMOLD::class.java]
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this

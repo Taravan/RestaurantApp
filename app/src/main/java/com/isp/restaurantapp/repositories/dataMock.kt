@@ -25,6 +25,11 @@ class dataMock {
         Item(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
     )
 
+    private val unpaiedItems = listOf(
+        Item(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
+        Item(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
+    )
+
     fun getTables(): List<Table> {
         return tables
     }
@@ -43,6 +48,10 @@ class dataMock {
 
     fun getItemsById(id: Int): List<Item> {
         return items.filter { it.categoryId == id }
+    }
+
+    fun getUnpaiedItems(): List<Item> {
+        return  unpaiedItems
     }
 
 }

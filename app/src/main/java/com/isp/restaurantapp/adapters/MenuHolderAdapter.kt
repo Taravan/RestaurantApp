@@ -44,8 +44,6 @@ class MenuHolderAdapter(private val viewModel: MenuHolderVM, private var menuCat
     inner class MenuCategoriesViewHolder(private val binding: FragmentMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
             fun bind(category: MenuCategory, viewModel: MenuHolderVM) {
-                val adapter = MenuAdapter(category.itemsOfCategory, viewModel)
-                val items = category.itemsOfCategory
 
                 val recyclerView = binding.itemsRecyclerView
                 recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
@@ -53,9 +51,7 @@ class MenuHolderAdapter(private val viewModel: MenuHolderVM, private var menuCat
 
                 binding.category = category
                 binding.viewModel = viewModel
-
-                //binding.itemsRecyclerView.adapter = adapter
-                binding.category = category
+                
                 binding.executePendingBindings()
 
             }

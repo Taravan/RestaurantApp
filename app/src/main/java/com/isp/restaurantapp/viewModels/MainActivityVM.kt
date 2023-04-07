@@ -36,6 +36,7 @@ class MainActivityVM: ViewModel() {
     val loggedUser:  MutableLiveData<FirebaseUser>
         get() = _userLogged
 
+    // Bind this msg to the view, it will be shown if the user is not logged in
     private val _userNotLoggedIn: MutableLiveData<String> by lazy {
         MutableLiveData("User not logged in")
     }
@@ -68,9 +69,6 @@ class MainActivityVM: ViewModel() {
     val listOfAllAllergens: LiveData<List<Allergen>>
         get() = _listOfAllAllergens
 
-    private var _selectedAllergen = MutableLiveData<Allergen?>()
-    val selectedAllergen : LiveData<Allergen?>
-        get() = _selectedAllergen
 
     // USER DEFINED ALLERGENS
     private val _userDefinedAllergensGetter: ICollectionGetterById<Allergen, String> by lazy {
@@ -84,17 +82,6 @@ class MainActivityVM: ViewModel() {
     }
     val userDefinedAllergens: LiveData<MutableSet<Allergen>>
         get() = _userDefinedAllergens
-
-    private val _allergenStatesMap: MutableLiveData<Map<Allergen, Boolean>> by lazy{
-        MutableLiveData<Map<Allergen, Boolean>>()
-    }
-    val allergenStatesMap: MutableLiveData<Map<Allergen, Boolean>>
-        get() = _allergenStatesMap
-    private val _userAllergensLoaded = false
-
-    private val _readyToShowAllergens: MutableLiveData<Boolean> = MutableLiveData(false)
-    val readyToShowAllergens: MutableLiveData<Boolean>
-        get() = _readyToShowAllergens
 
 
     // Item is selected via binding in adapter
@@ -187,21 +174,6 @@ class MainActivityVM: ViewModel() {
             } catch (e: Exception){
                 Log.e(TAG, "Error while getting user defined allergens", e)
                 throw e
-            }
-        }
-    }
-    fun initAllergenStatesMap(){
-        viewModelScope.launch {
-            val result = withContext(Dispatchers.IO) {
-                _listOfAllAllergens.value?.associateWith { allergen ->
-                    _userDefinedAllergens.value?.contains(allergen)?: false
-                }
-            }
-
-            withContext(Dispatchers.Main) {
-                _allergenStatesMap.value = result
-                _readyToShowAllergens.value = true
-                Log.e(TAG, _allergenStatesMap.value?.size.toString())
             }
         }
     }

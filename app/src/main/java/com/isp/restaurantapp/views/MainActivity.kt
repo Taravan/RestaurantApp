@@ -58,16 +58,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.loggedUser.observe(this) { user ->
             if (user != null) {
                 viewModel.fetchUserDefinedAllergens(viewModel.loggedUser.value?.uid ?: "none")
-                viewModel.initAllergenStatesMap()
-            }
-        }
-
-        // once fetching data is completed, set up rv and init adapter
-        viewModel.readyToShowAllergens.observe(this){
-            if (it){
-                val stateMap = viewModel.allergenStatesMap.value.orEmpty()
                 val allgAdapter = AllergenDefinitionAdapter(
-                    this, viewModel, stateMap
+                    this, viewModel
                 )
                 binding.recyclerViewAllergens.adapter = allgAdapter
 
@@ -76,6 +68,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
 
 
 

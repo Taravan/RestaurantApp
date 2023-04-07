@@ -13,8 +13,7 @@ import com.isp.restaurantapp.viewModels.MainActivityVM
 
 class AllergenDefinitionAdapter (
     private val lifecycleOwner: LifecycleOwner,
-    private val viewModel: MainActivityVM,  // pass view-model
-    private var allergenStateMap: Map<Allergen, Boolean>,
+    private val viewModel: MainActivityVM,  // pass view-model,
     private var allAllergensList: List<Allergen> = emptyList()
 
 ) : RecyclerView.Adapter<AllergenDefinitionAdapter.AllergenViewHolder>() {
@@ -23,7 +22,7 @@ class AllergenDefinitionAdapter (
     inner class AllergenViewHolder(private val binding: AllergenDefRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(alg: Allergen, isSwitched: Boolean) {
+        fun bind(alg: Allergen) {
             // alg defined in red/layout/allergen_def_row.xml data variable
             binding.alg = alg
             binding.user = viewModel.loggedUser.value  // for visibility change
@@ -49,8 +48,7 @@ class AllergenDefinitionAdapter (
 
     override fun onBindViewHolder(holder: AllergenViewHolder, position: Int) {
         val allergen = allAllergensList[position]
-        val isSwitched = viewModel.isAllergenUserDefined(allergen)
-        holder.bind(allergen, isSwitched)  // call viewholder.bind method
+        holder.bind(allergen)  // call viewholder.bind method
     }
 
     override fun getItemCount(): Int {

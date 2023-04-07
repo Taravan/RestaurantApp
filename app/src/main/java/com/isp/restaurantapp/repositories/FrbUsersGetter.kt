@@ -3,7 +3,7 @@ package com.isp.restaurantapp.repositories
 import com.isp.restaurantapp.models.Allergen
 import com.isp.restaurantapp.models.exceptions.DocumentNotFoundException
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
-import com.isp.restaurantapp.models.firebase.UsersAllergenFields
+import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
 import kotlinx.coroutines.tasks.await
 
 class FrbUserAllergensGetter
@@ -15,7 +15,7 @@ class FrbUserAllergensGetter
 
         if (userAllergensDocument.exists()) {
             val allergensArray = userAllergensDocument
-                .get(UsersAllergenFields.ALLERGENS) as? ArrayList<*> ?: ArrayList<String>()
+                .get(FrbFieldsUsersAllergen.ALLERGENS) as? ArrayList<*> ?: ArrayList<String>()
 
             // if there is for some reason empty response, return empty
             // the reason- can happen that update fails and in db there is no array of maps
@@ -26,8 +26,8 @@ class FrbUserAllergensGetter
 
             for (allergen in allergensArray) {
                 val allergenMap = allergen as HashMap<*, *>
-                val allergenId = allergenMap[UsersAllergenFields.Allergens.ID] as Long
-                val allergenName = allergenMap[UsersAllergenFields.Allergens.NAME] as String
+                val allergenId = allergenMap[FrbFieldsUsersAllergen.Allergens.ID] as Long
+                val allergenName = allergenMap[FrbFieldsUsersAllergen.Allergens.NAME] as String
                 allergenList.add(Allergen(allergenId.toInt(), allergenName))
             }
         }

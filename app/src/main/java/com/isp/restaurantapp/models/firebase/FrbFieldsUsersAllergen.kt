@@ -1,6 +1,6 @@
 package com.isp.restaurantapp.models.firebase
 
-object UsersAllergenFields {
+object FrbFieldsUsersAllergen {
     const val ALLERGENS = "allergens"
 
     object Allergens{

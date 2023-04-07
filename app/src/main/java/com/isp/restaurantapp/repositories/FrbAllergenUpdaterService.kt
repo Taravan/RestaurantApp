@@ -3,10 +3,9 @@ package com.isp.restaurantapp.repositories
 import android.util.Log
 import com.google.firebase.firestore.FieldValue
 import com.isp.restaurantapp.models.Allergen
-import com.isp.restaurantapp.models.firebase.AllergenFields
+import com.isp.restaurantapp.models.firebase.FrbFieldsAllergen
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
-import com.isp.restaurantapp.models.firebase.UsersAllergenFields
-import com.google.firebase.firestore.ktx.getField
+import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
 import kotlinx.coroutines.tasks.await
 
 class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {
@@ -14,7 +13,7 @@ class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {
         val allergenArray = mutableListOf<Map<String, Any>>()
 
         allergenList.forEach { allergen ->
-            allergenArray.add(mapOf(AllergenFields.ID to allergen.id, AllergenFields.NAME to allergen.name))
+            allergenArray.add(mapOf(FrbFieldsAllergen.ID to allergen.id, FrbFieldsAllergen.NAME to allergen.name))
         }
 
         val userAllergensDocRef = db.collection(FirestoreCollections.USER_ALLERGENS).document(uid)
@@ -24,10 +23,10 @@ class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {
 
         // Delete the existing allergen array field and set the new allergen array field
         userAllergensDocRef.update(
-            UsersAllergenFields.ALLERGENS, FieldValue.delete()
+            FrbFieldsUsersAllergen.ALLERGENS, FieldValue.delete()
         ).addOnSuccessListener {
             Log.e("FrbUpdater", "Field Deleted Successfully, initiating update process.")
-            userAllergensDocRef.update(UsersAllergenFields.ALLERGENS, allergenArray)
+            userAllergensDocRef.update(FrbFieldsUsersAllergen.ALLERGENS, allergenArray)
         }.await()
     }
 }

@@ -28,7 +28,6 @@ class AllergenDefinitionAdapter (
             binding.user = viewModel.loggedUser.value  // for visibility change
             binding.vm = viewModel
 
-
             binding.executePendingBindings()
         }
     }

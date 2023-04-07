@@ -1,7 +1,7 @@
 package com.isp.restaurantapp.repositories
 
 import com.isp.restaurantapp.models.Allergen
-import com.isp.restaurantapp.models.firebase.AllergenFields
+import com.isp.restaurantapp.models.firebase.FrbFieldsAllergen
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import kotlinx.coroutines.tasks.await
 
@@ -11,8 +11,8 @@ class FrbAllergensGetter: ICollectionGetter<Allergen>, MyFrb() {
         val snapshot = allergensRef.get().await()
         val allergens = snapshot.documents.map { document ->
             Allergen(
-                id = document.getLong(AllergenFields.ID)?.toInt() ?: 0,
-                name = document.getString(AllergenFields.NAME) ?: ""
+                id = document.getLong(FrbFieldsAllergen.ID)?.toInt() ?: 0,
+                name = document.getString(FrbFieldsAllergen.NAME) ?: ""
             )
         }
         return allergens

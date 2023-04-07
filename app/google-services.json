@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187552852368",
+    "project_id": "restaurapp-5dea2",
+    "storage_bucket": "restaurapp-5dea2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187552852368:android:8e570f6191830180d26b15",
+        "android_client_info": {
+          "package_name": "com.isp.restaurantapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187552852368-3uoq2q7gd6chf4onm7o4rfe647pgebdp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVRnN4cZ6DFi7bL23LiF555gwtlvQTjrk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187552852368-3uoq2q7gd6chf4onm7o4rfe647pgebdp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

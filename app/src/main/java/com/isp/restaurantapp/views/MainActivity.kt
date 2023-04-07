@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.FirebaseApp
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
 import com.isp.restaurantapp.viewModels.MainActivityVM
+import com.isp.restaurantapp.views.adapters.AllergenDefinitionAdapter
 import com.isp.restaurantapp.views.adapters.TablesBindableAdapter
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +20,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // enable data binding and provide viewmodel
+        FirebaseApp.initializeApp(this)
+
+        // enable data binding and provide view-model
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         this.viewModel = ViewModelProvider(this)[MainActivityVM::class.java]
 
@@ -32,13 +36,13 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerViewTables.layoutManager = layoutManager
         binding.recyclerViewTables.adapter = adapter
 
-        // data bind - observe data, set tables as a Recyclerviews adapter dataset
+        // data bind - observe data, set tables as a Recyclerview adapter dataset
         viewModel.getTablesLiveData().observe(this) { tablesDataList ->
             adapter.updateData(tablesDataList)
         }
 
         // data bind onClickListener
-        viewModel.selectedItem.observe(this) { selectedItem ->
+        viewModel.selectedTable.observe(this) { selectedItem ->
             if (selectedItem != null) {
                 Toast.makeText(
                     this,
@@ -46,10 +50,74 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
                 // Null the selectedItem
-                viewModel.onItemClickComplete()
+                viewModel.onTableButtonClickComplete()
             }
         }
 
+        // once user is logged in, set up/fetch data for rv adapter
+        viewModel.loggedUser.observe(this) { user ->
+            if (user != null) {
+                viewModel.fetchUserDefinedAllergens(viewModel.loggedUser.value?.uid ?: "none")
+                viewModel.initAllergenStatesMap()
+            }
+        }
+
+        // once fetching data is completed, set up rv and init adapter
+        viewModel.readyToShowAllergens.observe(this){
+            if (it){
+                val stateMap = viewModel.allergenStatesMap.value.orEmpty()
+                val allgAdapter = AllergenDefinitionAdapter(
+                    this, viewModel, stateMap
+                )
+                binding.recyclerViewAllergens.adapter = allgAdapter
+
+                viewModel.listOfAllAllergens.observe(this) {
+                    allgAdapter.updateData(it)
+                }
+            }
+        }
+
+
+
+
+
+        binding.btnLogIn.setOnClickListener {
+            logIn()
+        }
+
+        binding.btnRegister.setOnClickListener {
+            registerNewUser()
+        }
+
+        binding.btnUpdateAllergens.setOnClickListener {
+            updateAllergens()
+        }
+
+    }
+
+    fun logIn(){
+        try {
+            viewModel.logInAndLoadUsersAllergens()
+        } catch (e: Exception){
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun updateAllergens(){
+        try {
+            viewModel.updateAllergensInRepository()
+        } catch (e: Exception){
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun registerNewUser(){
+        try {
+            viewModel.registerNewUser()
+        } catch (e: Exception){
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        }
+        Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show()
     }
 
 }

@@ -47,7 +47,7 @@ class TablesBindableAdapter (
             // binding.viewModel = viewModel
 
             binding.button.setOnClickListener {
-                viewModel.onItemClick(table)
+                viewModel.onTableButtonClick(table)
             }
 
             binding.executePendingBindings()

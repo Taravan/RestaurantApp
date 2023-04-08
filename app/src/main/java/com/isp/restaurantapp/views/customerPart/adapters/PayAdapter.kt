@@ -43,6 +43,8 @@ class PayAdapter(private val viewModel: PayVM, private var unpaiedItemsList: Lis
 
             binding.item = item
 
+            binding.executePendingBindings()
+
         }
     }
 

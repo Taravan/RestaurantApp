@@ -27,12 +27,16 @@ class PayFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_pay, container, false)
         viewModel = ViewModelProvider(this)[PayVM::class.java]
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val adapter = PayAdapter(viewModel)
         val recyclerView = binding.itemsToPayRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
+
+        viewModel.unpaiedItems.observe(viewLifecycleOwner) {unpaiedItems ->
+            adapter.updateData(unpaiedItems)
+        }
 
         return binding.root
     }

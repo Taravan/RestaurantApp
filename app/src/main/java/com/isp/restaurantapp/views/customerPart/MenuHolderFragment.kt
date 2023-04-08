@@ -23,7 +23,7 @@ class MenuHolderFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_menu_holder, container, false)
         viewModel = ViewModelProvider(this)[MenuHolderVM::class.java]
         binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val adapter = MenuHolderAdapter(viewModel)
         binding.viewPagerMenu.adapter = adapter

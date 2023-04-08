@@ -1,10 +1,7 @@
 package com.isp.restaurantapp.viewModels
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.Dispatchers
@@ -18,14 +15,14 @@ class LoginVM : ViewModel() {
 
     // FIREBASE AUTH
     private val _auth = FirebaseAuth.getInstance()
-    val auth: FirebaseAuth
-        get() = _auth
 
     private val _userLogged: MutableLiveData<FirebaseUser> by lazy {
-        MutableLiveData<FirebaseUser>()
+        MutableLiveData<FirebaseUser>(_auth.currentUser)
     }
     val loggedUser:  MutableLiveData<FirebaseUser>
         get() = _userLogged
+
+    val isUserLoggedIn: LiveData<Boolean> = _userLogged.map { (it != null) }
 
     val name: MutableLiveData<String> by lazy {
         MutableLiveData<String>("")
@@ -64,8 +61,8 @@ class LoginVM : ViewModel() {
         }
     }
 
-    fun logInAndLoadUsersAllergens() {
-        Log.e(TAG, "dopiči vole")
+    fun logIn() {
+        Log.i(TAG, "Initiating log in process...")
         if (email.value.isNullOrEmpty() || password.value.isNullOrEmpty()){
             throw Exception("Email ani heslo nesmí zůstat prázdné")
         }
@@ -78,6 +75,7 @@ class LoginVM : ViewModel() {
                 ).await()
                 withContext(Dispatchers.Main){
                     _userLogged.value = response.user
+                    Log.i(TAG, "Log in process completed, logged in as ${_userLogged.value?.email.orEmpty()}")
                 }
 
             } catch (e: Exception){
@@ -86,13 +84,11 @@ class LoginVM : ViewModel() {
         }
     }
     fun logOut() {
-
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val response =_auth.signOut()
                 withContext(Dispatchers.Main){
-                    _userLogged.value = null
-                    Log.e(TAG, "null now: ${_userLogged.value}")
+                    _userLogged.postValue(null)
                 }
 
             } catch (e: Exception){

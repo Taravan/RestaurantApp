@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         const val NUMBER_OF_SWIPES = 6
     }
 
-    private val data = DataMock()
 
     private lateinit var viewModel: MainActivityVM
     private lateinit var binding: ActivityMainBinding
@@ -63,12 +62,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         tables = viewModel.tables
 
-/*
+
         // REDIRECT TO NEW VIEW
         val newAct = Intent(this, CustomerActivity::class.java)
             .also { it.putExtra("tableNumber", tables[0].tableNumber) }
         startActivity(newAct)
-*/
+
 
 
         gestureDetector = GestureDetector(this, this)
@@ -214,7 +213,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onFling(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
         if (p0.y > p1.y) {
             swipeCounter++
-            if (swipeCounter >= Companion.NUMBER_OF_SWIPES) {
+            if (swipeCounter >= NUMBER_OF_SWIPES) {
                 val intent = Intent(this, StaffMainScreen::class.java)
                 startActivity(intent)
 

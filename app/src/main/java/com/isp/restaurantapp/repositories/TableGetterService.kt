@@ -14,8 +14,4 @@ interface TableGetterService {
     @GET(BuildConfig.SELECT_TABLES)
     suspend fun getTables(): List<Table>
 
-    //Put another Api call methods here...
-    // e.g.
-    // @GET(BuildConfig.SELECT_USERS)  // const target -> url_suffix.php saved in build.gradle
-    // suspend fun getUsers(): List<User>
 }

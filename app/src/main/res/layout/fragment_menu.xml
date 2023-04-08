@@ -8,7 +8,7 @@
             type="com.isp.restaurantapp.viewModels.MenuHolderVM"/>
         <variable
             name="category"
-            type="com.isp.restaurantapp.models.MenuCategory" />
+            type="com.isp.restaurantapp.models.ItemCategory" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

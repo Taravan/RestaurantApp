@@ -7,10 +7,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ItemPayBinding
-import com.isp.restaurantapp.models.Item
+import com.isp.restaurantapp.models.MenuItem
 import com.isp.restaurantapp.viewModels.PayVM
 
-class PayAdapter(private val viewModel: PayVM, private var unpaiedItemsList: List<Item> = emptyList()):
+class PayAdapter(private val viewModel: PayVM, private var unpaiedItemsList: List<MenuItem> = emptyList()):
     RecyclerView.Adapter<PayAdapter.UnpaiedItemsViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnpaiedItemsViewHolder {
@@ -29,7 +29,7 @@ class PayAdapter(private val viewModel: PayVM, private var unpaiedItemsList: Lis
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newUnpaiedItemsList: List<Item>) {
+    fun updateData(newUnpaiedItemsList: List<MenuItem>) {
         this.unpaiedItemsList = newUnpaiedItemsList
         notifyDataSetChanged()
     }
@@ -39,9 +39,9 @@ class PayAdapter(private val viewModel: PayVM, private var unpaiedItemsList: Lis
     }
 
     inner class UnpaiedItemsViewHolder(private val binding: ItemPayBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Item, viewModel: PayVM){
+        fun bind(menuItem: MenuItem, viewModel: PayVM){
 
-            binding.item = item
+            binding.item = menuItem
 
             binding.executePendingBindings()
 

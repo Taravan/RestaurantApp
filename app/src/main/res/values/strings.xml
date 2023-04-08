@@ -12,6 +12,9 @@
     <string name="title_activity_customer">CustomerActivity</string>
     <string name="table_number">TABLE NUMBER</string>
 
+    // Profile holder
+    <string name="profile_welcome_text">Profile</string>
+
     // Login/Signup fragment
     <string name="login_welcome_text">Log into your account</string>
     <string name="create_acc_welcome_text">Create your account</string>
@@ -45,7 +48,7 @@
     // Bottom menu
     <string name="title_menu">Menu</string>
     <string name="title_pay">Pay</string>
-    <string name="title_login">Login</string>
+    <string name="title_profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.isp.restaurantapp.views
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var tables: List<Table>
     private var swipeCounter = 0
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         this.setContentView(R.layout.activity_main)
@@ -214,7 +216,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onFling(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
         if (p0.y > p1.y) {
             swipeCounter++
-            if (swipeCounter >= Companion.NUMBER_OF_SWIPES) {
+            if (swipeCounter >= NUMBER_OF_SWIPES) {
                 val intent = Intent(this, StaffMainScreen::class.java)
                 startActivity(intent)
 

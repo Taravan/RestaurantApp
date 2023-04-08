@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -19,13 +18,31 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/txtLoginWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/profile_welcome_text"
+            android:textSize="40sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <View
+            android:id="@+id/loginWelcomeTextLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/txtLoginWelcome"
+            android:background="@color/black"/>
+
+        <TextView
             android:id="@+id/textLogIntoYourAccount"
             android:text="@string/login_welcome_text"
             android:textSize="30sp"
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/loginWelcomeTextLine"/>
 
         <TextView
             android:id="@+id/textUsername"
@@ -90,11 +107,13 @@
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="@{!viewModel.isUserLoggedIn ? View.VISIBLE: View.GONE}"
-            android:onClick="@{() -> viewModel.logIn()}"
             app:layout_constraintTop_toBottomOf="@+id/editPassword"
             android:layout_marginTop="40dp"
             android:layout_marginHorizontal="20dp"/>
+<!--
+        android:visibility="@{!viewModel.isUserLoggedIn ? View.VISIBLE: View.GONE}"
+        android:onClick="@{() -> viewModel.logIn()}"
+-->
 
         <Button
             android:id="@+id/btnSignUp"
@@ -103,10 +122,12 @@
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="@{!viewModel.isUserLoggedIn ? View.VISIBLE: View.GONE}"
             app:layout_constraintTop_toBottomOf="@+id/btnLogIn"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="20dp"/>
+<!--
+        android:visibility="@{!viewModel.isUserLoggedIn ? View.VISIBLE: View.GONE}"
+-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

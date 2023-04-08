@@ -6,28 +6,40 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.isp.restaurantapp.R
+import com.isp.restaurantapp.databinding.FragmentAccountBinding
 import com.isp.restaurantapp.viewModels.AccountVM
 
 class AccountFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = AccountFragment()
-    }
-
+    private lateinit var binding: FragmentAccountBinding
     private lateinit var viewModel: AccountVM
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.fragment_account, container, false)
+        viewModel = ViewModelProvider(this)[AccountVM::class.java]
+        binding = FragmentAccountBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[AccountVM::class.java]
-        // TODO: Use the ViewModel
+
+    // NAVIGATION shown bellow
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnLogout.setOnClickListener {
+
+            val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
+            findNavController().navigate(action)
+
+        }
+
     }
 
 }

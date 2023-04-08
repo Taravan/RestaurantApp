@@ -29,7 +29,7 @@ class MenuHolderFragment : Fragment() {
         binding.viewPagerMenu.adapter = adapter
 
         TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
-            tab.text = viewModel.menuCategories.value?.get(position)?.nameOfcategory
+            tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
         }.attach()
 
         viewModel.menuCategories.observe(viewLifecycleOwner) {listOfCategories ->

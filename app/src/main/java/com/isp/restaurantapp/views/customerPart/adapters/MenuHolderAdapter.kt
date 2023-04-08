@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.FragmentMenuBinding
-import com.isp.restaurantapp.models.MenuCategory
+import com.isp.restaurantapp.models.ItemCategory
 import com.isp.restaurantapp.viewModels.MenuHolderVM
 
-class MenuHolderAdapter(private val viewModel: MenuHolderVM, private var menuCategoriesList: List<MenuCategory> = emptyList()):
+class MenuHolderAdapter(private val viewModel: MenuHolderVM, private var menuCategoriesList: List<ItemCategory> = emptyList()):
         RecyclerView.Adapter<MenuHolderAdapter.MenuCategoriesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuCategoriesViewHolder {
@@ -36,18 +36,18 @@ class MenuHolderAdapter(private val viewModel: MenuHolderVM, private var menuCat
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newCategoriesList: List<MenuCategory>) {
+    fun updateData(newCategoriesList: List<ItemCategory>) {
         this.menuCategoriesList = newCategoriesList
         notifyDataSetChanged()
     }
 
     inner class MenuCategoriesViewHolder(private val binding: FragmentMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            fun bind(category: MenuCategory, viewModel: MenuHolderVM) {
+            fun bind(category: ItemCategory, viewModel: MenuHolderVM) {
 
                 val recyclerView = binding.itemsRecyclerView
                 recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-                recyclerView.adapter = MenuAdapter(category.itemsOfCategory, viewModel)
+                recyclerView.adapter = MenuAdapter(category.categoryItems, viewModel)
 
                 binding.category = category
                 binding.viewModel = viewModel

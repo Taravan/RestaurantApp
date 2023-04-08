@@ -1,7 +1,7 @@
 package com.isp.restaurantapp.repositories
 
 import com.isp.restaurantapp.models.Category
-import com.isp.restaurantapp.models.Item
+import com.isp.restaurantapp.models.MenuItem
 import com.isp.restaurantapp.models.Table
 
 class DataMock: TableGetterService{
@@ -17,17 +17,17 @@ class DataMock: TableGetterService{
         Category(1, "Uzeniny")
     )
 
-    private val items = listOf(
-        Item(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
-        Item(1, "Klobása", "Toto je klobasa.", 1, "Uzeniny",35.90),
-        Item(2, "Párek", "Toto je párek.", 1, "Uzeniny", 20.00),
-        Item(3, "Houska", "Toto je houska.", 0, "Pečivo", 6.50),
-        Item(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
+    private val menuItems = listOf(
+        MenuItem(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
+        MenuItem(1, "Klobása", "Toto je klobasa.", 1, "Uzeniny",35.90),
+        MenuItem(2, "Párek", "Toto je párek.", 1, "Uzeniny", 20.00),
+        MenuItem(3, "Houska", "Toto je houska.", 0, "Pečivo", 6.50),
+        MenuItem(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
     )
 
-    private val unpaidItems = listOf(
-        Item(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
-        Item(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
+    private val unpaidMenuItems = listOf(
+        MenuItem(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
+        MenuItem(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
     )
 /*
     getTables(): List<Table> {
@@ -42,16 +42,16 @@ class DataMock: TableGetterService{
         return categories
     }
 
-    fun getItems(): List<Item>{
-        return items
+    fun getItems(): List<MenuItem>{
+        return menuItems
     }
 
-    fun getItemsById(id: Int): List<Item> {
-        return items.filter { it.categoryId == id }
+    fun getItemsById(id: Int): List<MenuItem> {
+        return menuItems.filter { it.categoryId == id }
     }
 
-    fun getUnpaidItems(): List<Item> {
-        return  unpaidItems
+    fun getUnpaidItems(): List<MenuItem> {
+        return  unpaidMenuItems
     }
 
     override suspend fun getTables(): List<Table> {

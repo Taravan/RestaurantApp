@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         const val NUMBER_OF_SWIPES = 6
     }
 
-    private val data = DataMock()
 
     private lateinit var viewModel: MainActivityVM
     private lateinit var binding: ActivityMainBinding
@@ -65,12 +64,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         tables = viewModel.tables
 
-/*
+
         // REDIRECT TO NEW VIEW
         val newAct = Intent(this, CustomerActivity::class.java)
             .also { it.putExtra("tableNumber", tables[0].tableNumber) }
         startActivity(newAct)
-*/
+
 
 
         gestureDetector = GestureDetector(this, this)

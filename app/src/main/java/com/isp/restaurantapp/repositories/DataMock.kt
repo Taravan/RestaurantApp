@@ -4,7 +4,7 @@ import com.isp.restaurantapp.models.Category
 import com.isp.restaurantapp.models.Item
 import com.isp.restaurantapp.models.Table
 
-class DataMock {
+class DataMock: TableGetterService{
 
     private val tables = listOf(
         Table(0, 5, "kodStoluCisloPet"),
@@ -25,15 +25,15 @@ class DataMock {
         Item(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
     )
 
-    private val unpaiedItems = listOf(
+    private val unpaidItems = listOf(
         Item(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
         Item(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
     )
-
-    fun getTables(): List<Table> {
+/*
+    getTables(): List<Table> {
         return tables
     }
-
+*/
     fun getTableById(id: Int): Table{
         return tables.find { it.id == id }!!
     }
@@ -50,8 +50,12 @@ class DataMock {
         return items.filter { it.categoryId == id }
     }
 
-    fun getUnpaiedItems(): List<Item> {
-        return  unpaiedItems
+    fun getUnpaidItems(): List<Item> {
+        return  unpaidItems
+    }
+
+    override suspend fun getTables(): List<Table> {
+        return tables
     }
 
 }

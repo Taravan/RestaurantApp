@@ -1,12 +1,10 @@
 package com.isp.restaurantapp.repositories
 
 import com.isp.restaurantapp.BuildConfig
-import com.isp.restaurantapp.models.BaseModel
 import com.isp.restaurantapp.models.Table
-import retrofit2.Call
 import retrofit2.http.*
 
-interface MyApi {
+interface TableGetterService {
 
     // Const defined in build.gradle as a config variable
     // Interface which uses Retrofit to make an API Call

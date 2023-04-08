@@ -85,4 +85,19 @@ class LoginVM : ViewModel() {
             }
         }
     }
+    fun logOut() {
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response =_auth.signOut()
+                withContext(Dispatchers.Main){
+                    _userLogged.value = null
+                    Log.e(TAG, "null now: ${_userLogged.value}")
+                }
+
+            } catch (e: Exception){
+                Log.e(TAG, "Error with user log in: ", e)
+            }
+        }
+    }
 }

@@ -22,6 +22,7 @@
     <string name="psswd_confirm">Confirm password:</string>
     <string name="psswd_confirm_hint">Confirm password</string>
     <string name="btn_login">Log In</string>
+    <string name="btn_logout">Log Out</string>
     <string name="btn_signup">Sign Up</string>
     <string name="btn_create_acc">Create</string>
     <string name="btn_back_to_login">Back to Log in</string>

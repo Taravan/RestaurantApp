@@ -19,7 +19,7 @@ class PayVM : ViewModel() {
     fun getUnpaiedItems() {
 
         job = Coroutines.ioTheMain(
-            { data.getUnpaiedItems() },
+            { data.getUnpaidItems() },
             { _unpaiedItems.value = it }
         )
 

@@ -14,6 +14,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.mlkit.vision.barcode.Barcode
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -23,6 +24,7 @@ import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
 import com.isp.restaurantapp.models.Table
 import com.isp.restaurantapp.repositories.DataMock
+import com.isp.restaurantapp.viewModels.MainActivityVM
 import com.isp.restaurantapp.views.customerPart.CustomerActivity
 import com.isp.restaurantapp.views.customerPart.StaffMainScreen
 import java.util.concurrent.Executors
@@ -32,9 +34,16 @@ private const val CAMERA_PERMISSION_REQUEST_CODE = 1
 @ExperimentalGetImage
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
-    private val NUMBER_OF_SWIPES = 6
+    /**
+     * CONSTANTS
+     */
+    companion object {
+        const val NUMBER_OF_SWIPES = 6
+    }
+
     private val data = DataMock()
 
+    private lateinit var viewModel: MainActivityVM
     private lateinit var binding: ActivityMainBinding
     private lateinit var gestureDetector: GestureDetector
     private lateinit var tables: List<Table>
@@ -44,16 +53,23 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         this.setContentView(R.layout.activity_main)
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModel = ViewModelProvider(this)[MainActivityVM::class.java]
 
 
-        tables = getTables()
+        viewModel.fetchTables()
 
+        tables = viewModel.tables
 
+/*
+        // REDIRECT TO NEW VIEW
         val newAct = Intent(this, CustomerActivity::class.java)
             .also { it.putExtra("tableNumber", tables[0].tableNumber) }
         startActivity(newAct)
+*/
+
 
         gestureDetector = GestureDetector(this, this)
         binding.swipingLayout.setOnTouchListener { _, event ->
@@ -168,14 +184,17 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 //                        startActivity(newAct)
 //                    }
 
-                    val tableToGo = tables.find { it.qrCode == qrCode }
-                    if (tableToGo != null) {
-                        cameraProvider.unbindAll()
-                        val newAct = Intent(this, CustomerActivity::class.java)
-                            .also { it.putExtra("tableNumber", tableToGo.tableNumber) }
-                        startActivity(newAct)
-                    }
+                    if (qrCode != null) {
+                        viewModel.onQrScanned(qrCode)
 
+                        val tableToGo =viewModel.navigateToNext.value
+                        if (tableToGo != null){
+                            cameraProvider.unbindAll()
+                            val newAct = Intent(this, CustomerActivity::class.java)
+                                .also { it.putExtra("tableNumber", tableToGo.tableNumber) }
+                            startActivity(newAct)
+                        }
+                    }
 
                 }
 
@@ -195,7 +214,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onFling(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
         if (p0.y > p1.y) {
             swipeCounter++
-            if (swipeCounter >= NUMBER_OF_SWIPES) {
+            if (swipeCounter >= Companion.NUMBER_OF_SWIPES) {
                 val intent = Intent(this, StaffMainScreen::class.java)
                 startActivity(intent)
 
@@ -228,10 +247,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onLongPress(p0: MotionEvent) {
         TODO("Not yet implemented")
     }
-
+/*
     private fun getTables(): List<Table> {
         return data.getTables().toList()
     }
-
-
+*/
 }

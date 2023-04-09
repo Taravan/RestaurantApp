@@ -4,11 +4,9 @@ import com.isp.restaurantapp.models.Category
 import com.isp.restaurantapp.models.MenuItem
 import com.isp.restaurantapp.models.OrderByTableId
 import com.isp.restaurantapp.models.Table
-import com.isp.restaurantapp.repositories.interfaces.TableGetterService
-import com.isp.restaurantapp.repositories.interfaces.UnpaidOrdersByTableIdGetterService
 import java.math.BigDecimal
 
-class DataMock: RepositoryAbstract() {
+class RepositoryDataMock: RepositoryAbstract() {
 
     private val tables = listOf(
         Table(0, 5, "kodStoluCisloPet"),

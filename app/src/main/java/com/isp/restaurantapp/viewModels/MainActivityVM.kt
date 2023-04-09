@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.models.Table
-import com.isp.restaurantapp.repositories.DataMock
+import com.isp.restaurantapp.repositories.RepositoryDataMock
 import com.isp.restaurantapp.repositories.interfaces.TableGetterService
 import kotlinx.coroutines.launch
 
@@ -15,7 +15,7 @@ class MainActivityVM : ViewModel() {
     companion object {const val TAG = "MainActivityVM"}
 
     private val _tablesRepository: TableGetterService by lazy {
-        DataMock()
+        RepositoryDataMock()
     }
 
     private var _tables: MutableList<Table> = mutableListOf()

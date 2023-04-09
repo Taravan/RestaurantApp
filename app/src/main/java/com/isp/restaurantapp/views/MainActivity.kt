@@ -24,7 +24,6 @@ import com.google.mlkit.vision.common.InputImage
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
 import com.isp.restaurantapp.models.Table
-import com.isp.restaurantapp.repositories.DataMock
 import com.isp.restaurantapp.viewModels.MainActivityVM
 import com.isp.restaurantapp.views.customerPart.CustomerActivity
 import com.isp.restaurantapp.views.customerPart.StaffMainScreen

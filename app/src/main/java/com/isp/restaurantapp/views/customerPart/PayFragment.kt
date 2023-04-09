@@ -34,7 +34,7 @@ class PayFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
 
-        viewModel.unpaiedItems.observe(viewLifecycleOwner) {unpaiedItems ->
+        viewModel.unpaidItems.observe(viewLifecycleOwner) { unpaiedItems ->
             adapter.updateData(unpaiedItems)
         }
 

@@ -6,13 +6,13 @@ import androidx.lifecycle.*
 import com.isp.restaurantapp.coroutines.Coroutines
 import com.isp.restaurantapp.models.MenuItem
 import com.isp.restaurantapp.models.ItemCategory
-import com.isp.restaurantapp.repositories.DataMock
+import com.isp.restaurantapp.repositories.RepositoryDataMock
 import kotlinx.coroutines.Job
 
 class MenuHolderVM(application: Application): AndroidViewModel(application) {
 
     private lateinit var job: Job
-    private val data: DataMock = DataMock()
+    private val data: RepositoryDataMock = RepositoryDataMock()
 
     private val _menuItems = MutableLiveData<List<MenuItem>>()
     val menuItems: LiveData<List<MenuItem>> = _menuItems

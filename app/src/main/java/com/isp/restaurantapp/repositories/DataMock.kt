@@ -6,8 +6,9 @@ import com.isp.restaurantapp.models.OrderByTableId
 import com.isp.restaurantapp.models.Table
 import com.isp.restaurantapp.repositories.interfaces.TableGetterService
 import com.isp.restaurantapp.repositories.interfaces.UnpaidOrdersByTableIdGetterService
+import java.math.BigDecimal
 
-class DataMock: TableGetterService, UnpaidOrdersByTableIdGetterService {
+class DataMock: RepositoryAbstract() {
 
     private val tables = listOf(
         Table(0, 5, "kodStoluCisloPet"),
@@ -31,6 +32,11 @@ class DataMock: TableGetterService, UnpaidOrdersByTableIdGetterService {
     private val unpaidMenuItems = listOf(
         MenuItem(0, "Rohlik", "Toto je rohlik.", 0, "Pečivo", 5.50),
         MenuItem(4, "Kobliha", "Toto je kobliha.", 0, "Pečivo", 10.90)
+    )
+
+    private val unpaidOrders = listOf(
+        OrderByTableId(1, BigDecimal.TEN, false, 1, null, null, 10, "Pivo", null, 1),
+        OrderByTableId(1, BigDecimal(38), false, 2, null, null, 10, "Pivo2", null, 1)
     )
 /*
     getTables(): List<Table> {
@@ -61,8 +67,12 @@ class DataMock: TableGetterService, UnpaidOrdersByTableIdGetterService {
         return tables
     }
 
-    override suspend fun getUnpaidOrdersByTableId(tableId: Int): List<OrderByTableId> {
+    override suspend fun getOrdersByTableId(tableId: Int): List<OrderByTableId> {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getUnpaidOrdersByTableId(tableId: Int): List<OrderByTableId> {
+        return unpaidOrders
     }
 
 }

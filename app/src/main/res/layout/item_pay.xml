@@ -5,7 +5,7 @@
     <data>
         <variable
             name="item"
-            type="com.isp.restaurantapp.models.MenuItem" />
+            type="com.isp.restaurantapp.models.OrderByTableId" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

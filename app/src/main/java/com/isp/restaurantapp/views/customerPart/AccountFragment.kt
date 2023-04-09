@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.tabs.TabLayoutMediator
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.FragmentAccountBinding
 import com.isp.restaurantapp.viewModels.AccountVM
+import com.isp.restaurantapp.views.customerPart.adapters.AccountHolderAdapter
 
 class AccountFragment : Fragment() {
 
@@ -24,6 +26,20 @@ class AccountFragment : Fragment() {
         binding = FragmentAccountBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+
+
+        val pagerAdapter = AccountHolderAdapter(this)
+        val pager = binding.viewPagerAccount
+        val tabs = binding.tabLayoutAccount
+        pager.adapter = pagerAdapter
+
+        TabLayoutMediator(tabs, pager) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Allergens"
+                1 -> tab.text = "History"
+            }
+        }.attach()
+
 
         return binding.root
     }

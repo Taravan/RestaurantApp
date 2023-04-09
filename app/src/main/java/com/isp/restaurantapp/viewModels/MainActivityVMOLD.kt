@@ -11,6 +11,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.isp.restaurantapp.models.Allergen
 import com.isp.restaurantapp.models.Table
 import com.isp.restaurantapp.repositories.*
+import com.isp.restaurantapp.repositories.concrete.FrbAllergenUpdaterService
+import com.isp.restaurantapp.repositories.concrete.FrbAllergensGetter
+import com.isp.restaurantapp.repositories.concrete.FrbUserAllergensGetter
+import com.isp.restaurantapp.repositories.interfaces.IAllergenUpdaterService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -21,8 +25,8 @@ class MainActivityVMOLD: ViewModel() {
     // static const
     companion object val TAG = "MainActivityVM"
 
-    private val retrofitService by lazy {
-        RetrofitService()
+    private val repositoryRetrofit by lazy {
+        RepositoryRetrofit()
     }
 
     // FIREBASE AUTH
@@ -136,7 +140,7 @@ class MainActivityVMOLD: ViewModel() {
     fun fetchTablesFromApi(){
         viewModelScope.launch {
             try {
-                val response = retrofitService.apiService.getTables()
+                val response = repositoryRetrofit.getTables()
                 tables.value = response
             }
             catch (e: Exception) {

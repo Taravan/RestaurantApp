@@ -1,9 +1,11 @@
-package com.isp.restaurantapp.repositories
+package com.isp.restaurantapp.repositories.concrete
 
 import com.isp.restaurantapp.models.Allergen
 import com.isp.restaurantapp.models.exceptions.DocumentNotFoundException
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
+import com.isp.restaurantapp.repositories.ICollectionGetterById
+import com.isp.restaurantapp.repositories.MyFrb
 import kotlinx.coroutines.tasks.await
 
 class FrbUserAllergensGetter

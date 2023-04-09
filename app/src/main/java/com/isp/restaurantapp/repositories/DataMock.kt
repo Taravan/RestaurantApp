@@ -2,9 +2,12 @@ package com.isp.restaurantapp.repositories
 
 import com.isp.restaurantapp.models.Category
 import com.isp.restaurantapp.models.MenuItem
+import com.isp.restaurantapp.models.OrderByTableId
 import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.repositories.interfaces.TableGetterService
+import com.isp.restaurantapp.repositories.interfaces.UnpaidOrdersByTableIdGetterService
 
-class DataMock: TableGetterService{
+class DataMock: TableGetterService, UnpaidOrdersByTableIdGetterService {
 
     private val tables = listOf(
         Table(0, 5, "kodStoluCisloPet"),
@@ -50,12 +53,16 @@ class DataMock: TableGetterService{
         return menuItems.filter { it.categoryId == id }
     }
 
-    fun getUnpaidItems(): List<MenuItem> {
+    fun getUnpaidOrdersByTableId(): List<MenuItem> {
         return  unpaidMenuItems
     }
 
     override suspend fun getTables(): List<Table> {
         return tables
+    }
+
+    override suspend fun getUnpaidOrdersByTableId(tableId: Int): List<OrderByTableId> {
+        TODO("Not yet implemented")
     }
 
 }

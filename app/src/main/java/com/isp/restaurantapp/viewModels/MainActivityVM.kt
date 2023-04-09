@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.models.Table
 import com.isp.restaurantapp.repositories.DataMock
-import com.isp.restaurantapp.repositories.TableGetterService
+import com.isp.restaurantapp.repositories.interfaces.TableGetterService
 import kotlinx.coroutines.launch
 
 class MainActivityVM : ViewModel() {

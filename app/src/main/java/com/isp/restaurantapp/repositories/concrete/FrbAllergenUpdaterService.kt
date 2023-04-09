@@ -1,4 +1,4 @@
-package com.isp.restaurantapp.repositories
+package com.isp.restaurantapp.repositories.concrete
 
 import android.util.Log
 import com.google.firebase.firestore.FieldValue
@@ -6,6 +6,8 @@ import com.isp.restaurantapp.models.Allergen
 import com.isp.restaurantapp.models.firebase.FrbFieldsAllergen
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
+import com.isp.restaurantapp.repositories.MyFrb
+import com.isp.restaurantapp.repositories.interfaces.IAllergenUpdaterService
 import kotlinx.coroutines.tasks.await
 
 class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {

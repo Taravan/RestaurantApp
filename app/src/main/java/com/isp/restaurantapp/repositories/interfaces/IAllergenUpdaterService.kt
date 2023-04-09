@@ -1,4 +1,4 @@
-package com.isp.restaurantapp.repositories
+package com.isp.restaurantapp.repositories.interfaces
 
 import com.isp.restaurantapp.models.Allergen
 

@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.FragmentLoginBinding
 import com.isp.restaurantapp.viewModels.LoginVM
 
@@ -62,6 +60,9 @@ class LoginFragment : Fragment() {
 
         val navController = findNavController()
 
+        // TODO: tlačítka musí obstarávat pouze autentifikační akce, jakákoliv závislost
+        //  na přihlášení musí být závislá pouze a jen na přihlašovacím tokenu
+        // TODO: pak to předělám
         // U can bind it to layout again and give it rules in VM
         binding.btnLogIn.setOnClickListener {
             // Login process

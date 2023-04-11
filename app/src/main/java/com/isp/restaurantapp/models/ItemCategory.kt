@@ -1,3 +1,11 @@
 package com.isp.restaurantapp.models
 
-data class ItemCategory(val categoryName: String, val categoryItems: List<MenuItem>)
+import com.isp.restaurantapp.models.dto.GoodsItemDTO
+
+/**
+ * Class for mapping categories in pager
+ */
+data class ItemCategory(
+    val categoryName: String = "",
+    val categoryItems: List<GoodsItemDTO>
+    )

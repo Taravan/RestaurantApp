@@ -7,10 +7,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ItemMenuBinding
-import com.isp.restaurantapp.models.MenuItem
+import com.isp.restaurantapp.models.GoodsItem
+import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.viewModels.MenuHolderVM
 
-class MenuAdapter(private var itemsList: List<MenuItem> = emptyList(), private val viewModel: MenuHolderVM):
+class MenuAdapter(private var itemsList: List<GoodsItemDTO> = emptyList(), private val viewModel: MenuHolderVM):
     RecyclerView.Adapter<MenuAdapter.ItemsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
@@ -33,17 +34,17 @@ class MenuAdapter(private var itemsList: List<MenuItem> = emptyList(), private v
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(newMenuItemList: List<MenuItem>) {
-        this.itemsList = newMenuItemList
+    fun updateData(newGoodsItemList: List<GoodsItemDTO>) {
+        this.itemsList = newGoodsItemList
         notifyDataSetChanged()
     }
 
     inner class ItemsViewHolder(private val binding: ItemMenuBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(menuItem: MenuItem, viewModel: MenuHolderVM){
-            binding.item = menuItem
+        fun bind(goodsItem: GoodsItemDTO, viewModel: MenuHolderVM){
+            binding.item = goodsItem
 
             binding.btnOrder.setOnClickListener {
-                viewModel.orderButtonClicked(menuItem)
+                viewModel.orderButtonClicked(goodsItem)
             }
 
             binding.executePendingBindings()

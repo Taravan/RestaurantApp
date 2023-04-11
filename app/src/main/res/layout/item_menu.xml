@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="java.math.BigDecimal"/>
         <variable
             name="item"
-            type="com.isp.restaurantapp.models.MenuItem" />
+            type="com.isp.restaurantapp.models.dto.GoodsItemDTO" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +15,7 @@
 
         <TextView
             android:id="@+id/itemName"
-            android:text="@{item.name}"
+            android:text="@{item.goodsName}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -26,7 +27,7 @@
 
         <Button
             android:id="@+id/btnOrder"
-            android:text="@{Double.toString(item.price)}"
+            android:text="@{item.price.toString()}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="16dp"

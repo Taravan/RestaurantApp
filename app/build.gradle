@@ -26,6 +26,10 @@ android {
 
         // target .php files
         buildConfigField("String", "SELECT_TABLES", "\"select_tables.php\"")
+        buildConfigField("String", "SELECT_GOODS", "\"select_goods.php\"")
+        buildConfigField("String", "SELECT_GOODS_CATEGORIES", "\"select_goods_categories.php\"")
+        buildConfigField("String", "SELECT_ORDERS_BY_TABLE_ID", "\"select_orders_by_table_id.php\"")
+        buildConfigField("String", "SELECT_UNPAID_ORDERS_BY_TABLE_ID", "\"select_unpaid_orders_by_table_id.php\"")
     }
 
     buildTypes {

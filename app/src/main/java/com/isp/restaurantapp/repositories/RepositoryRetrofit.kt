@@ -1,8 +1,11 @@
 package com.isp.restaurantapp.repositories
 
 import com.isp.restaurantapp.BuildConfig
+import com.isp.restaurantapp.models.GoodsItem
 import com.isp.restaurantapp.models.OrderByTableId
 import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.models.dto.GoodsItemDTO
+import com.isp.restaurantapp.repositories.interfaces.GoodsGetterService
 import com.isp.restaurantapp.repositories.interfaces.OrdersByTableIdGetterService
 import com.isp.restaurantapp.repositories.interfaces.TableGetterService
 import com.isp.restaurantapp.repositories.interfaces.UnpaidOrdersByTableIdGetterService
@@ -24,6 +27,9 @@ class RepositoryRetrofit(
     private val tableGetterService: TableGetterService by lazy {
         _apiService.create(TableGetterService::class.java)  // instantiate api interface
     }
+    private val goodsGetterService: GoodsGetterService by lazy {
+        _apiService.create(GoodsGetterService::class.java)  // instantiate api interface
+    }
 
     private val unpaidOrdersByTableIdGetterService: UnpaidOrdersByTableIdGetterService by lazy {
         _apiService.create(UnpaidOrdersByTableIdGetterService::class.java)
@@ -44,5 +50,9 @@ class RepositoryRetrofit(
 
     override suspend fun getTables(): List<Table> {
         return tableGetterService.getTables()
+    }
+
+    override suspend fun getGoods(): List<GoodsItemDTO> {
+        return goodsGetterService.getGoods()
     }
 }

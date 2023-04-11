@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ItemPayBinding
-import com.isp.restaurantapp.models.MenuItem
 import com.isp.restaurantapp.models.OrderByTableId
 import com.isp.restaurantapp.viewModels.PayVM
 

@@ -25,15 +25,24 @@ class MenuHolderFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        // PREPARE DATA, this should not be in init() method of VM
+        viewModel.getCategories()
+
         val adapter = MenuHolderAdapter(viewModel)
         binding.viewPagerMenu.adapter = adapter
 
-        TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
-            tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
-        }.attach()
+
+
+        viewModel.isDatasetInitiated.observe(viewLifecycleOwner){
+            TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
+                tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
+            }.attach()
+        }
 
         viewModel.menuCategories.observe(viewLifecycleOwner) {listOfCategories ->
             adapter.updateData(listOfCategories)
+
+
         }
 
         return binding.root

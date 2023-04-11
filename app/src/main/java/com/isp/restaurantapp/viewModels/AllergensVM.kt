@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.repositories.LocalRepo
 
 class AllergensVM(): ViewModel() {
+
+    private val localRepo = LocalRepo.getInstance()
 
     private val _table = MutableLiveData<Table>()
     val table: LiveData<Table>
@@ -17,8 +20,12 @@ class AllergensVM(): ViewModel() {
         _table.value = table
     }
 
-    init {
+    fun getTableFromRepo() {
+        _table.value = localRepo.getTable()
+    }
 
+    init {
+        getTableFromRepo()
 
     }
 

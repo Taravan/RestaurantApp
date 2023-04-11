@@ -8,7 +8,7 @@ import com.isp.restaurantapp.repositories.LocalRepo
 
 class CustomerActivityVM: ViewModel() {
 
-    val localRepo = LocalRepo()
+    private val localRepo = LocalRepo.getInstance()
 
     private val _table = MutableLiveData<Table>()
     val table: LiveData<Table>

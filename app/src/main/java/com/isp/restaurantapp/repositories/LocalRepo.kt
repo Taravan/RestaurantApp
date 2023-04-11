@@ -3,19 +3,26 @@ package com.isp.restaurantapp.repositories
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.isp.restaurantapp.models.Table
-import com.isp.restaurantapp.repositories.interfaces.ILocalRepo
 
-class LocalRepo: ILocalRepo {
+class LocalRepo private constructor(){
+    private lateinit var table: Table
 
-    private lateinit var table:Table
-
-    override fun setTable(table: Table) {
+    fun setTable(table: Table) {
         this.table = table
     }
 
-    override fun getTable(): Table {
+    fun getTable(): Table {
         return table
     }
 
+    companion object {
+        @Volatile
+        private var instance: LocalRepo? = null
 
+        fun getInstance(): LocalRepo {
+            return instance ?: synchronized(this) {
+                instance ?: LocalRepo().also { instance = it }
+            }
+        }
+    }
 }

@@ -31,17 +31,27 @@ class MenuHolderFragment : Fragment() {
         val adapter = MenuHolderAdapter(viewModel)
         binding.viewPagerMenu.adapter = adapter
 
+        var tabLayoutMediator: TabLayoutMediator? = null
 
+//        viewModel.isDatasetInitiated.observe(viewLifecycleOwner){
+//            TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
+//                tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
+//            }.attach()
+//        }
 
-        viewModel.isDatasetInitiated.observe(viewLifecycleOwner){
-            TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
-                tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
-            }.attach()
-        }
+//        TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
+//            tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
+//        }.attach()
 
         viewModel.menuCategories.observe(viewLifecycleOwner) {listOfCategories ->
             adapter.updateData(listOfCategories)
 
+            tabLayoutMediator?.detach()
+            tabLayoutMediator = TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
+                tab.text = listOfCategories[position].categoryName
+            }
+
+            tabLayoutMediator?.attach()
 
         }
 

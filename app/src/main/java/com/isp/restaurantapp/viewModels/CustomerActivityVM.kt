@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.repositories.LocalRepo
 
 class CustomerActivityVM: ViewModel() {
+
+    val localRepo = LocalRepo()
 
     private val _table = MutableLiveData<Table>()
     val table: LiveData<Table>
@@ -15,8 +18,19 @@ class CustomerActivityVM: ViewModel() {
     val tableNumber: LiveData<Int>
         get() = _tableNumber
 
+    fun setTableNumber(number: Int) {
+        _tableNumber.value = number
+    }
+
+    fun setTable(table: Table) {
+        localRepo.setTable(table)
+    }
+
     init {
+
+        // Just for testing purposes
         _tableNumber.value = 10
+        setTable(Table(0, 5, "kodStoluCisloPet"))
     }
 
 }

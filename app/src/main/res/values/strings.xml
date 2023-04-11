@@ -33,6 +33,8 @@
     // Account fragment
     <string name="account_welcome_text">Your account</string>
     <string name="acc_name">Account name</string>
+    <string name="tab_allergens">Allergens</string>
+    <string name="tab_history">History</string>
 
     // FoodMenu fragment
     <string name="item_name">Item Name</string>

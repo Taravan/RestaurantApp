@@ -35,8 +35,8 @@ class AccountFragment : Fragment() {
 
         TabLayoutMediator(tabs, pager) { tab, position ->
             when (position) {
-                0 -> tab.text = "Allergens"
-                1 -> tab.text = "History"
+                0 -> tab.text = getString(R.string.tab_allergens)
+                1 -> tab.text = getString(R.string.tab_history)
             }
         }.attach()
 

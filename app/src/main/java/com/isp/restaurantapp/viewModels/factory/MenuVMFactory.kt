@@ -1,4 +1,4 @@
-package com.isp.restaurantapp.viewModels
+package com.isp.restaurantapp.viewModels.factory
 
 import androidx.lifecycle.ViewModelProvider
 import com.isp.restaurantapp.repositories.RepositoryDataMock

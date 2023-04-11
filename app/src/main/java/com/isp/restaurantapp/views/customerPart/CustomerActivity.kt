@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Window
 import android.widget.PopupMenu
+import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -22,8 +23,6 @@ import com.isp.restaurantapp.databinding.ActivityCustomerBinding
 import com.isp.restaurantapp.viewModels.CustomerActivityVM
 
 class CustomerActivity : AppCompatActivity() {
-
-//    private lateinit var binding: ActivityCustomerBinding
 
     private lateinit var binding: ActivityCustomerBinding
     private lateinit var viewModel: CustomerActivityVM

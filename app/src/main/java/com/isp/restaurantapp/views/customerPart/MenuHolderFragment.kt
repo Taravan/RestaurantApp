@@ -1,6 +1,7 @@
 package com.isp.restaurantapp.views.customerPart
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,34 +26,29 @@ class MenuHolderFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        // PREPARE DATA, this should not be in init() method of VM
-        viewModel.getCategories()
+        // FETCH & FETCH DATA, this should not be in init() method of VM
+        // You have more control about whats happening
+        viewModel.fetchData()
 
         val adapter = MenuHolderAdapter(viewModel)
         binding.viewPagerMenu.adapter = adapter
 
         var tabLayoutMediator: TabLayoutMediator? = null
 
-//        viewModel.isDatasetInitiated.observe(viewLifecycleOwner){
-//            TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
-//                tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
-//            }.attach()
-//        }
 
-//        TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
-//            tab.text = viewModel.menuCategories.value?.get(position)?.categoryName
-//        }.attach()
+        viewModel.menuCategories.observe(viewLifecycleOwner) {
+            // Once the data is fetched by IO and then confirmed and exposed by Dispatchers.Main
+            if (!it.isNullOrEmpty()){
+                Log.e("view", "FIRE")
+                adapter.updateData(it)
 
-        viewModel.menuCategories.observe(viewLifecycleOwner) {listOfCategories ->
-            adapter.updateData(listOfCategories)
+                tabLayoutMediator?.detach()
+                tabLayoutMediator = TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
+                    tab.text = it[position].categoryName
+                }
 
-            tabLayoutMediator?.detach()
-            tabLayoutMediator = TabLayoutMediator(binding.tabLayoutMenu, binding.viewPagerMenu) { tab, position ->
-                tab.text = listOfCategories[position].categoryName
+                tabLayoutMediator?.attach()
             }
-
-            tabLayoutMediator?.attach()
-
         }
 
         return binding.root

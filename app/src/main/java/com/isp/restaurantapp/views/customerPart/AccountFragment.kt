@@ -40,7 +40,6 @@ class AccountFragment : Fragment() {
             }
         }.attach()
 
-
         return binding.root
     }
 
@@ -49,11 +48,21 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnLogout.setOnClickListener {
+        /* If a user is not logged in, navigate him to login fragment
+         * Button with logOut only log out the user
+         * Because of this observe the nav action happens automatically
+         */
+        viewModel.isUserLoggedIn.observe(viewLifecycleOwner) {
+            if(!it){
+                // User is not logged in, navigate him to login fragment
+                val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
+                findNavController().navigate(action)
+            }
+        }
 
+        binding.btnLogout.setOnClickListener {
             val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
             findNavController().navigate(action)
-
         }
 
     }

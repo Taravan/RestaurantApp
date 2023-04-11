@@ -14,6 +14,7 @@ import com.isp.restaurantapp.viewModels.LoginVM
 class LoginFragment : Fragment() {
 
     private lateinit var _binding: FragmentLoginBinding
+    private lateinit var _viewModel: LoginVM
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,19 +26,14 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val viewModel = ViewModelProvider(this)[LoginVM::class.java]
+        _viewModel = ViewModelProvider(this)[LoginVM::class.java]
 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         _binding.lifecycleOwner = viewLifecycleOwner
+        _binding.viewModel = _viewModel
 
+        Log.e("view", "logged in as: ${_viewModel.loggedUser.value?.email}")
 
-        _binding.viewModel = viewModel
-
-        Log.e("view", "logged in as: ${viewModel.loggedUser.value?.email}")
-
-        viewModel.isUserLoggedIn.observe(viewLifecycleOwner) {
-                Log.i("view", "Observing isLoggedUser")
-        }
 
         return binding.root
     }
@@ -49,7 +45,7 @@ class LoginFragment : Fragment() {
 
     /*
     * NAVIGATION
-    * Better to have it in viewcreated after fragment inflates.
+    * Better to have it in view created after fragment inflates.
     * All navigation is already set up.
     * Back stack is already handled in navigation so no need to handle it here.
     * Only one redirection needs to be handled just from this class shown in onResume().
@@ -60,14 +56,16 @@ class LoginFragment : Fragment() {
 
         val navController = findNavController()
 
-        // TODO: tlačítka musí obstarávat pouze autentifikační akce, jakákoliv závislost
-        //  na přihlášení musí být závislá pouze a jen na přihlašovacím tokenu
-        // TODO: pak to předělám
-        // U can bind it to layout again and give it rules in VM
-        binding.btnLogIn.setOnClickListener {
-            // Login process
-            val action = LoginFragmentDirections.actionLoginFragmentToAccountFragment()
-            navController.navigate(action)
+        /* If a user is not logged in, navigate him to login fragment
+         * Button with logOut only log out the user
+         * Because of this observe the nav action happens automatically
+         */
+        _viewModel.isUserLoggedIn.observe(viewLifecycleOwner) {
+            if(it){
+                // Login process
+                val action = LoginFragmentDirections.actionLoginFragmentToAccountFragment()
+                navController.navigate(action)
+            }
         }
 
         binding.btnSignUp.setOnClickListener {
@@ -85,9 +83,6 @@ class LoginFragment : Fragment() {
     */
     override fun onResume() {
         super.onResume()
-        //if ( logged In ) {
-        //    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToAccountFragment())
-        //}
     }
 
 }

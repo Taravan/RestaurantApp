@@ -3,6 +3,7 @@ package com.isp.restaurantapp.views.customerPart.adapters
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
@@ -12,11 +13,6 @@ import com.isp.restaurantapp.viewModels.PayVM
 
 class PayAdapter(private val viewModel: PayVM, private var unpaidList: List<OrderByTableId> = emptyList()):
     RecyclerView.Adapter<PayAdapter.UnpaiedItemsViewHolder>(){
-
-    private var selectedItems = mutableSetOf<OrderByTableId>()
-    fun getSelectedItems(): Set<OrderByTableId> {
-        return selectedItems
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnpaiedItemsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -39,6 +35,8 @@ class PayAdapter(private val viewModel: PayVM, private var unpaidList: List<Orde
         notifyDataSetChanged()
     }
 
+
+
     override fun onBindViewHolder(holder: UnpaiedItemsViewHolder, position: Int) {
         holder.bind(unpaidList[position], viewModel)
     }
@@ -50,15 +48,22 @@ class PayAdapter(private val viewModel: PayVM, private var unpaidList: List<Orde
 
             binding.checkItemToPay.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    selectedItems.add(item)
+                    viewModel.selectedItemsToPay.add(item)
                 } else {
-                    selectedItems.remove(item)
+                    viewModel.selectedItemsToPay.remove(item)
                 }
             }
 
             binding.executePendingBindings()
 
         }
+
+        fun selectAll(isChecked: Boolean){
+            for (i in unpaidList.indices) {
+                binding.checkItemToPay.isChecked = isChecked
+            }
+        }
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.isp.restaurantapp.viewModels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,12 +12,19 @@ import kotlinx.coroutines.Job
 
 class PayVM : ViewModel() {
 
+    companion object{
+        const val TAG = "PayVM"
+    }
+
+
     private lateinit var job: Job
     private val data: RepositoryAbstract = RepositoryRetrofit()
     //private val data: RepositoryAbstract = RepositoryDataMock()
 
     private val _unpaidItems = MutableLiveData<List<OrderByTableId>>()
     val unpaidItems: LiveData<List<OrderByTableId>> = _unpaidItems
+
+    var selectedItemsToPay = mutableListOf<OrderByTableId>()
 
     private fun getUnpaidItems() {
 
@@ -30,6 +38,14 @@ class PayVM : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         if (::job.isInitialized) job.cancel()
+    }
+
+    fun payForSelectedItems() {
+
+        selectedItemsToPay.toList().forEach { item ->
+            Log.w(TAG, item.name)
+        }
+
     }
 
     init {

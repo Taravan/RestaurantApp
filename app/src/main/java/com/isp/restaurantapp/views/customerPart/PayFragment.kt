@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,6 +37,25 @@ class PayFragment : Fragment() {
 
         viewModel.unpaidItems.observe(viewLifecycleOwner) { unpaiedItems ->
             adapter.updateData(unpaiedItems)
+        }
+
+        /*
+        * This is just for checking all checkboxes in recyclerview
+        * No other logic here...
+         */
+        binding.checkAllItemsToPay.setOnCheckedChangeListener { _, isChecked ->
+                for (i in 0 until adapter.itemCount) {
+                    val vh = binding.itemsToPayRecyclerView.findViewHolderForAdapterPosition(i)
+                    if (vh != null) {
+                        val checkBox = vh.itemView.findViewById<CheckBox>(R.id.checkItemToPay)
+                        checkBox.isChecked = isChecked
+                    }
+                }
+        }
+        // END of checkAll
+
+        binding.btnPayAll.setOnClickListener {
+            viewModel.payForSelectedItems()
         }
 
         return binding.root

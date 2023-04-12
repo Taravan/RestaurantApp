@@ -28,7 +28,7 @@
             app:layout_constraintWidth_percent="0.8"/>
 
         <CheckBox
-            android:id="@+id/checkItemToPay"
+            android:id="@+id/checkAllItemsToPay"
             android:text="@string/check_all"
             android:gravity="center"
             android:layout_width="0dp"

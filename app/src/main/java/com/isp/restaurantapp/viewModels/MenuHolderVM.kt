@@ -13,7 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MenuHolderVM(application: Application): AndroidViewModel(application) {
+class MenuHolderVM(): ViewModel() {
 
     companion object{
         const val TAG = "MenuHolderVM"
@@ -46,11 +46,8 @@ class MenuHolderVM(application: Application): AndroidViewModel(application) {
 
 
     fun orderButtonClicked(goodsItem: GoodsItemDTO) {
-        Toast.makeText(getApplication(),
-            "Buy item Id: " + goodsItem.goodsId.toString()
-                    + " " + goodsItem.goodsName + " for: "
-                    + goodsItem.price.toString() + " Kč.",
-            Toast.LENGTH_LONG).show()
+        Log.w(TAG, "Buy item Id: " + goodsItem.goodsId.toString() + " " + goodsItem.goodsName +
+                        " for: " + goodsItem.price.toString() + "Kč.")
     }
 
     override fun onCleared() {

@@ -14,11 +14,6 @@ import com.isp.restaurantapp.viewModels.PayVM
 class PayAdapter(private val viewModel: PayVM, private var unpaidList: List<OrderByTableIdDTO> = emptyList()):
     RecyclerView.Adapter<PayAdapter.UnpaiedItemsViewHolder>(){
 
-    private var selectedItems = mutableSetOf<OrderByTableIdDTO>()
-    fun getSelectedItems(): Set<OrderByTableIdDTO> {
-        return selectedItems
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnpaiedItemsViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ItemPayBinding>(
@@ -50,21 +45,11 @@ class PayAdapter(private val viewModel: PayVM, private var unpaidList: List<Orde
             binding.item = item
 
             binding.checkItemToPay.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    viewModel.selectedItemsToPay.add(item)
-                } else {
-                    viewModel.selectedItemsToPay.remove(item)
-                }
+                viewModel.updateSelectedList(isChecked, item)
             }
 
             binding.executePendingBindings()
 
-        }
-
-        fun selectAll(isChecked: Boolean){
-            for (i in unpaidList.indices) {
-                binding.checkItemToPay.isChecked = isChecked
-            }
         }
 
     }

@@ -24,7 +24,7 @@ class PayVM : ViewModel() {
     private val _unpaidItems = MutableLiveData<List<OrderByTableIdDTO>>()
     val unpaidItems: LiveData<List<OrderByTableIdDTO>> = _unpaidItems
 
-    var selectedItemsToPay = mutableListOf<OrderByTableIdDTO>()
+    private var selectedItemsToPay = mutableListOf<OrderByTableIdDTO>()
 
     private fun getUnpaidItems() {
 
@@ -38,6 +38,11 @@ class PayVM : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         if (::job.isInitialized) job.cancel()
+    }
+
+    fun updateSelectedList(operation: Boolean, item: OrderByTableIdDTO) {
+        if (operation) selectedItemsToPay.add(item)
+        else selectedItemsToPay.remove(item)
     }
 
     fun payForSelectedItems() {

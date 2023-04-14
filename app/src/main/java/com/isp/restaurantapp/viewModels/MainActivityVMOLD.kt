@@ -123,9 +123,7 @@ class MainActivityVMOLD: ViewModel() {
             } catch (e: Exception){
                 throw e
             }
-
         }
-
     }
 
 

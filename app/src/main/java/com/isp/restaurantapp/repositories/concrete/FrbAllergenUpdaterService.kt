@@ -27,7 +27,7 @@ class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {
         userAllergensDocRef.update(
             FrbFieldsUsersAllergen.ALLERGENS, FieldValue.delete()
         ).addOnSuccessListener {
-            Log.e("FrbUpdater", "Field Deleted Successfully, initiating update process.")
+            Log.i("FrbUpdater", "Field Deleted Successfully, initiating update process.")
             userAllergensDocRef.update(FrbFieldsUsersAllergen.ALLERGENS, allergenArray)
         }.await()
     }

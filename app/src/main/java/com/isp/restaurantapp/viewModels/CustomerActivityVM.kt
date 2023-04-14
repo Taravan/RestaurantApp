@@ -8,8 +8,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.isp.restaurantapp.models.dto.AllergenDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.repositories.*
+import com.isp.restaurantapp.repositories.concrete.FrbAllergenUpdaterService
 import com.isp.restaurantapp.repositories.concrete.FrbAllergensGetter
 import com.isp.restaurantapp.repositories.concrete.FrbUserAllergensGetter
+import com.isp.restaurantapp.repositories.interfaces.IAllergenUpdaterService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -73,6 +75,10 @@ class CustomerActivityVM: ViewModel() {
     }
     val userDefinedAllergens: LiveData<MutableSet<AllergenDTO>>
         get() = _userDefinedAllergens
+
+    private val _allergenUpdaterService: IAllergenUpdaterService by lazy {
+        FrbAllergenUpdaterService()
+    }
 
 
 
@@ -150,6 +156,20 @@ class CustomerActivityVM: ViewModel() {
         else{
             _userDefinedAllergens.value?.remove(alg)
             Log.i(TAG, "removed: $alg}")
+        }
+    }
+    fun updateAllergensInRepository(){
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                _userDefinedAllergens.value?.let {
+                    _allergenUpdaterService.updateAllergens(
+                        _userLogged.value?.uid ?: "none", it.toList()
+                    )
+                }
+            } catch (e: Exception){
+                Log.e(TAG, "Update of user defined allergens failed, ${e.message}")
+                throw e
+            }
         }
     }
 

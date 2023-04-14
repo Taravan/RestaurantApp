@@ -1,4 +1,4 @@
-package com.isp.restaurantapp.views.adapters
+package com.isp.restaurantapp.views.customerPart.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,13 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.AllergenDefRowBinding
-import com.isp.restaurantapp.models.Allergen
-import com.isp.restaurantapp.viewModels.MainActivityVM
-import com.isp.restaurantapp.viewModels.MainActivityVMOLD
+import com.isp.restaurantapp.models.dto.AllergenDTO
+import com.isp.restaurantapp.viewModels.CustomerActivityVM
 
 class AllergenDefinitionAdapter (
-    private val viewModel: MainActivityVMOLD,  // pass view-model,
-    private var allAllergensList: List<Allergen> = emptyList()
+    private val activityVM: CustomerActivityVM,  // pass view-model,
+    private var allAllergensList: List<AllergenDTO> = emptyList()
 
 ) : RecyclerView.Adapter<AllergenDefinitionAdapter.AllergenViewHolder>() {
 
@@ -20,11 +19,10 @@ class AllergenDefinitionAdapter (
     inner class AllergenViewHolder(private val binding: AllergenDefRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(alg: Allergen) {
+        fun bind(alg: AllergenDTO) {
             // alg defined in red/layout/allergen_def_row.xml data variable
             binding.alg = alg
-            binding.user = viewModel.loggedUser.value  // for visibility change
-            binding.vm = viewModel
+            binding.actVM = activityVM
 
             binding.executePendingBindings()
         }
@@ -53,7 +51,7 @@ class AllergenDefinitionAdapter (
     }
 
 
-    fun updateData(newDataset: List<Allergen>){
+    fun updateData(newDataset: List<AllergenDTO>){
         this.allAllergensList = newDataset
         notifyDataSetChanged()
     }

@@ -1,32 +1,11 @@
 package com.isp.restaurantapp.viewModels
 
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.repositories.LocalRepo
 
 class AllergensVM(): ViewModel() {
-
-    private val localRepo = LocalRepo.getInstance()
-
-    private val _table = MutableLiveData<Table>()
-    val table: LiveData<Table>
-        get() = _table
-
-    fun setTable(table: Table) {
-        _table.value = table
-    }
-
-    fun getTableFromRepo() {
-        _table.value = localRepo.getTable()
-    }
-
-    init {
-        getTableFromRepo()
-
-    }
 
 }

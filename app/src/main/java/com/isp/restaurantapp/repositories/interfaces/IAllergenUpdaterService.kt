@@ -1,7 +1,7 @@
 package com.isp.restaurantapp.repositories.interfaces
 
-import com.isp.restaurantapp.models.Allergen
+import com.isp.restaurantapp.models.dto.AllergenDTO
 
 interface IAllergenUpdaterService {
-    suspend fun updateAllergens(uid:String, allergenList: List<Allergen>)
+    suspend fun updateAllergens(uid:String, allergenList: List<AllergenDTO>)
 }

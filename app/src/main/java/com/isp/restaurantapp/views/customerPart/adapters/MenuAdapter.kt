@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ItemMenuBinding
-import com.isp.restaurantapp.models.GoodsItem
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.viewModels.MenuHolderVM
 
@@ -42,6 +41,8 @@ class MenuAdapter(private var itemsList: List<GoodsItemDTO> = emptyList(), priva
     inner class ItemsViewHolder(private val binding: ItemMenuBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(goodsItem: GoodsItemDTO, viewModel: MenuHolderVM){
             binding.item = goodsItem
+            binding.viewModel = viewModel
+
 
             binding.btnOrder.setOnClickListener {
                 viewModel.orderButtonClicked(goodsItem)

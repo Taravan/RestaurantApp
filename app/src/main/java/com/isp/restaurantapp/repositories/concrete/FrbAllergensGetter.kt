@@ -1,18 +1,18 @@
 package com.isp.restaurantapp.repositories.concrete
 
-import com.isp.restaurantapp.models.Allergen
+import com.isp.restaurantapp.models.dto.AllergenDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsAllergen
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import com.isp.restaurantapp.repositories.ICollectionGetter
 import com.isp.restaurantapp.repositories.MyFrb
 import kotlinx.coroutines.tasks.await
 
-class FrbAllergensGetter: ICollectionGetter<Allergen>, MyFrb() {
-    override suspend fun getCollection(): List<Allergen> {
-        val allergensRef = db.collection(FirestoreCollections.ALLERGENS)
+class FrbAllergensGetter: ICollectionGetter<AllergenDTO>, MyFrb() {
+    override suspend fun getCollection(): List<AllergenDTO> {
+        val allergensRef = db.collection(FirestoreCollections.ALLERGENS).orderBy(FrbFieldsAllergen.ID)
         val snapshot = allergensRef.get().await()
         val allergens = snapshot.documents.map { document ->
-            Allergen(
+            AllergenDTO(
                 id = document.getLong(FrbFieldsAllergen.ID)?.toInt() ?: 0,
                 name = document.getString(FrbFieldsAllergen.NAME) ?: ""
             )

@@ -1,11 +1,13 @@
-package com.isp.restaurantapp.models
+package com.isp.restaurantapp.models.dto
+
+import com.isp.restaurantapp.models.BaseModel
 
 /**
  * Names of properties must corespond with names of columns in DB
  */
-data class Table(
+data class TableDTO(
     var id: Int = 0,
     var tableNumber: Int = 0,
     val qrCode: String
-): BaseModel (id)
+): BaseModel(id)
 

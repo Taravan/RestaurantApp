@@ -2,7 +2,7 @@ package com.isp.restaurantapp.repositories.concrete
 
 import android.util.Log
 import com.google.firebase.firestore.FieldValue
-import com.isp.restaurantapp.models.Allergen
+import com.isp.restaurantapp.models.dto.AllergenDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsAllergen
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
@@ -11,7 +11,7 @@ import com.isp.restaurantapp.repositories.interfaces.IAllergenUpdaterService
 import kotlinx.coroutines.tasks.await
 
 class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {
-    override suspend fun updateAllergens(uid: String, allergenList: List<Allergen>) {
+    override suspend fun updateAllergens(uid: String, allergenList: List<AllergenDTO>) {
         val allergenArray = mutableListOf<Map<String, Any>>()
 
         allergenList.forEach { allergen ->

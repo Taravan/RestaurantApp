@@ -1,23 +1,22 @@
 package com.isp.restaurantapp.repositories
 
-import com.isp.restaurantapp.models.Category
-import com.isp.restaurantapp.models.GoodsItem
-import com.isp.restaurantapp.models.OrderByTableId
-import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.models.dto.CategoryDTO
+import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import java.math.BigDecimal
 
 class RepositoryDataMock: RepositoryAbstract() {
 
     private val tables = listOf(
-        Table(0, 5, "kodStoluCisloPet"),
-        Table(1, 10, "kodStoluCisloDeset"),
-        Table(2, 15, "kodStoluCisloPatnact")
+        TableDTO(0, 5, "kodStoluCisloPet"),
+        TableDTO(1, 10, "kodStoluCisloDeset"),
+        TableDTO(2, 15, "kodStoluCisloPatnact")
     )
 
     private val goodsCategories = listOf(
-        Category(0, "Pečivo"),
-        Category(1, "Uzeniny")
+        CategoryDTO(0, "Pečivo"),
+        CategoryDTO(1, "Uzeniny")
     )
 /*
     private val goods = listOf(
@@ -42,19 +41,19 @@ class RepositoryDataMock: RepositoryAbstract() {
     )
 
     private val unpaidOrders = listOf(
-        OrderByTableId(1, BigDecimal.TEN, false, 1, null, null, 10, "Pivo", null, 1),
-        OrderByTableId(1, BigDecimal(38), false, 2, null, null, 10, "Pivo2", null, 1)
+        OrderByTableIdDTO(1, BigDecimal.TEN, false, 1, null, null, 10, "Pivo", null, 1),
+        OrderByTableIdDTO(1, BigDecimal(38), false, 2, null, null, 10, "Pivo2", null, 1)
     )
 /*
     getTables(): List<Table> {
         return tables
     }
 */
-    fun getTableById(id: Int): Table{
+    fun getTableById(id: Int): TableDTO {
         return tables.find { it.id == id }!!
     }
 
-    fun getCategories(): List<Category>{
+    fun getCategories(): List<CategoryDTO>{
         return goodsCategories
     }
 
@@ -70,7 +69,7 @@ class RepositoryDataMock: RepositoryAbstract() {
         return  unpaidGoods
     }
 
-    override suspend fun getTables(): List<Table> {
+    override suspend fun getTables(): List<TableDTO> {
         return tables
     }
 
@@ -79,11 +78,11 @@ class RepositoryDataMock: RepositoryAbstract() {
     }
 
 
-    override suspend fun getOrdersByTableId(tableId: Int): List<OrderByTableId> {
+    override suspend fun getOrdersByTableId(tableId: Int): List<OrderByTableIdDTO> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getUnpaidOrdersByTableId(tableId: Int): List<OrderByTableId> {
+    override suspend fun getUnpaidOrdersByTableId(tableId: Int): List<OrderByTableIdDTO> {
         return unpaidOrders
     }
 

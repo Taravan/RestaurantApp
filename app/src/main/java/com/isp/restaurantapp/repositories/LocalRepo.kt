@@ -1,17 +1,15 @@
 package com.isp.restaurantapp.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.models.dto.TableDTO
 
 class LocalRepo private constructor(){
-    private lateinit var table: Table
+    private lateinit var table: TableDTO
 
-    fun setTable(table: Table) {
+    fun setTable(table: TableDTO) {
         this.table = table
     }
 
-    fun getTable(): Table {
+    fun getTable(): TableDTO {
         return table
     }
 

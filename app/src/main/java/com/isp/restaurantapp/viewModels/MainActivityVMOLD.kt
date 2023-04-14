@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.isp.restaurantapp.models.Allergen
-import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.models.dto.AllergenDTO
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.repositories.*
 import com.isp.restaurantapp.repositories.concrete.FrbAllergenUpdaterService
 import com.isp.restaurantapp.repositories.concrete.FrbAllergensGetter
@@ -62,42 +62,42 @@ class MainActivityVMOLD: ViewModel() {
 
     // ALLERGENS
     // FIREBASE REPO (implements
-    private val _allergenGetter: ICollectionGetter<Allergen> by lazy {
+    private val _allergenGetter: ICollectionGetter<AllergenDTO> by lazy {
         // Can be replaced with dummy class that implements ICollectionGetter
         FrbAllergensGetter()
     }
 
-    private val _listOfAllAllergens: MutableLiveData<List<Allergen>> by lazy {
-        MutableLiveData<List<Allergen>>()
+    private val _listOfAllAllergens: MutableLiveData<List<AllergenDTO>> by lazy {
+        MutableLiveData<List<AllergenDTO>>()
     }
-    val listOfAllAllergens: LiveData<List<Allergen>>
+    val listOfAllAllergens: LiveData<List<AllergenDTO>>
         get() = _listOfAllAllergens
 
 
     // USER DEFINED ALLERGENS
-    private val _userDefinedAllergensGetter: ICollectionGetterById<Allergen, String> by lazy {
+    private val _userDefinedAllergensGetter: ICollectionGetterById<AllergenDTO, String> by lazy {
         FrbUserAllergensGetter()
     }
-    val userDefinedAllergensGetter: ICollectionGetterById<Allergen, String>
+    val userDefinedAllergensGetter: ICollectionGetterById<AllergenDTO, String>
         get() = _userDefinedAllergensGetter
 
-    private val _userDefinedAllergens: MutableLiveData<MutableSet<Allergen>> by lazy{
-        MutableLiveData<MutableSet<Allergen>>()
+    private val _userDefinedAllergens: MutableLiveData<MutableSet<AllergenDTO>> by lazy{
+        MutableLiveData<MutableSet<AllergenDTO>>()
     }
-    val userDefinedAllergens: LiveData<MutableSet<Allergen>>
+    val userDefinedAllergens: LiveData<MutableSet<AllergenDTO>>
         get() = _userDefinedAllergens
 
 
     // Item is selected via binding in adapter
     // It is there so it is possible get data about the table which was button pressed
-    private val _selectedTable = MutableLiveData<Table?>()
-    val selectedTable: LiveData<Table?>
+    private val _selectedTable = MutableLiveData<TableDTO?>()
+    val selectedTable: LiveData<TableDTO?>
         get() = _selectedTable
 
-    private var tables: MutableLiveData<List<Table>> = MutableLiveData<List<Table>>()
+    private var tables: MutableLiveData<List<TableDTO>> = MutableLiveData<List<TableDTO>>()
 
     // getter, could be defined as a LiveData property getter as well
-    fun getTablesLiveData(): LiveData<List<Table>>{
+    fun getTablesLiveData(): LiveData<List<TableDTO>>{
         return tables
     }
 
@@ -182,16 +182,11 @@ class MainActivityVMOLD: ViewModel() {
         }
     }
 
-    fun isAllergenUserDefined(allergenToExamine: Allergen): Boolean{
+    fun isAllergenUserDefined(allergenToExamine: AllergenDTO): Boolean{
         return _userDefinedAllergens.value?.contains(allergenToExamine) ?: false
     }
 
-    fun allergenSwitchAction(isSwitch: Boolean, alg: Allergen) {
-        /*
-        val currentState = _allergenStatesMap.value.orEmpty()
-        val updatedState = currentState + (alg to isSwitch)
-        _allergenStatesMap.value = updatedState
-        Log.e(TAG, (_allergenStatesMap.value?.get(alg) ?: false).toString())*/
+    fun allergenSwitchAction(isSwitch: Boolean, alg: AllergenDTO) {
         if (isSwitch){
             _userDefinedAllergens.value?.add(alg)
             Log.e(TAG, "added: $alg}")
@@ -200,11 +195,10 @@ class MainActivityVMOLD: ViewModel() {
             _userDefinedAllergens.value?.remove(alg)
             Log.e(TAG, "removed: $alg}")
         }
-
-
     }
-    // This funcs is not required if its put into adapter, not in view
-    fun onTableButtonClick(table: Table){
+
+    // This func is not required if its put into adapter, not in view
+    fun onTableButtonClick(table: TableDTO){
         _selectedTable.value = table
     }
 

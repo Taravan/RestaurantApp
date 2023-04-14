@@ -7,7 +7,7 @@
 
         <variable
             name="table"
-            type="com.isp.restaurantapp.models.Table" />
+            type="com.isp.restaurantapp.models.dto.TableDTO" />
     </data>
 
     <androidx.cardview.widget.CardView

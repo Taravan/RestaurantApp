@@ -23,7 +23,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
-import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.MainActivityVM
 import com.isp.restaurantapp.views.customerPart.CustomerActivity
 import com.isp.restaurantapp.views.customerPart.StaffMainScreen
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     private lateinit var viewModel: MainActivityVM
     private lateinit var binding: ActivityMainBinding
     private lateinit var gestureDetector: GestureDetector
-    private lateinit var tables: List<Table>
+    private lateinit var tables: List<TableDTO>
     private var swipeCounter = 0
 
     @SuppressLint("ClickableViewAccessibility")

@@ -15,6 +15,9 @@ import com.isp.restaurantapp.databinding.FragmentMenuHolderBinding
 import com.isp.restaurantapp.viewModels.MenuHolderVM
 
 class MenuHolderFragment : Fragment() {
+    companion object{
+        const val TAG = "MenuHolderFragment"
+    }
 
     private lateinit var viewModel: MenuHolderVM
     private lateinit var binding: FragmentMenuHolderBinding
@@ -35,11 +38,14 @@ class MenuHolderFragment : Fragment() {
 
         var tabLayoutMediator: TabLayoutMediator? = null
 
+        viewModel.goodsAllergens.observe(viewLifecycleOwner){
+            Log.e(TAG, it.toString())
+        }
 
         viewModel.menuCategories.observe(viewLifecycleOwner) {
             // Once the data is fetched by IO and then confirmed and exposed by Dispatchers.Main
             if (!it.isNullOrEmpty()){
-                Log.e("view", "FIRE")
+                Log.e(TAG, "Dataset ready, initiating adapter & mediator update")
                 adapter.updateData(it)
 
                 tabLayoutMediator?.detach()
@@ -50,6 +56,8 @@ class MenuHolderFragment : Fragment() {
                 tabLayoutMediator?.attach()
             }
         }
+
+
 
         return binding.root
     }

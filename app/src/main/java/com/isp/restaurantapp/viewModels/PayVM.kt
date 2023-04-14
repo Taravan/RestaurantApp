@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.isp.restaurantapp.coroutines.Coroutines
-import com.isp.restaurantapp.models.OrderByTableId
+import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
 import kotlinx.coroutines.Job
@@ -21,10 +21,10 @@ class PayVM : ViewModel() {
     private val data: RepositoryAbstract = RepositoryRetrofit()
     //private val data: RepositoryAbstract = RepositoryDataMock()
 
-    private val _unpaidItems = MutableLiveData<List<OrderByTableId>>()
-    val unpaidItems: LiveData<List<OrderByTableId>> = _unpaidItems
+    private val _unpaidItems = MutableLiveData<List<OrderByTableIdDTO>>()
+    val unpaidItems: LiveData<List<OrderByTableIdDTO>> = _unpaidItems
 
-    var selectedItemsToPay = mutableListOf<OrderByTableId>()
+    var selectedItemsToPay = mutableListOf<OrderByTableIdDTO>()
 
     private fun getUnpaidItems() {
 

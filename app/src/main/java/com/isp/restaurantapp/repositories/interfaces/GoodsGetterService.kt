@@ -1,7 +1,6 @@
 package com.isp.restaurantapp.repositories.interfaces
 
 import com.isp.restaurantapp.BuildConfig
-import com.isp.restaurantapp.models.Table
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import retrofit2.http.GET
 import retrofit2.http.Headers

@@ -7,16 +7,19 @@
         <import type="android.view.View"/>
         <variable
             name="alg"
-            type="com.isp.restaurantapp.models.Allergen" />
+            type="com.isp.restaurantapp.models.dto.AllergenDTO" />
         <variable
             name="user"
             type="com.google.firebase.auth.FirebaseUser" />
         <variable
             name="userDefAlg"
-            type="com.isp.restaurantapp.models.Allergen" />
+            type="com.isp.restaurantapp.models.dto.AllergenDTO" />
         <variable
             name="vm"
             type="com.isp.restaurantapp.viewModels.MainActivityVMOLD" />
+        <variable
+            name="actVM"
+            type="com.isp.restaurantapp.viewModels.CustomerActivityVM" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -55,9 +58,8 @@
                 android:id="@+id/switchAllergen"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:checked="@{vm.isAllergenUserDefined(alg)}"
-                android:onCheckedChanged="@{(_, isChecked) -> vm.allergenSwitchAction(isChecked, alg)}"
-                android:visibility="@{user == null ? View.GONE : View.VISIBLE}"
+                android:checked="@{actVM.isAllergenUserDefined(alg)}"
+                android:onCheckedChanged="@{(_, isChecked) -> actVM.allergenSwitchAction(isChecked, alg)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tVName"

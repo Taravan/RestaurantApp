@@ -9,7 +9,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AccountVM : ViewModel() {
-    companion object val TAG = "AccountVM"
+    companion object{
+        const val TAG = "AccountVM"
+    }
 
     // FIREBASE AUTH
     private val _auth = FirebaseAuth.getInstance()

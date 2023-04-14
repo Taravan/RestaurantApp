@@ -10,7 +10,7 @@ import com.google.firebase.FirebaseApp
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainOldBinding
 import com.isp.restaurantapp.viewModels.MainActivityVMOLD
-import com.isp.restaurantapp.views.adapters.AllergenDefinitionAdapter
+import com.isp.restaurantapp.views.adapters.AllergenDefinitionAdapterOLD
 import com.isp.restaurantapp.views.adapters.TablesBindableAdapter
 
 class MainActivityOLD : AppCompatActivity() {
@@ -58,7 +58,7 @@ class MainActivityOLD : AppCompatActivity() {
         viewModel.loggedUser.observe(this) { user ->
             if (user != null) {
                 viewModel.fetchUserDefinedAllergens(viewModel.loggedUser.value?.uid ?: "none")
-                val allgAdapter = AllergenDefinitionAdapter(
+                val allgAdapter = AllergenDefinitionAdapterOLD(
                     viewModel
                 )
                 binding.recyclerViewAllergens.adapter = allgAdapter

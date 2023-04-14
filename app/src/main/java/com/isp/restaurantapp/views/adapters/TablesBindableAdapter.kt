@@ -6,13 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.TableRvRowBinding
-import com.isp.restaurantapp.models.Table
-import com.isp.restaurantapp.viewModels.MainActivityVM
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.MainActivityVMOLD
 
 class TablesBindableAdapter (
     private val viewModel: MainActivityVMOLD,
-    private var dataset: List<Table> = emptyList()
+    private var dataset: List<TableDTO> = emptyList()
 ) : RecyclerView.Adapter<TablesBindableAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -35,7 +34,7 @@ class TablesBindableAdapter (
         return dataset.size
     }
 
-    fun updateData(newDataset: List<Table>){
+    fun updateData(newDataset: List<TableDTO>){
         this.dataset = newDataset
         notifyDataSetChanged()
     }
@@ -43,7 +42,7 @@ class TablesBindableAdapter (
     inner class MyViewHolder(private val binding: TableRvRowBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(table: Table) {
+        fun bind(table: TableDTO) {
             binding.table = table
             // binding.viewModel = viewModel
 

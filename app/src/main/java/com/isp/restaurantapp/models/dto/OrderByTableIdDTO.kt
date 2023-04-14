@@ -1,8 +1,8 @@
-package com.isp.restaurantapp.models
+package com.isp.restaurantapp.models.dto
 
 import java.math.BigDecimal
 
-data class OrderByTableId(
+data class OrderByTableIdDTO(
     var id: Int = 0,
     var price: BigDecimal = BigDecimal.ZERO,  // for every operation with money
     var isPaid: Boolean = false,

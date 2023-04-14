@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.isp.restaurantapp.models.Table
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.repositories.RepositoryDataMock
 import com.isp.restaurantapp.repositories.interfaces.TableGetterService
 import kotlinx.coroutines.launch
@@ -18,8 +18,8 @@ class MainActivityVM : ViewModel() {
         RepositoryDataMock()
     }
 
-    private var _tables: MutableList<Table> = mutableListOf()
-    val tables: MutableList<Table>
+    private var _tables: MutableList<TableDTO> = mutableListOf()
+    val tables: MutableList<TableDTO>
         get() = _tables
 
 
@@ -34,8 +34,8 @@ class MainActivityVM : ViewModel() {
         }
     }
 
-    private val _navigateToNext = MutableLiveData<Table?>()
-    val navigateToNext: LiveData<Table?>
+    private val _navigateToNext = MutableLiveData<TableDTO?>()
+    val navigateToNext: LiveData<TableDTO?>
         get() = _navigateToNext
 
     private val _tableQr = MutableLiveData<String>()

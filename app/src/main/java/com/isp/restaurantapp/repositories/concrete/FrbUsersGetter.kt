@@ -1,6 +1,6 @@
 package com.isp.restaurantapp.repositories.concrete
 
-import com.isp.restaurantapp.models.Allergen
+import com.isp.restaurantapp.models.dto.AllergenDTO
 import com.isp.restaurantapp.models.exceptions.DocumentNotFoundException
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
@@ -9,9 +9,9 @@ import com.isp.restaurantapp.repositories.MyFrb
 import kotlinx.coroutines.tasks.await
 
 class FrbUserAllergensGetter
-    : ICollectionGetterById<Allergen, String>, MyFrb() {
-    override suspend fun getCollection(id: String): List<Allergen> {
-        val allergenList = mutableListOf<Allergen>()
+    : ICollectionGetterById<AllergenDTO, String>, MyFrb() {
+    override suspend fun getCollection(id: String): List<AllergenDTO> {
+        val allergenList = mutableListOf<AllergenDTO>()
         val userAllergensCollection = db.collection(FirestoreCollections.USER_ALLERGENS)
         val userAllergensDocument = userAllergensCollection.document(id).get().await()
 
@@ -30,7 +30,7 @@ class FrbUserAllergensGetter
                 val allergenMap = allergen as HashMap<*, *>
                 val allergenId = allergenMap[FrbFieldsUsersAllergen.Allergens.ID] as Long
                 val allergenName = allergenMap[FrbFieldsUsersAllergen.Allergens.NAME] as String
-                allergenList.add(Allergen(allergenId.toInt(), allergenName))
+                allergenList.add(AllergenDTO(allergenId.toInt(), allergenName))
             }
         }
         else{

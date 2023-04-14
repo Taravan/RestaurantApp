@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.isp.restaurantapp.databinding.FragmentAllergensBinding
 import com.isp.restaurantapp.viewModels.AllergensVM
 import com.isp.restaurantapp.viewModels.CustomerActivityVM
-import com.isp.restaurantapp.viewModels.factory.GlobalActivityVMFactory
+import com.isp.restaurantapp.views.adapters.AllergenDefinitionAdapterOLD
+import com.isp.restaurantapp.views.adapters.TablesBindableAdapter
+import com.isp.restaurantapp.views.customerPart.adapters.AllergenDefinitionAdapter
 
 class AllergensFragment: Fragment() {
 
@@ -28,11 +31,24 @@ class AllergensFragment: Fragment() {
         binding = FragmentAllergensBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[AllergensVM::class.java]
 
-        binding.viewModel = viewModel
+        binding.actVM = activityViewModel
 
+        activityViewModel.fetchAllAllergens()
+        activityViewModel.initUserDefinedAllergens()
         activityViewModel.table.observe(viewLifecycleOwner) {
+        }
+
+        val allgAdapter = AllergenDefinitionAdapter(activityViewModel)
+        binding.recyclerView.adapter = allgAdapter
+
+        activityViewModel.listOfAllAllergens.observe(viewLifecycleOwner) {
+            allgAdapter.updateData(it)
+        }
+
+        activityViewModel.userDefinedAllergens.observe(viewLifecycleOwner) {
 
         }
+
 
         return binding.root
     }

@@ -5,6 +5,7 @@
 
     <data>
         <import type="java.math.BigDecimal"/>
+        <import type="android.graphics.Color"/>
         <variable
             name="item"
             type="com.isp.restaurantapp.models.dto.GoodsItemDTO" />
@@ -55,7 +56,9 @@
             android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
+
             android:text="@{viewModel.goodsAllergens.get(item.goodsId).toString()}"
+            android:textColor="@{viewModel.containsAllergenCollision(item)? Color.RED: Color.LTGRAY}"
             app:layout_constraintEnd_toEndOf="@+id/itemName"
             app:layout_constraintTop_toTopOf="parent" />
 

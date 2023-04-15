@@ -37,16 +37,19 @@ class CustomerActivityVM: ViewModel() {
 
     // USER AUTH
     private val _auth = FirebaseAuth.getInstance()
-    private val _userLogged: MutableLiveData<FirebaseUser> by lazy{
+
+    private val _userLogged: MutableLiveData<FirebaseUser> by lazy {
         MutableLiveData<FirebaseUser>(_auth.currentUser)
     }
     val user: MutableLiveData<FirebaseUser>
         get() = _userLogged
 
+    private val _isUserLoggedIn: MutableLiveData<Boolean> = MutableLiveData()
     val isUserLoggedIn: LiveData<Boolean>
-        get() = _userLogged.map {
-            (it == null)
-        }
+        get() = _isUserLoggedIn
+//        get() = _userLogged.map {
+//            (it == null)
+//        }
 
 
     // ALLERGENS
@@ -67,8 +70,6 @@ class CustomerActivityVM: ViewModel() {
     private val _userDefinedAllergensGetter: ICollectionGetterById<AllergenDTO, String> by lazy {
         FrbUserAllergensGetter()
     }
-    val userDefinedAllergensGetter: ICollectionGetterById<AllergenDTO, String>
-        get() = _userDefinedAllergensGetter
 
     private val _userDefinedAllergens: MutableLiveData<MutableSet<AllergenDTO>> by lazy{
         MutableLiveData<MutableSet<AllergenDTO>>()
@@ -90,6 +91,19 @@ class CustomerActivityVM: ViewModel() {
 
     private var tables: MutableLiveData<List<TableDTO>> = MutableLiveData<List<TableDTO>>()
 
+
+    fun initUserDefinedAllergens(){
+        if (isUserLoggedIn.value == true){
+            fetchUserDefinedAllergens(_userLogged.value?.uid ?: "")
+            Log.w(TAG, "User defined allergens fetched")
+        } else {
+            Log.e(TAG, "User not logged in: " +
+                    "User val= ${_userLogged.value}," +
+                    " uid= ${_userLogged.value?.uid}," +
+                    " logged in= $isUserLoggedIn")
+            throw UserNotAuthenticatedException()
+        }
+    }
 
     /**
      * Call whenever API response is needed
@@ -127,8 +141,9 @@ class CustomerActivityVM: ViewModel() {
     }
 
     private fun fetchUserDefinedAllergens(uid: String){
-        if (uid.isEmpty()){
-            throw UserNotAuthenticatedException()
+        if (_isUserLoggedIn.value == false){
+            Log.e(TAG, "User not authenticated, user getting process canceled.")
+            return
         }
         viewModelScope.launch(Dispatchers.IO){
             try {
@@ -173,19 +188,12 @@ class CustomerActivityVM: ViewModel() {
         }
     }
 
-    fun initUserDefinedAllergens(){
-        if (isUserLoggedIn.value != true){
-            fetchUserDefinedAllergens(_userLogged.value?.uid ?: "")
-            Log.w(TAG, "User defined allergens fetched")
-        } else {
-            Log.e(TAG, "User not logged in: " +
-                    "User val= ${_userLogged.value}," +
-                    " uid= ${_userLogged.value?.uid}," +
-                    " logged in= $isUserLoggedIn")
-        }
-    }
 
     init {
+        _auth.addAuthStateListener {
+            _userLogged.value = it.currentUser
+            _isUserLoggedIn.value = it.currentUser != null
+        }
         // Just for testing purposes
         _tableNumber.value = 10
     }

@@ -8,12 +8,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.isp.restaurantapp.databinding.FragmentAllergensBinding
 import com.isp.restaurantapp.viewModels.AllergensVM
 import com.isp.restaurantapp.viewModels.CustomerActivityVM
-import com.isp.restaurantapp.views.adapters.AllergenDefinitionAdapterOLD
-import com.isp.restaurantapp.views.adapters.TablesBindableAdapter
 import com.isp.restaurantapp.views.customerPart.adapters.AllergenDefinitionAdapter
 
 class AllergensFragment: Fragment() {
@@ -34,19 +31,21 @@ class AllergensFragment: Fragment() {
 
         binding.actVM = activityViewModel
 
-        activityViewModel.fetchAllAllergens()
-        activityViewModel.initUserDefinedAllergens()
+        initAllergens()
+
         activityViewModel.table.observe(viewLifecycleOwner) {
         }
 
+
         val allgAdapter = AllergenDefinitionAdapter(activityViewModel)
-        binding.recyclerView.adapter = allgAdapter
 
         activityViewModel.listOfAllAllergens.observe(viewLifecycleOwner) {
             allgAdapter.updateData(it)
         }
 
+        // init recyclerview adapter whenever user-defined allergens are ready for main thread
         activityViewModel.userDefinedAllergens.observe(viewLifecycleOwner) {
+            binding.recyclerView.adapter = allgAdapter
         }
 
         binding.buttonSubmit.setOnClickListener { updateAllergens() }
@@ -54,6 +53,14 @@ class AllergensFragment: Fragment() {
         return binding.root
     }
 
+    private fun initAllergens(){
+        activityViewModel.fetchAllAllergens()
+        try {
+            activityViewModel.initUserDefinedAllergens()
+        } catch (e: Exception){
+            Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
     private fun updateAllergens(){
         try {
             activityViewModel.updateAllergensInRepository()

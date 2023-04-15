@@ -194,8 +194,6 @@ class CustomerActivityVM: ViewModel() {
             _userLogged.value = it.currentUser
             _isUserLoggedIn.value = it.currentUser != null
         }
-        // Just for testing purposes
-        _tableNumber.value = 10
     }
 
 }

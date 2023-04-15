@@ -23,7 +23,6 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
-import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.MainActivityVM
 import com.isp.restaurantapp.views.customerPart.CustomerActivity
 import com.isp.restaurantapp.views.customerPart.StaffMainScreen
@@ -34,19 +33,11 @@ private const val CAMERA_PERMISSION_REQUEST_CODE = 1
 @ExperimentalGetImage
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
-    /**
-     * CONSTANTS
-     */
-    companion object {
-        const val NUMBER_OF_SWIPES = 6
-    }
-
-
     private lateinit var viewModel: MainActivityVM
     private lateinit var binding: ActivityMainBinding
     private lateinit var gestureDetector: GestureDetector
-    private lateinit var tables: List<TableDTO>
-    private var swipeCounter = 0
+
+    private var cameraProvider: ProcessCameraProvider? = null
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,15 +52,31 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         viewModel.fetchTables()
 
-        tables = viewModel.tables
-
 
         // REDIRECT TO NEW VIEW
-        val newAct = Intent(this, CustomerActivity::class.java)
-            .also { it.putExtra("tableNumber", tables[0].tableNumber) }
-        startActivity(newAct)
+//        val newAct = Intent(this, CustomerActivity::class.java)
+//            .also { it.putExtra("tableNumber", tables[0].tableNumber) }
+//        startActivity(newAct)
+        // END OF REDIRECTION
 
 
+        viewModel.navigateToNext.observe(this) { tableToGo ->
+            if (tableToGo != null) {
+                cameraProvider?.unbindAll()
+                val intent = Intent(this, CustomerActivity::class.java).apply {
+                    putExtra("TABLE", tableToGo)
+                }
+                startActivity(intent)
+            }
+        }
+
+        viewModel.navigateToStaffScreen.observe(this) { startStaffActivity ->
+            if (startStaffActivity) {
+                val intent = Intent(this, StaffMainScreen::class.java)
+                startActivity(intent)
+                viewModel.resetNavigateToStaffScreen()
+            }
+        }
 
         gestureDetector = GestureDetector(this, this)
         binding.swipingLayout.setOnTouchListener { _, event ->
@@ -77,14 +84,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             true
         }
 
-
         if (hasCameraPermission()) {
-            bindCameraUseCases()
+            bindAll()
         } else {
             requestPermission()
         }
     }
-
 
     // Permission checks
     private fun hasCameraPermission() =
@@ -109,100 +114,92 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE
             && grantResults[0] == PackageManager.PERMISSION_GRANTED
         ) {
-            bindCameraUseCases()
+            bindAll()
         } else {
-            Toast.makeText(this, "Camera permission required", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.camera_required), Toast.LENGTH_LONG).show()
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    // Building parts for scanner
+    private fun getCamera(): CameraSelector {
+        return CameraSelector.DEFAULT_BACK_CAMERA
+    }
 
-    // Usecases
-    private fun bindCameraUseCases() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-
-        cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-
-            val previewUseCase = Preview.Builder().build()
-                .also {
-                    it.setSurfaceProvider(binding.cameraView.surfaceProvider)
-                }
-
-            val options = BarcodeScannerOptions.Builder().setBarcodeFormats(
-                Barcode.FORMAT_QR_CODE
-            ).build()
-
-            val scanner = BarcodeScanning.getClient(options)
-
-            val analysisUseCase = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-
-            analysisUseCase.setAnalyzer( Executors.newSingleThreadExecutor()) {
-                    imageProxy -> processImageProxy(scanner, imageProxy, cameraProvider)
+    private fun buildPreview(): Preview {
+        val preview = Preview.Builder().build()
+            .also {
+                it.setSurfaceProvider(binding.cameraView.surfaceProvider)
             }
+        return preview
+    }
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+    private fun buildBarcodeScanner(): BarcodeScanner {
+        val options = BarcodeScannerOptions.Builder().setBarcodeFormats(
+            Barcode.FORMAT_QR_CODE
+        ).build()
+        return BarcodeScanning.getClient(options)
+    }
+
+    private fun buildImageAnalysis(scanner: BarcodeScanner): ImageAnalysis {
+        val executor = Executors.newSingleThreadExecutor()
+        val analysis = ImageAnalysis.Builder().setBackpressureStrategy(
+            ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST
+        ).build()
+        analysis.setAnalyzer(executor) { imageProxy ->
+            processImageProxy(scanner, imageProxy)
+        }
+        return analysis
+    }
+
+    // Bind parts to cameraProvider
+    private fun bindAll() {
+
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        cameraProviderFuture.addListener({
+            cameraProvider = cameraProviderFuture.get()
+            val cameraProvider = cameraProviderFuture.get()
+            val preview = buildPreview()
+            val barcodeScanner = buildBarcodeScanner()
+            val imageAnalysis = buildImageAnalysis(barcodeScanner)
+            val cameraSelector = getCamera()
 
             try {
                 cameraProvider.bindToLifecycle(
                     this,
                     cameraSelector,
-                    previewUseCase,
-                    analysisUseCase
+                    preview,
+                    imageAnalysis
                 )
             } catch (illegalStateException: IllegalStateException) {
                 // If the use case has already been bound to another lifecycle or method is not called on main thread.
                 Log.e("Exception", illegalStateException.message.orEmpty())
-            } catch (illegalArgumentException: IllegalArgumentException) {
+
+            } catch (illegalArgumentException: java.lang.IllegalArgumentException){
                 // If the provided camera selector is unable to resolve a camera to be used for the given use cases.
                 Log.e("Exception", illegalArgumentException.message.orEmpty())
+
             }
+
         }, ContextCompat.getMainExecutor(this))
     }
 
-
     // Analyze found qr code
-    private fun processImageProxy(barcodeScanner: BarcodeScanner, imageProxy: ImageProxy, cameraProvider: ProcessCameraProvider) {
+    private fun processImageProxy(barcodeScanner: BarcodeScanner, imageProxy: ImageProxy) {
         imageProxy.image?.let { image ->
             val inputImage = InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees)
 
             barcodeScanner.process(inputImage).addOnSuccessListener { barcodeList ->
                 val barcode = barcodeList.getOrNull(0)
-
-
-                for (bc in barcodeList) {
-                    val qrCode = bc.rawValue
-//                    val correctQrCode = "SpravnyKod"
-//                    if (qrCode == correctQrCode) {
-//                        cameraProvider.unbindAll()
-//
-//                        val newAct = Intent(this, TableMainScreen::class.java)
-//                            .also { it.putExtra("text", "Stul cislo 5") }
-//                        startActivity(newAct)
-//                    }
-
-                    if (qrCode != null) {
-                        viewModel.onQrScanned(qrCode)
-
-                        val tableToGo =viewModel.navigateToNext.value
-                        if (tableToGo != null){
-                            cameraProvider.unbindAll()
-                            val newAct = Intent(this, CustomerActivity::class.java)
-                                .also { it.putExtra("tableNumber", tableToGo.tableNumber) }
-                            startActivity(newAct)
-                        }
-                    }
-
+                barcode?.rawValue?.let { value ->
+                    viewModel.onQrScanned(value)
                 }
-
-
-
             }
                 .addOnFailureListener {
                     // Model could not be downloaded (bad connection, not signed in to google play...)
+                    Toast.makeText(this, getString(R.string.internet_googleplay_required),
+                        Toast.LENGTH_LONG).show()
                     Log.e("Exception", it.message.orEmpty())
                 }.addOnCompleteListener {
                     imageProxy.image?.close()
@@ -211,45 +208,36 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         }
     }
 
-    override fun onFling(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
-        if (p0.y > p1.y) {
-            swipeCounter++
-            if (swipeCounter >= NUMBER_OF_SWIPES) {
-                val intent = Intent(this, StaffMainScreen::class.java)
-                startActivity(intent)
-
-                swipeCounter = 0
-                return true
-            }
+    // Start scanning again
+    override fun onResume() {
+        super.onResume()
+        if (hasCameraPermission()) {
+            bindAll()
         } else {
-            swipeCounter = 0
+            requestPermission()
         }
+    }
 
-        return false
+    // Detecting swipes of an user
+    override fun onFling(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
+        return viewModel.onFlingRegistered(p0, p1)
     }
 
     override fun onDown(p0: MotionEvent): Boolean {
-        return true
+        return false
     }
 
     override fun onShowPress(p0: MotionEvent) {
-        TODO("Not yet implemented")
     }
 
     override fun onSingleTapUp(p0: MotionEvent): Boolean {
-        return true
+        return false
     }
 
     override fun onScroll(p0: MotionEvent, p1: MotionEvent, p2: Float, p3: Float): Boolean {
-        return true
+        return false
     }
 
     override fun onLongPress(p0: MotionEvent) {
-        TODO("Not yet implemented")
     }
-/*
-    private fun getTables(): List<Table> {
-        return data.getTables().toList()
-    }
-*/
 }

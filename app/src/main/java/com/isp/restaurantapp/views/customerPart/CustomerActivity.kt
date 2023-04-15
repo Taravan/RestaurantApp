@@ -1,10 +1,13 @@
 package com.isp.restaurantapp.views.customerPart
 
 import android.annotation.SuppressLint
+import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
 import android.view.Window
 import android.widget.PopupMenu
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,6 +23,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.FirebaseApp
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityCustomerBinding
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.CustomerActivityVM
 
 class CustomerActivity : AppCompatActivity() {
@@ -38,6 +42,23 @@ class CustomerActivity : AppCompatActivity() {
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+
+
+        /**
+         * Must test the android version first to make it
+         * compatible with newest and also older versions of android.
+         */
+        (if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("TABLE", TableDTO::class.java)
+        } else {
+            intent.getParcelableExtra("TABLE")
+        })?.let {
+            viewModel.setTable(
+                it
+            )
+        }
+
 
         FirebaseApp.initializeApp(this)
 

@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/txtTableNumber"
-            android:text="@{Integer.toString(viewModel.tableNumber)}"
+            android:text="@{Integer.toString(viewModel.table.tableNumber)}"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:textAlignment="center"

@@ -7,6 +7,9 @@
     <string name="welcome_text">Scan QR Code of your table</string>
     <string name="top_logo">Top screen logo</string>
     <string name="qr_reader">Transparent for qr reader</string>
+    <string name="camera_required">Camera permission required</string>
+    <string name="internet_googleplay_required">You need to be connected to the internet and sign
+        in to the Google play</string>
 
     // Customer activity
     <string name="title_activity_customer">CustomerActivity</string>

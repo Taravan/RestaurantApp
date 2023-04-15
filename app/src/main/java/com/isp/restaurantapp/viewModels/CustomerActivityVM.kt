@@ -26,14 +26,14 @@ class CustomerActivityVM: ViewModel() {
         RepositoryRetrofit()
     }
 
-
+    // Current table
     private val _table = MutableLiveData<TableDTO>()
     val table: LiveData<TableDTO>
         get() = _table
+    fun setTable(newTable:TableDTO) {
+        _table.value = newTable
+    }
 
-    private val _tableNumber = MutableLiveData<Int>()
-    val tableNumber: LiveData<Int>
-        get() = _tableNumber
 
     // USER AUTH
     private val _auth = FirebaseAuth.getInstance()
@@ -184,10 +184,4 @@ class CustomerActivityVM: ViewModel() {
                     " logged in= $isUserLoggedIn")
         }
     }
-
-    init {
-        // Just for testing purposes
-        _tableNumber.value = 10
-    }
-
 }

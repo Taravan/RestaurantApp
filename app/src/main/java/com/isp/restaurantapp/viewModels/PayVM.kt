@@ -4,11 +4,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.coroutines.Coroutines
 import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PayVM : ViewModel() {
 
@@ -26,13 +30,28 @@ class PayVM : ViewModel() {
 
     private var selectedItemsToPay = mutableListOf<OrderByTableIdDTO>()
 
-    private fun getUnpaidItems() {
+    // TODO: Předělat na klasickou coroutine
+    // TODO: Napojit na reálné číslo stolu!
+    fun fetchUnpaidItems(tableNumber: Int) {
+        if (tableNumber < 0 || tableNumber>1000){
+            Log.e(TAG, "Invalid table number: $tableNumber")
+            return
+        }
 
-        job = Coroutines.ioTheMain(
-            { data.getUnpaidOrdersByTableId(1) },
-            { _unpaidItems.value = it }
-        )
-
+//        job = Coroutines.ioTheMain(
+//            { data.getUnpaidOrdersByTableId(tableNumber) },
+//            { _unpaidItems.value = it }
+//        )
+        try {
+            viewModelScope.launch(Dispatchers.IO){
+                val result = data.getUnpaidOrdersByTableId(tableNumber)
+                withContext(Dispatchers.Main){
+                    _unpaidItems.postValue(result)
+                }
+            }
+        } catch (e: Exception){
+                throw e
+        }
     }
 
     override fun onCleared() {
@@ -51,10 +70,6 @@ class PayVM : ViewModel() {
             Log.w(TAG, item.name)
         }
 
-    }
-
-    init {
-        getUnpaidItems()
     }
 
 }

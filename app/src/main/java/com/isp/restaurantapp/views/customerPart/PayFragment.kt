@@ -30,13 +30,15 @@ class PayFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        viewModel.fetchUnpaidItems(1)
+
         val adapter = PayAdapter(viewModel)
         val recyclerView = binding.itemsToPayRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
 
-        viewModel.unpaidItems.observe(viewLifecycleOwner) { unpaiedItems ->
-            adapter.updateData(unpaiedItems)
+        viewModel.unpaidItems.observe(viewLifecycleOwner) { unpaidItems ->
+            adapter.updateData(unpaidItems)
         }
 
         /*

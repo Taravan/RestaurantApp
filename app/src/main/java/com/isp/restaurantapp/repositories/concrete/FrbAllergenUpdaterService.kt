@@ -6,11 +6,11 @@ import com.isp.restaurantapp.models.dto.AllergenDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsAllergen
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
-import com.isp.restaurantapp.repositories.MyFrb
+import com.isp.restaurantapp.repositories.MyFirestore
 import com.isp.restaurantapp.repositories.interfaces.IAllergenUpdaterService
 import kotlinx.coroutines.tasks.await
 
-class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {
+class FrbAllergenUpdaterService(): MyFirestore(), IAllergenUpdaterService {
     override suspend fun updateAllergens(uid: String, allergenList: List<AllergenDTO>) {
         val allergenArray = mutableListOf<Map<String, Any>>()
 
@@ -18,7 +18,7 @@ class FrbAllergenUpdaterService(): MyFrb(), IAllergenUpdaterService {
             allergenArray.add(mapOf(FrbFieldsAllergen.ID to allergen.id, FrbFieldsAllergen.NAME to allergen.name))
         }
 
-        val userAllergensDocRef = db.collection(FirestoreCollections.USER_ALLERGENS).document(uid)
+        val userAllergensDocRef = firestore.collection(FirestoreCollections.USER_ALLERGENS).document(uid)
 
         // Populate the new allergen array with the data you want to set in Firestore
         // ...

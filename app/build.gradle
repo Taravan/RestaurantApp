@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    def core_ktx_ver = "1.9.0"
+    def core_ktx_ver = "1.10.0"
     def appcompat_ver = "1.6.1"
     implementation "androidx.core:core-ktx:$core_ktx_ver"
     implementation "androidx.appcompat:appcompat:$appcompat_ver"
@@ -72,8 +72,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-auth-ktx:21.2.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.4.5'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.3.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.5.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
 
     // MVVM architecture components
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'

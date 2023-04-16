@@ -54,9 +54,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
         // REDIRECT TO NEW VIEW
-//        val newAct = Intent(this, CustomerActivity::class.java)
-//            .also { it.putExtra("tableNumber", tables[0].tableNumber) }
-//        startActivity(newAct)
+        val newAct = Intent(this, CustomerActivity::class.java)
+        startActivity(newAct)
         // END OF REDIRECTION
 
 

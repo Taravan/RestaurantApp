@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.isp.restaurantapp.views.customerPart.adapters.CustomBindingAdapters" />
         <variable
             name="vm"
             type="com.isp.restaurantapp.viewModels.HistoryVM" />
@@ -22,32 +23,47 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textSize="20sp"
-            android:padding="16dp"
+            android:paddingTop="15dp"
+            android:paddingHorizontal="15dp"
+            android:paddingBottom="5dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintWidth_percent="0.8"/>
+            app:layout_constraintWidth_percent="0.7"/>
 
 
         <TextView
             android:id="@+id/txtItemPrice"
-            android:layout_width="60dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:layout_marginEnd="77dp"
-            android:padding="16dp"
+            android:paddingTop="15dp"
+            android:paddingHorizontal="15dp"
+            android:paddingBottom="5dp"
             android:text='@{String.format("%.1f", item.price)}'
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtItemName"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintBottom_toBottomOf="@id/txtItemName"/>
+
+        <TextView
+            android:id="@+id/txtItemDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            app:timestampFormatted="@{item.lastUpdate}"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@id/txtItemName"
+            />
 
         <View
+            android:id="@+id/historyLine"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_margin="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtItemName"
+            app:layout_constraintTop_toBottomOf="@id/txtItemDate"
             android:background="@color/recycleLine"/>
 
 

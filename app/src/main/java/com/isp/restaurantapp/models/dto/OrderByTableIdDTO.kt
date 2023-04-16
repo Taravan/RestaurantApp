@@ -6,11 +6,11 @@ data class OrderByTableIdDTO(
     var id: Int = 0,
     var price: BigDecimal = BigDecimal.ZERO,  // for every operation with money
     var isPaid: Boolean = false,
-    var goods_id: Int = 0,
-    var reciepts_id: Int? = 0,
-    var user_uid: String? = "none",
-    var table_id: Int = 0,
-    var name: String = "",
-    var description: String? = "",
-    var goodsCategory_id: Int = 0
+    var goodsId: Int = 0,
+    var receiptsId: Int? = 0,
+    var userId: String? = "",
+    var tableId: Int = 0,
+    var goodsName: String = "",
+    var goodsDesc: String? = "",
+    var goodsCategoryId: Int = 0
 )

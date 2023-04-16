@@ -5,7 +5,6 @@ import com.isp.restaurantapp.models.dto.FrbOrderDTO
 import com.isp.restaurantapp.repositories.concrete.FrbRealTimeOrder
 import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeGetterService
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -19,7 +18,7 @@ class HistoryVM: ViewModel() {
         val itemsMLD = MutableLiveData<List<FrbOrderDTO>>()
 
         viewModelScope.launch(Dispatchers.IO){
-            _ordersRealtimeRepository.getItems(uid).collect() {
+            _ordersRealtimeRepository.getItemsRealtime(uid).collect() {
                 withContext(Dispatchers.Main){
                     itemsMLD.value = it
                 }

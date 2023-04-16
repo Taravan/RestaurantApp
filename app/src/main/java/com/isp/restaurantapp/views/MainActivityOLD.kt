@@ -57,7 +57,7 @@ class MainActivityOLD : AppCompatActivity() {
         // once user is logged in, set up/fetch data for rv adapter
         viewModel.loggedUser.observe(this) { user ->
             if (user != null) {
-                viewModel.fetchUserDefinedAllergens(viewModel.loggedUser.value?.uid ?: "none")
+                viewModel.fetchUserDefinedAllergens(viewModel.loggedUser.value?.uid ?: "")
                 val allgAdapter = AllergenDefinitionAdapterOLD(
                     viewModel
                 )

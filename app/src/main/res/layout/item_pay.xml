@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/txtItemName"
-            android:text="@{item.name}"
+            android:text="@{item.goodsName}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

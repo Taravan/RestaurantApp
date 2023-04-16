@@ -48,7 +48,11 @@
     // Pay fragment
     <string name="btn_pay">Pay</string>
     <string name="pay_welcome_text">Select what to pay</string>
-
+    <string name="pay_wait_for_waiter">Označeno k platbě, vyčkejte na obsluhu</string>
+    <string name="pay_nothing_to_pay_for">Nejprve označte položky k placení</string>
+    
+    //Allergen fragment
+    <string name="submitUserAllergens">Potvrdit</string>
 
     // Bottom menu
     <string name="title_menu">Menu</string>
@@ -56,5 +60,5 @@
     <string name="title_profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="submitUserAllergens">Potvrdit</string>
+    
 </resources>

@@ -117,7 +117,7 @@ class MainActivityVMOLD: ViewModel() {
             try {
                 _userDefinedAllergens.value?.let {
                     _allergenUpdaterService.updateAllergens(
-                        _userLogged.value?.uid ?: "none", it.toList()
+                        _userLogged.value?.uid ?: "", it.toList()
                     )
                 }
             } catch (e: Exception){

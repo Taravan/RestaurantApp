@@ -1,9 +1,12 @@
 package com.isp.restaurantapp.repositories
 
+import com.isp.restaurantapp.models.InsertedId
 import com.isp.restaurantapp.models.dto.CategoryDTO
 import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
+import okhttp3.ResponseBody
+import retrofit2.Response
 import java.math.BigDecimal
 
 class RepositoryDataMock: RepositoryAbstract() {
@@ -41,8 +44,8 @@ class RepositoryDataMock: RepositoryAbstract() {
     )
 
     private val unpaidOrders = listOf(
-        OrderByTableIdDTO(1, BigDecimal.TEN, false, 1, null, null, 10, "Pivo", null, 1),
-        OrderByTableIdDTO(1, BigDecimal(38), false, 2, null, null, 10, "Pivo2", null, 1)
+        OrderByTableIdDTO(1, BigDecimal.TEN, 1, null, null, 10, "Pivo", null, 1),
+        OrderByTableIdDTO(1, BigDecimal(38), 2, null, null, 10, "Pivo2", null, 1)
     )
 /*
     getTables(): List<Table> {
@@ -75,6 +78,15 @@ class RepositoryDataMock: RepositoryAbstract() {
 
     override suspend fun getGoods(): List<GoodsItemDTO> {
         return goods2
+    }
+
+    override suspend fun insertOrder(
+        price: Double,
+        userId: String,
+        goodsId: Int,
+        tableId: Int
+    ): Response<InsertedId> {
+        TODO("Not yet implemented")
     }
 
 

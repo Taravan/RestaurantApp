@@ -2,16 +2,16 @@ package com.isp.restaurantapp.viewModels
 
 import androidx.lifecycle.*
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
-import com.isp.restaurantapp.repositories.concrete.FrbRealTimeOrder
-import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeGetterService
+import com.isp.restaurantapp.repositories.concrete.FrbRealTimeOrderPaid
+import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeGetterByUidService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HistoryVM: ViewModel() {
     // Realtime order repository
-    private val _ordersRealtimeRepository: FrbRealtimeGetterService<FrbOrderDTO> by lazy{
-        FrbRealTimeOrder()
+    private val _ordersRealtimeRepository: FrbRealtimeGetterByUidService<FrbOrderDTO> by lazy{
+        FrbRealTimeOrderPaid()
     }
 
     fun getRealtimeOrders(uid: String): LiveData<List<FrbOrderDTO>>{

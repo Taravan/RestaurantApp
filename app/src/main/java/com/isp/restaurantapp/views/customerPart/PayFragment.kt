@@ -17,13 +17,15 @@ import com.isp.restaurantapp.views.customerPart.adapters.PayAdapter
 import com.isp.restaurantapp.databinding.FragmentPayBinding
 import com.isp.restaurantapp.viewModels.CustomerActivityVM
 import com.isp.restaurantapp.viewModels.PayVM
+import com.isp.restaurantapp.views.customerPart.adapters.PayAdapterRealtime
 
 class PayFragment : Fragment() {
 
     private val activityViewModel: CustomerActivityVM by activityViewModels()
     private lateinit var viewModel: PayVM
     private lateinit var binding: FragmentPayBinding
-    private lateinit var adapter: PayAdapter
+    private lateinit var adapter: PayAdapterRealtime
+    //private lateinit var adapter: PayAdapter
 
     companion object{
         const val TAG = "PayFragment"
@@ -40,20 +42,27 @@ class PayFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         // TODO: Tady to není napojený na stůl!!
-        viewModel.fetchUnpaidItems(1)
+        //viewModel.fetchUnpaidItems(1)
 
-        adapter = PayAdapter(viewModel)
+        // adapter = PayAdapter(viewModel)
+        adapter = PayAdapterRealtime(viewModel)
+
         val recyclerView = binding.itemsToPayRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
 
         activityViewModel.user.observe(viewLifecycleOwner){
-
         }
 
+        // TODO: Tady to není napojený na stůl!!
+        viewModel.getRealtimeOrders(1).observe(viewLifecycleOwner){
+            adapter.updateData(it)
+        }
+/*
         viewModel.unpaidItems.observe(viewLifecycleOwner) { unpaidItems ->
             adapter.updateData(unpaidItems)
         }
+*/
 
         /*
         * This is just for checking all checkboxes in recyclerview
@@ -71,6 +80,8 @@ class PayFragment : Fragment() {
         return binding.root
     }
 
+    // TODO: NEFUNGUJE správně, pokud se objednávky nevejdou na obrazovku,
+    //  tak se špatně zaškrtávají položky, které jsou mimo obrazovku
     fun allItemsChecker(isChecked: Boolean){
         for (i in 0 until adapter.itemCount) {
             val vh = binding.itemsToPayRecyclerView.findViewHolderForAdapterPosition(i)

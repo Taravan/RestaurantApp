@@ -46,7 +46,7 @@ class MenuHolderFragment : Fragment() {
 
 
 
-        val adapter = MenuHolderAdapter(viewModel)
+        val adapter = MenuHolderAdapter(viewModel, activityViewModel)
         binding.viewPagerMenu.adapter = adapter
 
         var tabLayoutMediator: TabLayoutMediator? = null

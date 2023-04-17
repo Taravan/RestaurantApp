@@ -2,11 +2,12 @@ package com.isp.restaurantapp.models
 
 import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
+import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
 
 object FrbOrderMapper {
-    fun toFrbOrder(order: FrbOrderDTO): HashMap<String, Comparable<*>> {
+    fun toFrbOrderMap(order: FrbOrderDTO): HashMap<String, Comparable<*>> {
         return hashMapOf(
             FrbFieldsOrders.FIELD_ORDER_ID to order.orderId,
             FrbFieldsOrders.FIELD_ITEM_ID to order.itemId,
@@ -20,24 +21,42 @@ object FrbOrderMapper {
         )
     }
 
-    fun toFrbOrder(
-        orderByTable: OrderByTableIdDTO,
-        paymentState: FrbFieldsOrders.States,
+//    fun toFrbOrderDTO(
+//        orderByTable: OrderByTableIdDTO,
+//        paymentState: FrbFieldsOrders.States,
+//        uid: String = ""): FrbOrderDTO {
+//
+//        val o = orderByTable
+//        val timestamp = Timestamp.now()
+//        return FrbOrderDTO(
+//            o.id,
+//            o.goodsId,
+//            o.goodsName,
+//            timestamp,
+//            o.price.toDouble(),
+//            o.receiptsId ?: -1,
+//            paymentState.value,
+//            o.tableId,
+//            uid
+//        )
+//    }
+
+    fun toFrbOrderDTO(
+        goodsItemDTO: GoodsItemDTO, tableId: Int, orderId: Int,
+        paymentState: FrbFieldsOrders.States = FrbFieldsOrders.States.PENDING,
         uid: String = ""): FrbOrderDTO {
 
-        val o = orderByTable
+        val g = goodsItemDTO
         val timestamp = Timestamp.now()
         return FrbOrderDTO(
-            o.id,
-            o.goodsId,
-            o.goodsName,
-            timestamp,
-            o.price.toDouble(),
-            o.receiptsId ?: -1,
-            paymentState.value,
-            o.tableId,
-            uid
-        )
+            id = null,
+            orderId = orderId,
+            itemId = g.goodsId,
+            itemName = g.goodsName,
+            price = g.price.toDouble(),
+            state = paymentState.value,
+            tableId = tableId,
+            uid = uid)
     }
 
 }

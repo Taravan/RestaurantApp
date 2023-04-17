@@ -32,6 +32,7 @@ android {
         buildConfigField("String", "SELECT_GOODS_CATEGORIES", "\"select_goods_categories.php\"")
         buildConfigField("String", "SELECT_ORDERS_BY_TABLE_ID", "\"select_orders_by_table_id.php\"")
         buildConfigField("String", "SELECT_UNPAID_ORDERS_BY_TABLE_ID", "\"select_unpaid_orders_by_table_id.php\"")
+        buildConfigField("String", "INSERT_ORDER", "\"insert_order.php\"")
     }
 
     buildTypes {

@@ -1,6 +1,7 @@
 package com.isp.restaurantapp.views.customerPart.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,12 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ItemMenuBinding
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
+import com.isp.restaurantapp.viewModels.CustomerActivityVM
 import com.isp.restaurantapp.viewModels.MenuHolderVM
 
 class MenuAdapter(
     private var itemsList: List<GoodsItemDTO> = emptyList(),
-    private val viewModel: MenuHolderVM):
+    private val viewModel: MenuHolderVM,
+    private val activityViewModel: CustomerActivityVM):
     RecyclerView.Adapter<MenuAdapter.ItemsViewHolder>() {
+
 
     inner class ItemsViewHolder(private val binding: ItemMenuBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(goodsItem: GoodsItemDTO, viewModel: MenuHolderVM){
@@ -21,8 +25,12 @@ class MenuAdapter(
             binding.viewModel = viewModel
 
 
+            // TODO: Je potřeba dodělat tuhle metodu, těžko říct, jestli půjde nacpat uid rovnou
+            //  nebo bude potřeba udělat nějaký binding
+
+            // TODO: TADY JE TABLE ID ZASE NAPEVNO
             binding.btnOrder.setOnClickListener {
-                viewModel.orderButtonClicked(goodsItem)
+                orderItem(goodsItem)
             }
 
             binding.executePendingBindings()
@@ -53,5 +61,18 @@ class MenuAdapter(
         this.itemsList = newGoodsItemList
         notifyDataSetChanged()
     }
+
+    private fun orderItem(goodsItem: GoodsItemDTO) {
+        // TODO: STŮL JE DANÝ NATVRDO!!!!
+        val tableId = activityViewModel.table.value?.id ?: 1
+        val uid = activityViewModel.user.value?.uid ?: ""
+        Log.i("MenuAdapter", "insert: tableId=$tableId, uid=$uid")
+        viewModel.orderButtonClicked(
+            goodsItem,
+            tableId,
+            uid
+        )
+    }
+
 
 }

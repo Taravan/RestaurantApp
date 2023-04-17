@@ -10,9 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.FragmentMenuBinding
 import com.isp.restaurantapp.models.ItemCategory
+import com.isp.restaurantapp.viewModels.CustomerActivityVM
 import com.isp.restaurantapp.viewModels.MenuHolderVM
 
-class MenuHolderAdapter(private val viewModel: MenuHolderVM, private var menuCategoriesList: List<ItemCategory> = emptyList()):
+class MenuHolderAdapter(
+    private val viewModel: MenuHolderVM,
+    private val activityViewModel: CustomerActivityVM,
+    private var menuCategoriesList: List<ItemCategory> = emptyList()):
         RecyclerView.Adapter<MenuHolderAdapter.MenuCategoriesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuCategoriesViewHolder {
@@ -47,7 +51,9 @@ class MenuHolderAdapter(private val viewModel: MenuHolderVM, private var menuCat
 
                 val recyclerView = binding.itemsRecyclerView
                 recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-                recyclerView.adapter = MenuAdapter(category.categoryItems, viewModel)
+                recyclerView.adapter = MenuAdapter(
+                    category.categoryItems, viewModel, activityViewModel
+                )
 
                 binding.category = category
                 binding.viewModel = viewModel

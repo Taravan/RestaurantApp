@@ -1,13 +1,13 @@
 package com.isp.restaurantapp.repositories
 
 import com.isp.restaurantapp.BuildConfig
+import com.isp.restaurantapp.models.InsertedId
 import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
-import com.isp.restaurantapp.repositories.interfaces.GoodsGetterService
-import com.isp.restaurantapp.repositories.interfaces.OrdersByTableIdGetterService
-import com.isp.restaurantapp.repositories.interfaces.TableGetterService
-import com.isp.restaurantapp.repositories.interfaces.UnpaidOrdersByTableIdGetterService
+import com.isp.restaurantapp.repositories.interfaces.*
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -38,6 +38,10 @@ class RepositoryRetrofit(
         _apiService.create(OrdersByTableIdGetterService::class.java)
     }
 
+    private val orderInserter: OrderInserterService by lazy {
+        _apiService.create(OrderInserterService::class.java)
+    }
+
 
     override suspend fun getOrdersByTableId(tableId: Int): List<OrderByTableIdDTO> {
         return ordersByTableIdGetterService.getOrdersByTableId(tableId)
@@ -53,5 +57,14 @@ class RepositoryRetrofit(
 
     override suspend fun getGoods(): List<GoodsItemDTO> {
         return goodsGetterService.getGoods()
+    }
+
+    override suspend fun insertOrder(
+        price: Double,
+        userId: String,
+        goodsId: Int,
+        tableId: Int
+    ): Response<InsertedId> {
+        return orderInserter.insertOrder(price, userId, goodsId, tableId)
     }
 }

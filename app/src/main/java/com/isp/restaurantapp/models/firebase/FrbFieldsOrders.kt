@@ -13,9 +13,9 @@ object FrbFieldsOrders {
 
     enum class States(val value: String){
         PAID("paid"),
-        PENDING("pending"),
-        CONFIRMED("confirmed"),
-        FOR_PAYMENT("forPayment")
+        PENDING("A: pending"),
+        CONFIRMED("B: confirmed"),
+        FOR_PAYMENT("C: for payment")
     }
 
 

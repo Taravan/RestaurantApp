@@ -15,7 +15,7 @@ class FrbOrdersInsertService: FrbDocumentsInsertService<FrbOrderDTO>, MyFirestor
         return try {
             for (order in documents) {
                 val docRef = firestore.collection(FirestoreCollections.ORDERS).document()
-                val orderMap = FrbOrderMapper.toFrbOrder(order)
+                val orderMap = FrbOrderMapper.toFrbOrderMap(order)
                 if (uid.isNotEmpty()) order.uid = uid
                 docRef.set(orderMap).await()
             }

@@ -2,14 +2,20 @@ package com.isp.restaurantapp.viewModels
 
 import android.security.keystore.UserNotAuthenticatedException
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.*
+import com.isp.restaurantapp.models.FrbOrderMapper
 import com.isp.restaurantapp.models.ItemCategory
+import com.isp.restaurantapp.models.Resource
 import com.isp.restaurantapp.models.dto.AllergenDTO
+import com.isp.restaurantapp.models.dto.FrbOrderDTO
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.repositories.ICollectionGetterById
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
+import com.isp.restaurantapp.repositories.concrete.FrbOrdersInsertService
 import com.isp.restaurantapp.repositories.concrete.FrbUserAllergensGetter
+import com.isp.restaurantapp.repositories.interfaces.FrbDocumentsInsertService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -27,6 +33,9 @@ class MenuHolderVM(): ViewModel() {
     private val data: RepositoryAbstract = RepositoryRetrofit()
     //private val data: RepositoryAbstract = RepositoryDataMock()
 
+    private val _documentInserter: FrbDocumentsInsertService<FrbOrderDTO> by lazy {
+        FrbOrdersInsertService()
+    }
 
     // USER DEFINED ALLERGENS
     private val _userDefinedAllergensGetter: ICollectionGetterById<AllergenDTO, String> by lazy {
@@ -185,9 +194,39 @@ class MenuHolderVM(): ViewModel() {
         return isCollision
     }
 
-    fun orderButtonClicked(goodsItem: GoodsItemDTO) {
-        Log.w(TAG, "Buy item Id: " + goodsItem.goodsId.toString() + " " + goodsItem.goodsName +
-                        " for: " + goodsItem.price.toString() + "Kč.")
+    fun orderButtonClicked(goodsItem: GoodsItemDTO,
+                           tableId: Int,
+                           userId: String = "") {
+        Log.w(TAG, "Buy item Id: " + goodsItem.goodsId.toString() +
+                " " + goodsItem.goodsName +
+                " for: " + goodsItem.price.toString() + "Kč."
+        )
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val insertedId = insertOrder(goodsItem, tableId, userId)
+            val resultFrb = insertOrderToFirebase(goodsItem, tableId, insertedId, userId)
+            withContext(Dispatchers.Main){
+                when(resultFrb){
+                    is Resource.Failure -> Log.e(TAG, "Something went wrong with order insertion: ${resultFrb.exception}")
+                    is Resource.Success -> Log.i(TAG, "Order placed!")
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private suspend fun insertOrderToFirebase(
+        goodsItem: GoodsItemDTO, tableId: Int, insertedId: Int, userId: String = ""
+    ): Resource<Unit> {
+        val mappedDTO = FrbOrderMapper.toFrbOrderDTO(goodsItem, tableId, insertedId, uid = userId)
+        return _documentInserter.insertDocuments(listOf(mappedDTO))
+    }
+
+    private suspend fun insertOrder(
+        goodsItem: GoodsItemDTO, tableId: Int, userId: String
+    ): Int {
+        val o = goodsItem
+        return data.insertOrder(o.price.toDouble(), userId, o.goodsId, tableId).body()?.id ?: -1
     }
 
     /**

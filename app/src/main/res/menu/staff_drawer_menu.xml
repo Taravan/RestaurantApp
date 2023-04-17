@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_staffOverview"
+
+        android:title="Overview" />
+
+    <item
+        android:id="@+id/nav_staffTables"
+
+        android:title="Tables" />
+
+    <item
+        android:id="@+id/nav_staffGoods"
+
+        android:title="Goods" />
+
+</menu>

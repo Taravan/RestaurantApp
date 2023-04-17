@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/terminal_main_navigation"
+    app:startDestination="@id/loginStaffFragment">
+
+    <fragment
+        android:id="@+id/loginStaffFragment"
+        android:name="com.isp.restaurantapp.views.staffPart.LoginStaffFragment"
+        android:label="LoginStaffFragment"
+        tools:layout="@layout/staff_fragment_login">
+
+        <action
+            android:id="@+id/action_loginStaffFragment_to_terminalHolderStaffFragment"
+            app:destination="@id/terminalHolderStaffFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/terminalHolderStaffFragment"
+        android:name="com.isp.restaurantapp.views.staffPart.TerminalHolderStaffFragment"
+        android:label="TerminalHolderStaffFragment"
+        tools:layout="@layout/staff_fragment_terminal_holder"/>
+
+</navigation>

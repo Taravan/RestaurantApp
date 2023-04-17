@@ -7,6 +7,7 @@ import com.isp.restaurantapp.R
 class StaffMainScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         setContentView(R.layout.activity_staff_main_screen)
     }
 }

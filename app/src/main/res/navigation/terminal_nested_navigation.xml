@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/terminal_nested_navigation"
+    app:startDestination="@id/nav_staffOverview">
+
+    <fragment
+        android:id="@+id/nav_staffOverview"
+        android:name="com.isp.restaurantapp.views.staffPart.OverviewStaffFragment"
+        android:label="OverviewStaffFragment"
+        tools:layout="@layout/staff_fragment_overview" >
+        <action
+            android:id="@+id/action_nav_staffOverview_to_nav_staffTables"
+            app:destination="@id/nav_staffTables" />
+        <action
+            android:id="@+id/action_nav_staffOverview_to_nav_staffGoods"
+            app:destination="@id/nav_staffGoods" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_staffTables"
+        android:name="com.isp.restaurantapp.views.staffPart.TablesStaffFragment"
+        android:label="TablesStaffFragment"
+        tools:layout="@layout/staff_fragment_tables" >
+        <action
+            android:id="@+id/action_nav_staffTables_to_nav_staffGoods"
+            app:destination="@id/nav_staffGoods" />
+        <action
+            android:id="@+id/action_nav_staffTables_to_nav_staffOverview"
+            app:destination="@id/nav_staffOverview" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_staffGoods"
+        android:name="com.isp.restaurantapp.views.staffPart.GoodsStaffFragment"
+        android:label="GoodsStaffFragment"
+        tools:layout="@layout/staff_fragment_goods" >
+        <action
+            android:id="@+id/action_nav_staffGoods_to_nav_staffOverview"
+            app:destination="@id/nav_staffOverview" />
+        <action
+            android:id="@+id/action_nav_staffGoods_to_nav_staffTables"
+            app:destination="@id/nav_staffTables" />
+    </fragment>
+
+</navigation>

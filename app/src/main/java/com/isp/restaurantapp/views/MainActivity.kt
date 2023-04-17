@@ -54,8 +54,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
         // REDIRECT TO NEW VIEW
+        viewModel.onQrScanned("kodStoluCisloPet")
         val newAct = Intent(this, CustomerActivity::class.java)
         startActivity(newAct)
+        // END OF REDIRECTION
+
+        // REDIRECT TO TERMINAL
+//        val newAct = Intent(this, StaffMainScreen::class.java)
+//        startActivity(newAct)
         // END OF REDIRECTION
 
 

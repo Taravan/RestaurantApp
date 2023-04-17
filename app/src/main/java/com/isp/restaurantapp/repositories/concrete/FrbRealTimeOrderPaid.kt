@@ -20,7 +20,6 @@ class FrbRealTimeOrderPaid: FrbRealtimeGetterByUidService<FrbOrderDTO>, MyFirest
 
     }
     override fun getItemsRealtime(uid: String): Flow<List<FrbOrderDTO>> = callbackFlow {
-        // TODO: Tohle možná nefunguje správně dle dokumentace, složený se dělají trochu jinak
         val itemsCollection = firestore.collection(FirestoreCollections.ORDERS)
             .whereEqualTo(
                 FrbFieldsOrders.FIELD_PAYMENT_STATE, FrbFieldsOrders.States.PAID.value

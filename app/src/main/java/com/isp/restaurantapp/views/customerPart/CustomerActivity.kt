@@ -44,8 +44,6 @@ class CustomerActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
 
-        // TODO: Byli testované ty stoly? protože dostávám null, pokud se na ně odkazuji
-        //  rovněž nechápu, jak to funguje, kde se ten stůl předává
 
         /**
          * Must test the android version first to make it

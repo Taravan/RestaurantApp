@@ -222,6 +222,7 @@ class MenuHolderVM(): ViewModel() {
         return _documentInserter.insertDocuments(listOf(mappedDTO))
     }
 
+    // TODO: TOHLE ODSTRANIT, INSERT DO DB BUDE DĚLAT STAFF PO POTVRZENÍ OBJEDNÁVKY!!
     private suspend fun insertOrder(
         goodsItem: GoodsItemDTO, tableId: Int, userId: String
     ): Int {

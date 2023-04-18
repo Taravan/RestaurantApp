@@ -19,7 +19,7 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHeight_percent="0.15"/>
+            app:layout_constraintHeight_percent="0.2"/>
 
         <fragment
             android:id="@+id/staff_fragment_holder"
@@ -47,6 +47,7 @@
             <ImageButton
                 android:id="@+id/btn_overview"
                 android:src="@drawable/ic_info"
+                android:scaleType="centerInside"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
@@ -54,6 +55,7 @@
             <ImageButton
                 android:id="@+id/btn_tables"
                 android:src="@drawable/ic_table"
+                android:scaleType="centerInside"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
@@ -61,6 +63,7 @@
             <ImageButton
                 android:id="@+id/btn_menuUpdate"
                 android:src="@drawable/ic_menu_book48"
+                android:scaleType="centerInside"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
@@ -75,7 +78,7 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.15"/>
+            app:layout_constraintHeight_percent="0.2"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

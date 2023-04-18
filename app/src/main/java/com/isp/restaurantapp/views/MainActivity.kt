@@ -53,15 +53,18 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         viewModel.fetchTables()
 
 
+        // TODO: Make scanner slower
+
+
         // REDIRECT TO NEW VIEW
-        viewModel.onQrScanned("kodStoluCisloPet")
-        val newAct = Intent(this, CustomerActivity::class.java)
-        startActivity(newAct)
+//        viewModel.onQrScanned("kodStoluCisloPet")
+//        val newAct = Intent(this, CustomerActivity::class.java)
+//        startActivity(newAct)
         // END OF REDIRECTION
 
         // REDIRECT TO TERMINAL
-//        val newAct = Intent(this, StaffMainScreen::class.java)
-//        startActivity(newAct)
+        val newAct = Intent(this, StaffMainScreen::class.java)
+        startActivity(newAct)
         // END OF REDIRECTION
 
 
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         viewModel.navigateToStaffScreen.observe(this) { startStaffActivity ->
             if (startStaffActivity) {
+                cameraProvider?.unbindAll()
                 val intent = Intent(this, StaffMainScreen::class.java)
                 startActivity(intent)
                 viewModel.resetNavigateToStaffScreen()

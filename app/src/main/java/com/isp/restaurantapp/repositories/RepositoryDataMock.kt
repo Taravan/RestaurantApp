@@ -1,10 +1,8 @@
 package com.isp.restaurantapp.repositories
 
+import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.InsertedId
-import com.isp.restaurantapp.models.dto.CategoryDTO
-import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
-import com.isp.restaurantapp.models.dto.TableDTO
-import com.isp.restaurantapp.models.dto.GoodsItemDTO
+import com.isp.restaurantapp.models.dto.*
 import okhttp3.ResponseBody
 import retrofit2.Response
 import java.math.BigDecimal
@@ -47,6 +45,21 @@ class RepositoryDataMock: RepositoryAbstract() {
         OrderByTableIdDTO(1, BigDecimal.TEN, 1, null, null, 10, "Pivo", null, 1),
         OrderByTableIdDTO(1, BigDecimal(38), 2, null, null, 10, "Pivo2", null, 1)
     )
+
+    private val pendingOrders = listOf(
+        FrbOrderDTO("0", 0, 0, "Pivo", Timestamp.now(), 32.0, 0, "Pending", 5, 5, "uid"),
+        FrbOrderDTO("1", 1, 1, "Klobása", Timestamp.now(), 58.0, 1, "Pending", 12, 12, "uid2")
+        )
+
+    private val processedOrders = listOf(
+        FrbOrderDTO("2", 5, 5, "Hranolky", Timestamp.now(), 25.0, 5, "Processed", 8, 8, "uid3"),
+        FrbOrderDTO("3", 6, 6, "Pizza", Timestamp.now(), 150.0, 6, "Processed", 14, 14, "uid4"),
+        FrbOrderDTO("4", 7, 7, "Párek", Timestamp.now(), 20.0, 7, "Processed", 11, 11, "uid5"),
+        FrbOrderDTO("5", 8, 8, "Hamburger", Timestamp.now(), 210.0, 8, "Processed", 1, 1, "uid6"),
+        FrbOrderDTO("6", 9, 9, "Kofola", Timestamp.now(), 30.0, 9, "Processed", 3, 3, "uid7"),
+        FrbOrderDTO("7", 10, 10, "Rum", Timestamp.now(), 35.0, 10, "Processed", 6, 6, "uid8")
+        )
+
 /*
     getTables(): List<Table> {
         return tables
@@ -96,6 +109,15 @@ class RepositoryDataMock: RepositoryAbstract() {
 
     override suspend fun getUnpaidOrdersByTableId(tableId: Int): List<OrderByTableIdDTO> {
         return unpaidOrders
+    }
+
+    // Just for testing recyclerview
+    suspend fun getPendingOrders(): List<FrbOrderDTO> {
+        return pendingOrders
+    }
+
+    suspend fun getProcessedOrders(): List<FrbOrderDTO> {
+        return processedOrders
     }
 
 }

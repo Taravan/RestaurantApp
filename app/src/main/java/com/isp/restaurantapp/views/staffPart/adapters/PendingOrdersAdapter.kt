@@ -56,7 +56,7 @@ class PendingOrdersAdapter(private val viewModel: StaffTerminalHolderVM, private
             binding.order = order
 
             binding.cardPendingHolder.setOnClickListener {
-                viewModel.processPendingOrder(order.orderId)
+                //viewModel.processPendingOrder(order.orderId)
             }
 
             binding.executePendingBindings()

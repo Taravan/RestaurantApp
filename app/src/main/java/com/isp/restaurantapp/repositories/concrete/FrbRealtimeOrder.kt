@@ -44,6 +44,4 @@ class FrbRealtimeOrder: FrbRealtimeGetterByTableIdService<FrbOrderDTO>, MyFirest
             listenerRegistration.remove()
         }
     }
-
-
 }

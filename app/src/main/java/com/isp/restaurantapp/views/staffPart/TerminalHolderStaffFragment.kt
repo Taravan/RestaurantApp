@@ -49,17 +49,24 @@ class TerminalHolderStaffFragment: Fragment() {
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 
-
-        _viewModel.fetchPendingOrders()
-        _viewModel.fetchProcessedOrders()
-
+//
+//        _viewModel.fetchPendingOrders()
+//        _viewModel.fetchProcessedOrders()
         adapterTop = PendingOrdersAdapter(_viewModel)
         val recyclerViewTop = _binding.topRecycler
         recyclerViewTop.adapter = adapterTop
 
-        _viewModel.pendingOrders.observe(viewLifecycleOwner) { pendingOrders ->
-            adapterTop.updateData(pendingOrders)
+        _viewModel.getPendingOrders().observe(viewLifecycleOwner){
+            adapterTop.updateData(it)
         }
+
+        _viewModel.getConfirmedOrders().observe(viewLifecycleOwner){
+            adapterBottom.updateData(it)
+        }
+
+//        _viewModel.pendingOrders.observe(viewLifecycleOwner) { pendingOrders ->
+//            adapterTop.updateData(pendingOrders)
+//        }
 
         adapterBottom = ProcessedOrdersAdapter(_viewModel)
         val recyclerViewBottom = _binding.bottomRecycler

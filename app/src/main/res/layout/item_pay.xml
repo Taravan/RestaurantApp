@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.isp.restaurantapp.views.customerPart.adapters.CustomBindingAdapters"/>
         <variable
             name="item"
             type="com.isp.restaurantapp.models.dto.FrbOrderDTO" />
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:layout_margin="5dp"
+            app:hideIfPending="@{item.state}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/txtItemName"
             app:layout_constraintBottom_toBottomOf="@id/txtItemName"

@@ -2,7 +2,6 @@ package com.isp.restaurantapp.viewModels
 
 import android.security.keystore.UserNotAuthenticatedException
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.isp.restaurantapp.models.FrbOrderMapper
 import com.isp.restaurantapp.models.ItemCategory
@@ -195,7 +194,7 @@ class MenuHolderVM(): ViewModel() {
     }
 
     fun orderButtonClicked(goodsItem: GoodsItemDTO,
-                           tableId: Int,
+                           tableId: Int, tableNumber: Int,
                            userId: String = "") {
         Log.w(TAG, "Buy item Id: " + goodsItem.goodsId.toString() +
                 " " + goodsItem.goodsName +
@@ -203,11 +202,14 @@ class MenuHolderVM(): ViewModel() {
         )
 
         viewModelScope.launch(Dispatchers.IO) {
-            val insertedId = insertOrder(goodsItem, tableId, userId)
-            val resultFrb = insertOrderToFirebase(goodsItem, tableId, insertedId, userId)
+            val resultFrb = insertOrderToFirebase(goodsItem, tableId, tableNumber, userId)
             withContext(Dispatchers.Main){
                 when(resultFrb){
-                    is Resource.Failure -> Log.e(TAG, "Something went wrong with order insertion: ${resultFrb.exception}")
+                    is Resource.Failure -> {
+                        Log.e(
+                            TAG, "Something went wrong with order insertion: ${resultFrb.exception}")
+                        throw resultFrb.exception
+                    }
                     is Resource.Success -> Log.i(TAG, "Order placed!")
                     else -> {}
                 }
@@ -216,19 +218,13 @@ class MenuHolderVM(): ViewModel() {
     }
 
     private suspend fun insertOrderToFirebase(
-        goodsItem: GoodsItemDTO, tableId: Int, insertedId: Int, userId: String = ""
+        goodsItem: GoodsItemDTO, tableId: Int, tableNumber: Int, userId: String = ""
     ): Resource<Unit> {
-        val mappedDTO = FrbOrderMapper.toFrbOrderDTO(goodsItem, tableId, insertedId, uid = userId)
+        val mappedDTO = FrbOrderMapper.toFrbOrderDTO(goodsItem, tableId, tableNumber, uid = userId)
         return _documentInserter.insertDocuments(listOf(mappedDTO))
     }
 
-    // TODO: TOHLE ODSTRANIT, INSERT DO DB BUDE DĚLAT STAFF PO POTVRZENÍ OBJEDNÁVKY!!
-    private suspend fun insertOrder(
-        goodsItem: GoodsItemDTO, tableId: Int, userId: String
-    ): Int {
-        val o = goodsItem
-        return data.insertOrder(o.price.toDouble(), userId, o.goodsId, tableId).body()?.id ?: -1
-    }
+
 
     /**
      * Checks whether [_userDefinedAllergensString] and [_goodsAllergens] are fetched

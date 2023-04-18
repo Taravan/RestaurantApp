@@ -16,9 +16,10 @@ data class FrbOrderDTO(
     val receiptId: Int = -1,
     var state: String = "",
     val tableId: Int = -1,
+    val tableNumber: Int = -1,
     var uid: String = ""
 ) : Parcelable{
     constructor(): this(
-        null, -1, -1, "", Timestamp.now(), 0.0, -1,"",-1,""
+        null, -1, -1, "", Timestamp.now(), 0.0, -1, "", -1, uid = ""
     )
 }

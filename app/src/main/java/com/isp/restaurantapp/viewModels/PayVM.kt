@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.models.Resource
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
-import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
-import com.isp.restaurantapp.repositories.RepositoryAbstract
-import com.isp.restaurantapp.repositories.RepositoryRetrofit
 import com.isp.restaurantapp.repositories.concrete.FrbOrderStateUpdater
 import com.isp.restaurantapp.repositories.concrete.FrbRealtimeOrder
 import com.isp.restaurantapp.repositories.interfaces.FrbDocumentStateUpdaterService
@@ -28,7 +25,11 @@ class PayVM : ViewModel() {
 
 
     private lateinit var job: Job
-    private val data: RepositoryAbstract = RepositoryRetrofit()
+
+    /**
+     * This lines are no longer needed since this activity works only via Firestore
+     */
+    //private val data: RepositoryAbstract = RepositoryRetrofit()
     //private val data: RepositoryAbstract = RepositoryDataMock()
 
     private val _orderUpdater: FrbDocumentStateUpdaterService<FrbOrderDTO> by lazy{
@@ -36,8 +37,8 @@ class PayVM : ViewModel() {
     }
 
 
-    private val _unpaidItems = MutableLiveData<List<OrderByTableIdDTO>>()
-    val unpaidItems: LiveData<List<OrderByTableIdDTO>> = _unpaidItems
+//    private val _unpaidItems = MutableLiveData<List<OrderByTableIdDTO>>()
+//    val unpaidItems: LiveData<List<OrderByTableIdDTO>> = _unpaidItems
 
 
     /*
@@ -51,29 +52,22 @@ class PayVM : ViewModel() {
     val selectedItemsToPay: List<FrbOrderDTO>
         get() = _selectedItemsToPay
 
-    // TODO: Předělat na klasickou coroutine
-    // TODO: Napojit na reálné číslo stolu!
-    fun fetchUnpaidItems(tableNumber: Int) {
-        if (tableNumber < 0 || tableNumber>1000){
-            Log.e(TAG, "Invalid table number: $tableNumber")
-            return
-        }
-
-//        job = Coroutines.ioTheMain(
-//            { data.getUnpaidOrdersByTableId(tableNumber) },
-//            { _unpaidItems.value = it }
-//        )
-        try {
-            viewModelScope.launch(Dispatchers.IO){
-                val result = data.getUnpaidOrdersByTableId(tableNumber)
-                withContext(Dispatchers.Main){
-                    _unpaidItems.postValue(result)
-                }
-            }
-        } catch (e: Exception){
-                throw e
-        }
-    }
+//    fun fetchUnpaidItems(tableNumber: Int) {
+//        if (tableNumber < 0 || tableNumber>1000){
+//            Log.e(TAG, "Invalid table number: $tableNumber")
+//            return
+//        }
+//        try {
+//            viewModelScope.launch(Dispatchers.IO){
+//                val result = data.getUnpaidOrdersByTableId(tableNumber)
+//                withContext(Dispatchers.Main){
+//                    _unpaidItems.postValue(result)
+//                }
+//            }
+//        } catch (e: Exception){
+//                throw e
+//        }
+//    }
 
     /**
      * REALTIME

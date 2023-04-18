@@ -63,13 +63,13 @@ class MenuAdapter(
     }
 
     private fun orderItem(goodsItem: GoodsItemDTO) {
-        // TODO: STŮL JE DANÝ NATVRDO!!!!
-        val tableId = activityViewModel.table.value?.id ?: 1
+        val tableId = activityViewModel.table.value?.id ?: -1
+        val tableNumber = activityViewModel.table.value?.tableNumber ?: -1
         val uid = activityViewModel.user.value?.uid ?: ""
         Log.i("MenuAdapter", "insert: tableId=$tableId, uid=$uid")
         viewModel.orderButtonClicked(
             goodsItem,
-            tableId,
+            tableId, tableNumber,
             uid
         )
     }

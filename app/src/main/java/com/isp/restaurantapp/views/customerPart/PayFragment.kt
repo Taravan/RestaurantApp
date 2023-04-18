@@ -13,7 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.isp.restaurantapp.R
-import com.isp.restaurantapp.views.customerPart.adapters.PayAdapter
 import com.isp.restaurantapp.databinding.FragmentPayBinding
 import com.isp.restaurantapp.viewModels.CustomerActivityVM
 import com.isp.restaurantapp.viewModels.PayVM
@@ -54,9 +53,10 @@ class PayFragment : Fragment() {
         activityViewModel.user.observe(viewLifecycleOwner){
         }
 
-        // TODO: Tady to není napojený na stůl!!
-        viewModel.getRealtimeOrders(1).observe(viewLifecycleOwner){
-            adapter.updateData(it)
+        activityViewModel.table.value?.let { tableDTO ->
+            viewModel.getRealtimeOrders(tableDTO.id).observe(viewLifecycleOwner){
+                adapter.updateData(it)
+            }
         }
 /*
         viewModel.unpaidItems.observe(viewLifecycleOwner) { unpaidItems ->

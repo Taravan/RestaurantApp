@@ -3,7 +3,6 @@ package com.isp.restaurantapp.models
 import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
-import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
 
 object FrbOrderMapper {
@@ -17,6 +16,7 @@ object FrbOrderMapper {
             FrbFieldsOrders.FIELD_RECEIPT_ID to order.receiptId,
             FrbFieldsOrders.FIELD_PAYMENT_STATE to order.state,
             FrbFieldsOrders.FIELD_TABLE_ID to order.tableId,
+            FrbFieldsOrders.FIELD_TABLE_NUMBER to order.tableNumber,
             FrbFieldsOrders.FIELD_UID to order.uid
         )
     }
@@ -42,7 +42,7 @@ object FrbOrderMapper {
 //    }
 
     fun toFrbOrderDTO(
-        goodsItemDTO: GoodsItemDTO, tableId: Int, orderId: Int,
+        goodsItemDTO: GoodsItemDTO, tableId: Int, tableNumber: Int,
         paymentState: FrbFieldsOrders.States = FrbFieldsOrders.States.PENDING,
         uid: String = ""): FrbOrderDTO {
 
@@ -50,13 +50,13 @@ object FrbOrderMapper {
         val timestamp = Timestamp.now()
         return FrbOrderDTO(
             id = null,
-            orderId = orderId,
-            itemId = g.goodsId,
-            itemName = g.goodsName,
+            itemId = g.goodsId, itemName = g.goodsName,
             price = g.price.toDouble(),
             state = paymentState.value,
-            tableId = tableId,
-            uid = uid)
+            lastUpdate = timestamp,
+            tableId = tableId, tableNumber = tableNumber,
+            uid = uid
+        )
     }
 
 }

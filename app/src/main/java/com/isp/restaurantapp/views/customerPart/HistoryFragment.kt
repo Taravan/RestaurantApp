@@ -24,11 +24,6 @@ class HistoryFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        // TODO: [Pro Tomáše]
-        //  Do hostorie přidat datum (formát YYYY/MM/DD) a trošku to tam zkrášlit,
-        //  mrkni na to Tome prosím, já jsem s tím layoutem uplně marnej.
-        //  Je to item_rv_history.xml
-
         binding = FragmentHistoryBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[HistoryVM::class.java]
 

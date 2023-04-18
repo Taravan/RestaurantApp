@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="order"
+            type="com.isp.restaurantapp.models.dto.FrbOrderDTO" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_processed_holder"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        app:contentPadding="8dp"
+        android:padding="8dp"
+        android:layout_margin="5dp"
+        app:cardBackgroundColor="@color/green">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_processed_table_of_order"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:autoSizeTextType="uniform"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:text="@{(@string/table_prefix) + Integer.toString(order.tableNumber)}"/>
+
+            <TextView
+                android:id="@+id/txt_processed_product"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:autoSizeTextType="uniform"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:text="@{order.itemName}"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>

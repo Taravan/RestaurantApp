@@ -19,16 +19,23 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffFragmentTerminalHolderBinding
 import com.isp.restaurantapp.viewModels.StaffTerminalHolderVM
+import com.isp.restaurantapp.views.customerPart.adapters.PayAdapter
+import com.isp.restaurantapp.views.staffPart.adapters.PendingOrdersAdapter
+import com.isp.restaurantapp.views.staffPart.adapters.ProcessedOrdersAdapter
 
 class TerminalHolderStaffFragment: Fragment() {
 
     private lateinit var _binding: StaffFragmentTerminalHolderBinding
     private lateinit var _viewModel: StaffTerminalHolderVM
+
+    private lateinit var adapterTop: PendingOrdersAdapter
+    private lateinit var adapterBottom: ProcessedOrdersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +49,26 @@ class TerminalHolderStaffFragment: Fragment() {
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 
+
+        _viewModel.fetchPendingOrders()
+        _viewModel.fetchProcessedOrders()
+
+        adapterTop = PendingOrdersAdapter(_viewModel)
+        val recyclerViewTop = _binding.topRecycler
+        recyclerViewTop.adapter = adapterTop
+
+        _viewModel.pendingOrders.observe(viewLifecycleOwner) { pendingOrders ->
+            adapterTop.updateData(pendingOrders)
+        }
+
+        adapterBottom = ProcessedOrdersAdapter(_viewModel)
+        val recyclerViewBottom = _binding.bottomRecycler
+        recyclerViewBottom.adapter = adapterBottom
+
+        _viewModel.processedOrders.observe(viewLifecycleOwner) { processedOrders ->
+            adapterBottom.updateData(processedOrders)
+        }
+
         return _binding.root
     }
 
@@ -51,7 +78,6 @@ class TerminalHolderStaffFragment: Fragment() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.staff_fragment_holder) as NavHostFragment
         val navController = navHostFragment.navController
         Log.e("fff", navController.currentDestination.toString())
-
 
         _binding.btnOverview.setOnClickListener {
             navController.navigate(R.id.nav_staffOverview)

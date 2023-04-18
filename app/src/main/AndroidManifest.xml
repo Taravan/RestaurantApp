@@ -25,6 +25,7 @@
             android:label="@string/title_activity_customer" />
         <activity
             android:name=".views.customerPart.StaffMainScreen"
+            android:screenOrientation="landscape"
             android:exported="false" />
         <activity
             android:name=".views.MainActivity"

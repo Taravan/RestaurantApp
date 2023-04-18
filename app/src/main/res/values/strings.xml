@@ -32,6 +32,9 @@
     <string name="btn_signup">Sign Up</string>
     <string name="btn_create_acc">Create</string>
     <string name="btn_back_to_login">Back to Log in</string>
+    <string name="toast_bad_email">Email není v platném tvaru</string>
+    <string name="toast_bad_passwd">Heslo musí obsahovat alespoň 8 znaků z toho 1 velké pímeno, 1 malé a jednu číslici!</string>
+    <string name="toast_bad_passwd_conf">Hesla se neshodují</string>
 
     // Account fragment
     <string name="account_welcome_text">Your account</string>

@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.isp.restaurantapp.views.customerPart.adapters.CustomBindingAdapters"/>
+        <import
+            type="com.isp.restaurantapp.views.customerPart.adapters.CustomBindingAdapters"/>
         <variable
             name="item"
             type="com.isp.restaurantapp.models.dto.FrbOrderDTO" />

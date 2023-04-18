@@ -89,34 +89,40 @@
         <EditText
             android:id="@+id/editUsernameCreate"
             android:hint="@string/username_hint"
+            android:inputType="textEmailAddress"
+            android:text="@={viewModel.emailString}"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            app:layout_constraintLeft_toRightOf="@+id/textUsernameCreate"
-            app:layout_constraintTop_toBottomOf="@id/textCreateAccount"
             android:layout_marginStart="20dp"
             android:layout_marginTop="50dp"
+            app:layout_constraintLeft_toRightOf="@+id/textUsernameCreate"
+            app:layout_constraintTop_toBottomOf="@id/textCreateAccount"
             app:layout_constraintWidth_percent="0.5"/>
 
         <EditText
             android:id="@+id/editPasswordCreate"
             android:hint="@string/psswd_hint"
+            android:inputType="textPassword"
+            android:text="@={viewModel.passwdString}"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            app:layout_constraintLeft_toRightOf="@+id/textPasswordCreate"
-            app:layout_constraintTop_toBottomOf="@+id/editUsernameCreate"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toRightOf="@+id/textPasswordCreate"
+            app:layout_constraintTop_toBottomOf="@+id/editUsernameCreate"
             app:layout_constraintWidth_percent="0.5"/>
 
         <EditText
             android:id="@+id/editPasswordConfirmCreate"
             android:hint="@string/psswd_confirm_hint"
+            android:inputType="textPassword"
+            android:text="@={viewModel.passwdConfString}"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            app:layout_constraintLeft_toRightOf="@+id/textPasswordConfirmCreate"
-            app:layout_constraintTop_toBottomOf="@+id/editPasswordCreate"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toRightOf="@+id/textPasswordConfirmCreate"
+            app:layout_constraintTop_toBottomOf="@+id/editPasswordCreate"
             app:layout_constraintWidth_percent="0.5"/>
 
         <Button

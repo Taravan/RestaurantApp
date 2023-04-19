@@ -1,7 +1,6 @@
 package com.isp.restaurantapp.views.customerPart.adapters
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -31,7 +30,7 @@ class MenuHolderAdapter(
     }
 
     override fun getItemCount(): Int {
-        Log.d("debug", menuCategoriesList.size.toString())
+        //Log.d("debug", menuCategoriesList.size.toString())
         return menuCategoriesList.size
     }
 

@@ -3,16 +3,15 @@ package com.isp.restaurantapp.repositories
 import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.InsertedId
 import com.isp.restaurantapp.models.dto.*
-import okhttp3.ResponseBody
 import retrofit2.Response
 import java.math.BigDecimal
 
 class RepositoryDataMock: RepositoryAbstract() {
 
     private val tables = listOf(
-        TableDTO(0, 5, "kodStoluCisloPet"),
-        TableDTO(1, 10, "kodStoluCisloDeset"),
-        TableDTO(2, 15, "kodStoluCisloPatnact")
+        TableDTO(1, 1, "kodStoluCisloPet"),
+        TableDTO(2, 2, "kodStoluCisloDeset"),
+        TableDTO(3, 3, "kodStoluCisloPatnact")
     )
 
     private val goodsCategories = listOf(

@@ -4,20 +4,18 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
-import com.isp.restaurantapp.databinding.ItemPayBinding
-import com.isp.restaurantapp.databinding.StaffFragmentTerminalHolderBinding
 import com.isp.restaurantapp.databinding.StaffRvPendingOrderBinding
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
-import com.isp.restaurantapp.models.dto.OrderByTableIdDTO
-import com.isp.restaurantapp.viewModels.PayVM
 import com.isp.restaurantapp.viewModels.StaffTerminalHolderVM
 
 class PendingOrdersAdapter(private val viewModel: StaffTerminalHolderVM, private var pendingOrders: List<FrbOrderDTO> = emptyList()):
     RecyclerView.Adapter<PendingOrdersAdapter.PendingOrderViewHolder>(){
 
+    companion object{
+        private const val TAG = "PendingOrdersAdapter"
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -56,7 +54,7 @@ class PendingOrdersAdapter(private val viewModel: StaffTerminalHolderVM, private
             binding.order = order
 
             binding.cardPendingHolder.setOnClickListener {
-                //viewModel.processPendingOrder(order.orderId)
+                viewModel.processPendingOrder(order)
             }
 
             binding.executePendingBindings()
@@ -64,5 +62,4 @@ class PendingOrdersAdapter(private val viewModel: StaffTerminalHolderVM, private
         }
 
     }
-
 }

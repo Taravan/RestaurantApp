@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffFragmentTablesBinding
 import com.isp.restaurantapp.viewModels.StaffTablesVM
 import com.isp.restaurantapp.views.staffPart.adapters.LeftToPayAdapter
@@ -34,6 +36,13 @@ class TablesStaffFragment: Fragment() {
         _binding.viewModel = _viewModel
 
 
+        _viewModel.errorState.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                Toast.makeText(context, R.string.string_error_fetching_tables, Toast.LENGTH_SHORT).show()
+                _viewModel.resetErrorState()
+            }
+        }
+
         _viewModel.fetchTables()
         //_viewModel.fetchLeftToPay()
 
@@ -57,8 +66,10 @@ class TablesStaffFragment: Fragment() {
             adapterMarkedToPay.updateData(itemsMarkedToPay)
         }
 
-        _viewModel.leftToPay.observe(viewLifecycleOwner) { itemsLeftToPay ->
-            adapterLeftToPay.updateData(itemsLeftToPay)
+        _viewModel.selectedTable.observe(viewLifecycleOwner){
+            _viewModel.getLeftToPay(it.id).observe(viewLifecycleOwner) { itemsLeftToPay ->
+                adapterLeftToPay.updateData(itemsLeftToPay)
+            }
         }
 
         _binding.btnPayTerminal.setOnClickListener {

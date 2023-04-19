@@ -44,7 +44,7 @@ class MarkedToPayAdapter(private val viewModel: StaffTablesVM, private var toPay
             binding.item = item
 
             binding.cardItemToPay.setOnClickListener {
-                viewModel.onMoveItemToLeftToPay(item.orderId)
+                //viewModel.onMoveItemToLeftToPay(item.orderId)
             }
 
             binding.executePendingBindings()

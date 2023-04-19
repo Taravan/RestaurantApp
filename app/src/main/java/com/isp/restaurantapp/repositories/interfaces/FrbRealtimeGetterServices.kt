@@ -1,6 +1,7 @@
 package com.isp.restaurantapp.repositories.interfaces
 
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.Query.Direction
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
 import kotlinx.coroutines.flow.Flow
 
@@ -10,9 +11,17 @@ interface FrbRealtimeGetterByUidService<T> {
 interface FrbRealtimeGetterByTableIdService<T> {
     fun getItemsRealtime(tableId: Int): Flow<List<T>>
 }
+interface FrbRealtimeGetterByTableIdAndStateService<T> {
+    fun getItemsRealtime(
+        tableId: Int,
+        byState: FrbFieldsOrders.States,
+        limit: Long = 1000,
+        orderDirection: Direction = Direction.ASCENDING): Flow<List<T>>
+}
+
 interface FrbRealtimeByStateGetterService<T>{
     fun getItemsRealtime(
-        newState: FrbFieldsOrders.States,
+        byState: FrbFieldsOrders.States,
         limit: Long = 1000,
-        orderDirection: Query.Direction = Query.Direction.ASCENDING): Flow<List<T>>
+        orderDirection: Direction = Direction.ASCENDING): Flow<List<T>>
 }

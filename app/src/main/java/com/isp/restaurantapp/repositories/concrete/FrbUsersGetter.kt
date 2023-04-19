@@ -1,7 +1,7 @@
 package com.isp.restaurantapp.repositories.concrete
 
+import android.util.Log
 import com.isp.restaurantapp.models.dto.AllergenDTO
-import com.isp.restaurantapp.models.exceptions.DocumentNotFoundException
 import com.isp.restaurantapp.models.firebase.FirestoreCollections
 import com.isp.restaurantapp.models.firebase.FrbFieldsUsersAllergen
 import com.isp.restaurantapp.repositories.ICollectionGetterById
@@ -10,6 +10,9 @@ import kotlinx.coroutines.tasks.await
 
 class FrbUserAllergensGetter
     : ICollectionGetterById<AllergenDTO, String>, MyFirestore() {
+    companion object{
+        const val TAG = "FrbUserAllergenGetter"
+    }
     override suspend fun getCollection(id: String): List<AllergenDTO> {
         val allergenList = mutableListOf<AllergenDTO>()
         val userAllergensCollection = firestore.collection(FirestoreCollections.USER_ALLERGENS)
@@ -17,7 +20,7 @@ class FrbUserAllergensGetter
 
         if (userAllergensDocument.exists()) {
             val allergensArray = userAllergensDocument
-                .get(FrbFieldsUsersAllergen.ALLERGENS) as? ArrayList<*> ?: ArrayList<String>()
+                .get(FrbFieldsUsersAllergen.FIELD_ALLERGENS) as? ArrayList<*> ?: ArrayList<String>()
 
             // if there is for some reason empty response, return empty
             // the reason- can happen that update fails and in db there is no array of maps
@@ -34,7 +37,7 @@ class FrbUserAllergensGetter
             }
         }
         else{
-            throw DocumentNotFoundException()
+            Log.e(TAG, "Document not found in firestore repository!")
         }
         return allergenList
     }

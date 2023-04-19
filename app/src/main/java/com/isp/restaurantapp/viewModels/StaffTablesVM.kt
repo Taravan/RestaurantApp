@@ -58,10 +58,11 @@ class StaffTablesVM: ViewModel() {
         }
     }
 
-    fun fetchLeftToPay() {
+    fun fetchLeftToPay(tableId: Int) {
         viewModelScope.launch {
             try {
-                _leftToPay.value = _repository.getProcessedOrders()
+                _leftToPay.value = _repository.getProcessedOrders().filter { it.tableId == tableId }
+                _priceLeftToPay.value = _leftToPay.value?.sumOf { it.price }
             } catch (e: Exception){
                 Log.e(TAG, e.message.toString())
                 throw e
@@ -70,19 +71,37 @@ class StaffTablesVM: ViewModel() {
     }
 
     fun onPay() {
-
+        _markedToPay.value = emptyList()
+        _priceToPay.value = 0.0
     }
 
     fun onSelectTable(tableId: Int) {
-
+        _selectedTable.value = _tables.value?.find { it.id == tableId }
+        fetchLeftToPay(tableId)
     }
 
     fun onMoveItemToMarkedToPay(orderId: Int) {
+        val newItem = _leftToPay.value?.filter { it.orderId == orderId } ?: emptyList()
+        val currentList = _markedToPay.value ?: emptyList()
+        _markedToPay.value = currentList + newItem
+        _leftToPay.value = _leftToPay.value?.filter { it.orderId != orderId }
 
+        val currentPriceToPay = _priceToPay.value ?: 0.0
+        _priceToPay.value = currentPriceToPay + newItem[0].price
+        val currentPriceLeft = _priceLeftToPay.value ?: 0.0
+        _priceLeftToPay.value = currentPriceLeft - newItem[0].price
     }
 
     fun onMoveItemToLeftToPay(orderId: Int) {
+        val newItem = _markedToPay.value?.filter { it.orderId == orderId } ?: emptyList()
+        val currentList = _leftToPay.value ?: emptyList()
+        _leftToPay.value = currentList + newItem
+        _markedToPay.value = _markedToPay.value?.filter { it.orderId != orderId }
 
+        val currentPriceLeft = _priceLeftToPay.value ?: 0.0
+        _priceLeftToPay.value = currentPriceLeft + newItem[0].price
+        val currentPriceToPay = _priceToPay.value ?: 0.0
+        _priceToPay.value = currentPriceToPay - newItem[0].price
     }
 
 }

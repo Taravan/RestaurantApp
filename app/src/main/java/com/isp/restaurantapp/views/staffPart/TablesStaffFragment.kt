@@ -34,6 +34,9 @@ class TablesStaffFragment: Fragment() {
         _binding.viewModel = _viewModel
 
 
+        _viewModel.fetchTables()
+        //_viewModel.fetchLeftToPay()
+
         adapterTables = TablesAdapter(_viewModel)
         adapterMarkedToPay = MarkedToPayAdapter(_viewModel)
         adapterLeftToPay = LeftToPayAdapter(_viewModel)
@@ -58,7 +61,9 @@ class TablesStaffFragment: Fragment() {
             adapterLeftToPay.updateData(itemsLeftToPay)
         }
 
-
+        _binding.btnPayTerminal.setOnClickListener {
+            _viewModel.onPay()
+        }
 
         return _binding.root
     }

@@ -52,12 +52,12 @@ class RepositoryDataMock: RepositoryAbstract() {
         )
 
     private val processedOrders = listOf(
-        FrbOrderDTO("2", 5, 5, "Hranolky", Timestamp.now(), 25.0, 5, "Processed", 8, 8, "uid3"),
-        FrbOrderDTO("3", 6, 6, "Pizza", Timestamp.now(), 150.0, 6, "Processed", 14, 14, "uid4"),
-        FrbOrderDTO("4", 7, 7, "Párek", Timestamp.now(), 20.0, 7, "Processed", 11, 11, "uid5"),
-        FrbOrderDTO("5", 8, 8, "Hamburger", Timestamp.now(), 210.0, 8, "Processed", 1, 1, "uid6"),
-        FrbOrderDTO("6", 9, 9, "Kofola", Timestamp.now(), 30.0, 9, "Processed", 3, 3, "uid7"),
-        FrbOrderDTO("7", 10, 10, "Rum", Timestamp.now(), 35.0, 10, "Processed", 6, 6, "uid8")
+        FrbOrderDTO("2", 5, 5, "Hranolky", Timestamp.now(), 25.0, 5, "Processed", 0, 5, "uid3"),
+        FrbOrderDTO("3", 6, 6, "Pizza", Timestamp.now(), 150.0, 6, "Processed", 1, 10, "uid4"),
+        FrbOrderDTO("4", 7, 7, "Párek", Timestamp.now(), 20.0, 7, "Processed", 0, 5, "uid5"),
+        FrbOrderDTO("5", 8, 8, "Hamburger", Timestamp.now(), 210.0, 8, "Processed", 0, 5, "uid6"),
+        FrbOrderDTO("6", 9, 9, "Kofola", Timestamp.now(), 30.0, 9, "Processed", 2, 15, "uid7"),
+        FrbOrderDTO("7", 10, 10, "Rum", Timestamp.now(), 35.0, 10, "Processed", 1, 10, "uid8")
         )
 
 /*

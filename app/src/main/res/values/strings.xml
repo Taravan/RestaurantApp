@@ -69,5 +69,10 @@
 
     // Order rov
     <string name="table_prefix">Table: </string>
+
+    // Staff Tables
+    <string name="table_prefix_no_colon">Table </string>
+    <string name="to_pay">To pay: </string>
+    <string name="price_left_suffix"> left</string>
     
 </resources>

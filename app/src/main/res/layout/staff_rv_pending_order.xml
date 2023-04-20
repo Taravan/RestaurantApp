@@ -12,9 +12,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_pending_holder"
-        android:layout_width="200dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
         app:contentPadding="8dp"
         android:padding="8dp"

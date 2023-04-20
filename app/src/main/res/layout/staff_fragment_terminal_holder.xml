@@ -19,7 +19,7 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHeight_percent="0.2"/>
+            app:layout_constraintHeight_percent="0.1"/>
 
         <fragment
             android:id="@+id/staff_fragment_holder"
@@ -78,7 +78,7 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.2"/>
+            app:layout_constraintHeight_percent="0.1"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class FrbOrderDTO(
     @DocumentId val id: String?,
-    val orderId: Int = -1,
+    var orderId: Int = -1,
     val itemId: Int = -1,
     val itemName: String = "",
     var lastUpdate: Timestamp = Timestamp.now(),

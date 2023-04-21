@@ -47,7 +47,7 @@ class TablesAdapter(private val viewModel: StaffTablesVM, private var tables: Li
             binding.table = table
 
             binding.cardTable.setOnClickListener {
-                viewModel.onSelectTable(table.id)
+                viewModel.setTable(table)
             }
 
             binding.executePendingBindings()

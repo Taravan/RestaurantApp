@@ -3,6 +3,9 @@
     // App info
     <string name="app_name">RestaurantApp</string>
 
+    //Shared
+    <string name="currency"> Kč</string>
+
     // Main activity
     <string name="welcome_text">Scan QR Code of your table</string>
     <string name="top_logo">Top screen logo</string>
@@ -46,6 +49,8 @@
     <string name="item_name">Item Name</string>
     <string name="btn_price">0.0</string>
     <string name="check_all">All</string>
+    <string name="string_buy_confirmation_title">Potvrzení objednávky</string>
+    <string name="string_buy_confirmation_text">Objednat %1$s Kč?</string>
 
 
     // Pay fragment
@@ -69,10 +74,12 @@
 
     // Order rov
     <string name="table_prefix">Table: </string>
+    <string name="pending_order_dbInsert_failed">Nepodařilo se vytvořir objednávku do podnikové databáze</string>
 
     // Staff Tables
     <string name="table_prefix_no_colon">Table </string>
     <string name="to_pay">To pay: </string>
     <string name="price_left_suffix"> left</string>
-    
+    <string name="string_error_fetching_tables">Nastala chyba při načítání stolů</string>
+
 </resources>

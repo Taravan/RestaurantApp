@@ -1,9 +1,11 @@
 package com.isp.restaurantapp.views.customerPart.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
@@ -30,9 +32,10 @@ class MenuAdapter(
 
             // TODO: TADY JE TABLE ID ZASE NAPEVNO
             binding.btnOrder.setOnClickListener {
-                orderItem(goodsItem)
+                orderConfirmationDialog(binding.root.context, goodsItem)
             }
 
+            binding.root.context
             binding.executePendingBindings()
         }
     }
@@ -60,6 +63,24 @@ class MenuAdapter(
     fun updateData(newGoodsItemList: List<GoodsItemDTO>) {
         this.itemsList = newGoodsItemList
         notifyDataSetChanged()
+    }
+
+    private fun orderConfirmationDialog(context: Context, goodsItem: GoodsItemDTO){
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.string_buy_confirmation_title)
+
+        val msg: String = context.getString(
+            R.string.string_buy_confirmation_text,
+            " ${goodsItem.goodsName}, ${goodsItem.price}")
+        builder.setMessage(msg)
+
+        builder.setPositiveButton("Ok") { _, _ ->
+            // Perform action when "ok" button is clicked
+            orderItem(goodsItem)
+        }
+        builder.setNegativeButton("Cancel", null)
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun orderItem(goodsItem: GoodsItemDTO) {

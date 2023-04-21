@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.Resource
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
@@ -100,9 +101,17 @@ class PayVM : ViewModel() {
 
     fun payForSelectedItems(uid: String) {
         Log.i(TAG, "Payment request in viewmodel with uid= $uid")
+
+        // ensures that all items have the same timestamp that can be used as payment request id :)
+        val uniqueTimestamp = Timestamp.now()
+        _selectedItemsToPay.forEach {
+            it.state = FrbFieldsOrders.States.FOR_PAYMENT.value
+            it.uid = uid
+            it.lastUpdate = uniqueTimestamp
+        }
+
         viewModelScope.launch(Dispatchers.IO){
-            val newState = FrbFieldsOrders.States.FOR_PAYMENT
-            val result = _orderUpdater.updateDocuments(_selectedItemsToPay, newState, uid)
+            val result = _orderUpdater.updateDocuments(_selectedItemsToPay)
             withContext(Dispatchers.Main){
                 when(result){
                     is Resource.Failure -> throw result.exception

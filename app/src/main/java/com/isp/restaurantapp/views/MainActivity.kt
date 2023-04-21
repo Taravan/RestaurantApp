@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
 
         // REDIRECT TO NEW VIEW
-//        viewModel.onQrScanned("kodStoluCisloPet")
+//        viewModel.onQrScanned("kodStoluCisloDeset")
 //        val newAct = Intent(this, CustomerActivity::class.java)
 //        startActivity(newAct)
         // END OF REDIRECTION

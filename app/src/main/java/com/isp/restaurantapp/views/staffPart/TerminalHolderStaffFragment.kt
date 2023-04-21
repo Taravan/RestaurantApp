@@ -5,27 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffFragmentTerminalHolderBinding
 import com.isp.restaurantapp.viewModels.StaffTerminalHolderVM
-import com.isp.restaurantapp.views.customerPart.adapters.PayAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.PendingOrdersAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.ProcessedOrdersAdapter
 
@@ -49,17 +35,30 @@ class TerminalHolderStaffFragment: Fragment() {
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 
-
-        _viewModel.fetchPendingOrders()
-        _viewModel.fetchProcessedOrders()
-
+        _viewModel.errorState.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                _viewModel.resetErrorState()
+            }
+        }
+//
+//        _viewModel.fetchPendingOrders()
+//        _viewModel.fetchProcessedOrders()
         adapterTop = PendingOrdersAdapter(_viewModel)
         val recyclerViewTop = _binding.topRecycler
         recyclerViewTop.adapter = adapterTop
 
-        _viewModel.pendingOrders.observe(viewLifecycleOwner) { pendingOrders ->
-            adapterTop.updateData(pendingOrders)
+        _viewModel.getPendingOrders().observe(viewLifecycleOwner){
+            adapterTop.updateData(it)
         }
+
+        _viewModel.getConfirmedOrders().observe(viewLifecycleOwner){
+            adapterBottom.updateData(it)
+        }
+
+//        _viewModel.pendingOrders.observe(viewLifecycleOwner) { pendingOrders ->
+//            adapterTop.updateData(pendingOrders)
+//        }
 
         adapterBottom = ProcessedOrdersAdapter(_viewModel)
         val recyclerViewBottom = _binding.bottomRecycler

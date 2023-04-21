@@ -51,7 +51,7 @@ class ProcessedOrdersAdapter(private val viewModel: StaffTerminalHolderVM, priva
             binding.order = order
 
             binding.cardProcessedHolder.setOnClickListener {
-                viewModel.processProcessedOrder(order.orderId)
+                //viewModel.processProcessedOrder(order.orderId)
             }
 
             binding.executePendingBindings()

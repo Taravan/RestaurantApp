@@ -10,7 +10,6 @@ import com.isp.restaurantapp.models.Resource
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
 import com.isp.restaurantapp.models.exceptions.RetrofitFailedException
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
-import com.isp.restaurantapp.repositories.RepositoryDataMock
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
 import com.isp.restaurantapp.repositories.concrete.FrbOrderStateUpdater
 import com.isp.restaurantapp.repositories.concrete.FrbRealtimeByStateGetterServiceImpl
@@ -132,8 +131,7 @@ class StaffTerminalHolderVM: ViewModel() {
         Log.i(TAG, "new values: $order")
         Log.i(TAG, "Order inserted to MySQL with id $newId")
 
-        val frbResult = _orderFrbUpdater.updateDocuments(listOf(order))
-        when (frbResult) {
+        when (val frbResult = _orderFrbUpdater.updateDocuments(listOf(order))) {
             is Resource.Success -> Log.i(TAG, "Order in firestore updated")
             is Resource.Failure -> Log.e(TAG, "Update in firestore failed: ${frbResult.exception}")
             Resource.Loading -> {}
@@ -144,9 +142,6 @@ class StaffTerminalHolderVM: ViewModel() {
         _errorState.postValue("")
     }
 
-    fun processProcessedOrder(idOfOrder: Int) {
-        _processedOrders.value = _processedOrders.value?.filter { it.orderId != idOfOrder }
-    }
 //
 //    fun processPendingOrder(idOfOrder: Int) {
 //        val newOrder = _pendingOrders.value?.filter { it.orderId == idOfOrder } ?: emptyList()

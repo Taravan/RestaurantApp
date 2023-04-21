@@ -61,14 +61,17 @@ class TablesStaffFragment: Fragment() {
         _viewModel.tables.observe(viewLifecycleOwner) { tables ->
             adapterTables.updateData(tables)
         }
-
+/*
         _viewModel.markedToPay.observe(viewLifecycleOwner) { itemsMarkedToPay ->
             adapterMarkedToPay.updateData(itemsMarkedToPay)
-        }
+        }*/
 
-        _viewModel.selectedTable.observe(viewLifecycleOwner){
-            _viewModel.getLeftToPay(it.id).observe(viewLifecycleOwner) { itemsLeftToPay ->
-                adapterLeftToPay.updateData(itemsLeftToPay)
+        _viewModel.selectedTable.observe(viewLifecycleOwner){ selectedTable ->
+            _viewModel.getLeftToPay(selectedTable.id).observe(viewLifecycleOwner) {
+                adapterLeftToPay.updateData(it)
+            }
+            _viewModel.getToPay(selectedTable.id).observe(viewLifecycleOwner){
+                adapterMarkedToPay.updateData(it)
             }
         }
 

@@ -1,6 +1,8 @@
 package com.isp.restaurantapp.views.staffPart.adapters
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -46,10 +48,27 @@ class MenuOverviewAdapter(private val viewModel: StaffGoodsVM, private var items
 
             }
 
+            binding.btnDeleteProduct.setOnClickListener {
+                deleteProductConfirmationDialog(binding.root.context, item)
+            }
+
             binding.executePendingBindings()
 
         }
 
     }
+
+    private fun deleteProductConfirmationDialog(context: Context, product: GoodsItemDTO) {
+
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage("Are you sure you want to delete ${product.goodsName} ?")
+        builder.setPositiveButton("Ok") { _, _ ->
+            viewModel.deleteProduct(product.goodsId)
+        }
+        builder.setNegativeButton("Cancel", null)
+        val dialog = builder.create()
+        dialog.show()
+    }
+
 
 }

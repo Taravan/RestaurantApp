@@ -80,6 +80,10 @@ class GoodsStaffFragment: Fragment() {
         return _binding.root
     }
 
+
+    /**
+     * Table dialogs
+     */
     private fun openNewTableDialog() {
 
         val dialog = TableAddDialog()
@@ -87,6 +91,14 @@ class GoodsStaffFragment: Fragment() {
 
     }
 
+    private fun openUpdateTableDialog() {
+
+    }
+
+
+    /**
+     * Category dialogs
+     */
     private fun openNewCategoryDialog() {
 
         val dialog = CategoryAddDialog()
@@ -94,10 +106,22 @@ class GoodsStaffFragment: Fragment() {
 
     }
 
+    private fun openUpdateCategoryDialog() {
+
+    }
+
+
+    /**
+     * Product dialogs
+     */
     private fun openNewProductDialog() {
 
         val dialog = ProductAddDialog()
         dialog.show(parentFragmentManager, "AddProduct")
+
+    }
+
+    private fun openUpdateProductDialog() {
 
     }
 

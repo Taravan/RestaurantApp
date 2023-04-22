@@ -1,6 +1,8 @@
 package com.isp.restaurantapp.views.staffPart.adapters
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffRvCategoryOverviewBinding
 import com.isp.restaurantapp.models.dto.CategoryDTO
+import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
 class CategoriesOverviewAdapter(private val viewModel: StaffGoodsVM, private var categories: List<CategoryDTO> = emptyList()):
@@ -46,10 +49,26 @@ class CategoriesOverviewAdapter(private val viewModel: StaffGoodsVM, private var
 
             }
 
+            binding.btnDeleteCategory.setOnClickListener {
+                deleteCategoryConfirmationDialog(binding.root.context, category)
+            }
+
             binding.executePendingBindings()
 
         }
 
+    }
+
+    private fun deleteCategoryConfirmationDialog(context: Context, category: CategoryDTO) {
+
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage("Are you sure you want to delete category ${category.name} ?")
+        builder.setPositiveButton("Ok") { _, _ ->
+            viewModel.deleteCategory(category.id)
+        }
+        builder.setNegativeButton("Cancel", null)
+        val dialog = builder.create()
+        dialog.show()
     }
 
 }

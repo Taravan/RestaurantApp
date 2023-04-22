@@ -13,6 +13,7 @@ import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeGetterByTableIdA
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 class StaffGoodsVM: ViewModel() {
 
@@ -89,11 +90,13 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun updateTable(tableId: Int) {
-
+        val tableToUpdate = (_tables.value?.find { it.id == tableId } ?: "") as TableDTO
+        Log.e(TAG, "Updating table number: ${tableToUpdate.tableNumber.toString()}.")
     }
 
     fun deleteTable(tableId: Int) {
-
+        val tableToDelete = (_tables.value?.find { it.id == tableId } ?: "") as TableDTO
+        Log.e(TAG, "Deleting table number: ${tableToDelete.tableNumber.toString()}.")
     }
 
     /**
@@ -124,11 +127,13 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun updateCategory(categoryId: Int) {
-
+        val categoryToUpdate = (_categories.value?.find { it.id ==categoryId } ?: "") as CategoryDTO
+        Log.e(TAG, "Updating category: ${categoryToUpdate.name}.")
     }
 
     fun deleteCategory(categoryId: Int) {
-
+        val categoryToDelete = (_categories.value?.find { it.id ==categoryId } ?: "") as CategoryDTO
+        Log.e(TAG, "Deleting category: ${categoryToDelete.name}.")
     }
 
 
@@ -160,11 +165,13 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun updateProduct(productId: Int) {
-
+        val productToUpdate = (_goods.value?.find { it.goodsId == productId } ?: "") as GoodsItemDTO
+        Log.e(TAG, "Updating product: ${productToUpdate.goodsName}.")
     }
 
     fun deleteProduct(productId: Int) {
-
+        val productToDelete = (_goods.value?.find { it.goodsId == productId } ?: "") as GoodsItemDTO
+        Log.e(TAG, "Deleting product: ${productToDelete.goodsName}.")
     }
 
     init {

@@ -55,6 +55,18 @@
                     android:layout_weight="1"
                     />
 
+                <Button
+                    android:id="@+id/btn_delete_product"
+                    android:text="-"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:autoSizeTextType="uniform"
+                    android:maxLines="1"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.5"
+                    />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

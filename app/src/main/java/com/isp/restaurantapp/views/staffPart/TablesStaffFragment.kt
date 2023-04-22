@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffFragmentTablesBinding
+import com.isp.restaurantapp.viewModels.StaffMainScreenVM
 import com.isp.restaurantapp.viewModels.StaffTablesVM
 import com.isp.restaurantapp.views.staffPart.adapters.LeftToPayAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.MarkedToPayAdapter
@@ -16,8 +16,13 @@ import com.isp.restaurantapp.views.staffPart.adapters.TablesAdapter
 
 class TablesStaffFragment: Fragment() {
 
+    companion object{
+        private const val TAG = "TablesStaffFragment"
+    }
+
     private lateinit var _binding: StaffFragmentTablesBinding
     private lateinit var _viewModel: StaffTablesVM
+    private val _mainViewModel: StaffMainScreenVM by activityViewModels()
 
     private lateinit var adapterTables: TablesAdapter
     private lateinit var adapterMarkedToPay: MarkedToPayAdapter
@@ -35,14 +40,14 @@ class TablesStaffFragment: Fragment() {
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 
-
+/*
         _viewModel.errorState.observe(viewLifecycleOwner){
             if (it.isNotEmpty()){
                 Toast.makeText(context, R.string.string_error_fetching_tables, Toast.LENGTH_SHORT).show()
                 _viewModel.resetErrorState()
             }
         }
-
+*/
         _viewModel.fetchTables()
         //_viewModel.fetchLeftToPay()
 
@@ -76,7 +81,9 @@ class TablesStaffFragment: Fragment() {
         }
 
         _binding.btnPayTerminal.setOnClickListener {
-            _viewModel.onPay()
+            _mainViewModel.staffAccount.value?.let {
+                _viewModel.onPay(it.id)
+            }
         }
 
         return _binding.root

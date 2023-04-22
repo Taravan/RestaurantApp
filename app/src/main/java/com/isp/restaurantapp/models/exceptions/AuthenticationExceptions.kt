@@ -10,4 +10,7 @@ class PasswordNotValidException(): Exception(
 class PasswordsDontMatchException(): Exception(
     "Passwords dont match"
 )
+class AccountDoesntExistException(): Exception(
+    "Invalid username or password"
+)
 

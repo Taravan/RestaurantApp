@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.isp.restaurantapp.databinding.StaffFragmentGoodsBinding
-import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 import com.isp.restaurantapp.views.staffPart.Dialogs.CategoryAddDialog
 import com.isp.restaurantapp.views.staffPart.Dialogs.ProductAddDialog
@@ -38,7 +37,7 @@ class GoodsStaffFragment: Fragment() {
         _binding.viewModel = _viewModel
 
         _viewModel.fetchTables()
-//        _viewModel.fetchCategories()
+        _viewModel.fetchCategories()
         _viewModel.fetchGoods()
 
         _adapterTables = TablesOverviewAdapter(_viewModel)
@@ -87,7 +86,7 @@ class GoodsStaffFragment: Fragment() {
     private fun openNewTableDialog() {
 
         val dialog = TableAddDialog()
-        dialog.show(parentFragmentManager, "AddTable")
+        dialog.show(childFragmentManager, "AddTable")
 
     }
 
@@ -102,7 +101,7 @@ class GoodsStaffFragment: Fragment() {
     private fun openNewCategoryDialog() {
 
         val dialog = CategoryAddDialog()
-        dialog.show(parentFragmentManager, "AddCategory")
+        dialog.show(childFragmentManager, "AddCategory")
 
     }
 
@@ -117,7 +116,7 @@ class GoodsStaffFragment: Fragment() {
     private fun openNewProductDialog() {
 
         val dialog = ProductAddDialog()
-        dialog.show(parentFragmentManager, "AddProduct")
+        dialog.show(childFragmentManager, "AddProduct")
 
     }
 

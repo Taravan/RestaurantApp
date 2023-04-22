@@ -8,14 +8,13 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-interface OrderInserterService {
+interface TableUpdaterService {
     @Headers(BuildConfig.API_KEY_HEADER)
     @FormUrlEncoded
-    @POST(BuildConfig.INSERT_ORDER)
-    suspend fun insertOrder(
-        @Field("price") price: Double,
-        @Field("user_uid") userId: String,
-        @Field("Goods_id") goodsId: Int,
-        @Field("table_id") tableId: Int
+    @POST(BuildConfig.UPDATE_TABLE)
+    suspend fun updateTable(
+        @Field("id") id: Int,
+        @Field("tableNumber") tableNumber: Int,
+        @Field("qrCode") qrCode: String
     ): Response<InsertedId>
 }

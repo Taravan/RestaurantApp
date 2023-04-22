@@ -6,7 +6,15 @@ abstract class RepositoryAbstract:
     OrdersByTableIdGetterService,
     UnpaidOrdersByTableIdGetterService,
     TableGetterService,
+    TableUpdaterService,
+    TableInserterService,
     GoodsGetterService,
-    OrderInserterService
+    OrderInserterService,
+    ReceiptInsertedService,
+    OrdersUpdateReceiptIdService,
+    StaffAccountGetterService,
+    CategoryGetterService,
+    CategoryInserterService,
+    CategoryUpdaterService
 {
 }

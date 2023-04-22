@@ -2,6 +2,7 @@ package com.isp.restaurantapp.repositories
 
 import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.InsertedId
+import com.isp.restaurantapp.models.StaffAccount
 import com.isp.restaurantapp.models.dto.*
 import retrofit2.Response
 import java.math.BigDecimal
@@ -15,8 +16,8 @@ class RepositoryDataMock: RepositoryAbstract() {
     )
 
     private val goodsCategories = listOf(
-        CategoryDTO(0, "Pečivo"),
-        CategoryDTO(1, "Uzeniny")
+        CategoryDTO(0, "Pečivo", null),
+        CategoryDTO(1, "Uzeniny", null)
     )
 /*
     private val goods = listOf(
@@ -68,8 +69,16 @@ class RepositoryDataMock: RepositoryAbstract() {
         return tables.find { it.id == id }!!
     }
 
-    fun getCategories(): List<CategoryDTO>{
-        return goodsCategories
+    override suspend fun getCategories(): Response<List<CategoryDTO>> {
+        TODO("Not implemented")
+    }
+
+    override suspend fun insertCategory(name: String, desc: String?): Response<InsertedId> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateCategory(id: Int, name: String, desc: String?): Response<InsertedId> {
+        TODO("Not yet implemented")
     }
 
     fun getItems(): List<GoodsItemDTO>{
@@ -88,6 +97,18 @@ class RepositoryDataMock: RepositoryAbstract() {
         return tables
     }
 
+    override suspend fun updateTable(
+        id: Int,
+        tableNumber: Int,
+        qrCode: String
+    ): Response<InsertedId> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertTable(tableNumber: Int, qrCode: String): Response<InsertedId> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getGoods(): List<GoodsItemDTO> {
         return goods2
     }
@@ -98,6 +119,22 @@ class RepositoryDataMock: RepositoryAbstract() {
         goodsId: Int,
         tableId: Int
     ): Response<InsertedId> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertReceipt(
+        personalId: Int,
+        tableId: Int,
+        date: String
+    ): Response<InsertedId> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getStaffAccount(account: String, password: String): Response<List<StaffAccount>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateOrdersReceiptId(orderIdsWithReceipt: OrderIdsWithReceiptIdDTO): Response<InsertedId> {
         TODO("Not yet implemented")
     }
 

@@ -82,4 +82,8 @@
     <string name="price_left_suffix"> left</string>
     <string name="string_error_fetching_tables">Nastala chyba při načítání stolů</string>
 
+
+    // Staff login
+    <string name="string_account_not_found">Account either does not exist or the password is not valid</string>
+
 </resources>

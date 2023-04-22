@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.Resource
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
+import com.isp.restaurantapp.models.dto.OrderIdsWithReceiptIdDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
 import com.isp.restaurantapp.repositories.RepositoryAbstract
@@ -58,6 +59,7 @@ class StaffTablesVM: ViewModel() {
         get() = _selectedTable
 
 
+    private val _markedToPayMLD = MutableLiveData<List<FrbOrderDTO>>()
 
 //    private val _markedToPay = MutableLiveData<List<FrbOrderDTO>>()
 //    val markedToPay: LiveData<List<FrbOrderDTO>>
@@ -74,6 +76,8 @@ class StaffTablesVM: ViewModel() {
     private val _priceLeftToPay = MutableLiveData<Double>()
     val priceLeftToPay: LiveData<Double>
         get() = _priceLeftToPay
+
+
 
     fun fetchTables() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -120,6 +124,7 @@ class StaffTablesVM: ViewModel() {
                 val priceToPay = list.sumOf { it.price }
                 withContext(Dispatchers.Main){
                     itemsMLD.value = list
+                    _markedToPayMLD.postValue(list)
                     _priceToPay.value = priceToPay
                 }
             }
@@ -167,6 +172,70 @@ class StaffTablesVM: ViewModel() {
         }
     }
 
+    fun onPay(personalId: Int) {
+
+        _markedToPayMLD.value?.let {
+            if (it.isEmpty()) return
+        }
+
+        _selectedTable.value?.let {
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val response = _repository.insertReceipt(personalId, it.id)
+                    if (!response.isSuccessful) {
+                        val msg = "onPay: Insertion of receipt failed. Abort process."
+                        throw Exception(msg)
+                    }
+
+                    val ordersIdList = _markedToPayMLD.value?.map {
+                        it.orderId
+                    }.orEmpty()
+                    val receiptId: Int = response.body()?.id ?: -1
+                    val request = OrderIdsWithReceiptIdDTO(ordersIdList, receiptId)
+                    Log.i(TAG, "onPay: init update for order ids: ${ordersIdList.toString()}")
+                    val responseUpdate = _repository.updateOrdersReceiptId(request)
+
+                    if (!responseUpdate.isSuccessful) throw Exception("Database orders update failed!")
+
+                    val result = updatePayInFirestore(receiptId)
+
+                    withContext(Dispatchers.Main) {
+                        Log.i(TAG, "onPay: new receiptId = $receiptId")
+                        Log.i(TAG, "onPay: rows effected: ${responseUpdate.body()?.id}")
+                        when(result){
+                            is Resource.Success -> Log.i(
+                                TAG,"onPay: Firestore updated successfully"
+                            )
+                            is Resource.Failure -> Log.e(
+                                TAG, "onPay: Firestore update failed!"
+                            )
+                            Resource.Loading -> {}
+                        }
+                    }
+                } catch (e: Exception){
+                    withContext(Dispatchers.Main){
+                        Log.e(TAG, e.toString())
+                        _errorState.postValue(e.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun updatePayInFirestore(receiptId: Int): Resource<Unit> {
+        var result: Resource<Unit> = Resource.Failure(Exception())
+        _markedToPayMLD.value?.let { oldValuesList ->
+            val newOrderValues = oldValuesList.toList()
+            newOrderValues.forEach {
+                it.lastUpdate = Timestamp.now()
+                it.receiptId = receiptId
+                it.state = FrbFieldsOrders.States.PAID.value
+            }
+            result = _orderStateUpdater.updateDocuments(newOrderValues)
+
+        }
+        return result
+    }
 
 
 //    fun fetchLeftToPay(tableId: Int) {
@@ -181,10 +250,6 @@ class StaffTablesVM: ViewModel() {
 //        }
 //    }
 
-    fun onPay() {
-//        _markedToPay.value = emptyList()
-//        _priceToPay.value = 0.0
-    }
 
 //    fun onSelectTable(tableId: Int) {
 //        _selectedTable.value = _tables.value?.find { it.id == tableId }

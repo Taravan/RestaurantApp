@@ -8,8 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.models.dto.*
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
-import com.isp.restaurantapp.repositories.concrete.FrbRealtimeGetterByTableIdAndStateServiceImpl
-import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeGetterByTableIdAndStateService
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,8 +39,15 @@ class StaffGoodsVM: ViewModel() {
     val errorState: LiveData<String>
         get() = _errorState
 
+    private val _errorException: MutableLiveData<Exception?> by lazy{
+        MutableLiveData<Exception?>()
+    }
+    val errorException: LiveData<Exception?>
+        get() = _errorException
+
     fun resetErrorState(){
         _errorState.postValue("")
+        _errorException.postValue(null)
     }
 
     private val _allergens = MutableLiveData<List<AllergenDTO>>()
@@ -86,10 +92,30 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun addTable(tableNumber: String, qrCode: String) {
-        Log.e(TAG, "Adding $tableNumber with qr code $qrCode .")
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Log.i(TAG, "addTable: initing table insertion")
+                val number: Int = tableNumber.toInt()
+                val result = _repository.insertTable(number, qrCode)
+                Log.i(TAG, "addTable: isSsucessful = ${result.isSuccessful}, tableNumber = $number")
+                if (!result.isSuccessful) throw Exception("Table insertion failed")
+                withContext(Dispatchers.Main) {
+                    Log.i(
+                        TAG,
+                        "addTable: adding table complete, ${result.body()?.id.toString()} rows effected"
+                    )
+                    Log.e(TAG, "Adding $tableNumber with qr code $qrCode .")
+                }
+            }
+            catch (e: Exception){
+                Log.e(TAG, "addTable: Error while inserting table ${e.message}")
+                e.printStackTrace()
+            }
+        }
     }
 
-    fun updateTable(tableId: Int) {
+    fun updateTable(tableId: Int, tableNumber: String, qrCode: String) {
         val tableToUpdate = (_tables.value?.find { it.id == tableId } ?: "") as TableDTO
         Log.e(TAG, "Updating table number: ${tableToUpdate.tableNumber.toString()}.")
     }
@@ -106,24 +132,38 @@ class StaffGoodsVM: ViewModel() {
     val categories: LiveData<List<CategoryDTO>>
         get() = _categories
 
-//        fun fetchCategories() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            try {
-//                val categories = _repository.getCategories()
-//                withContext(Dispatchers.Main){
-//                    _categories.postValue(categories)
-//                }
-//            } catch (e: Exception){
-//                withContext(Dispatchers.Main){
-//                    Log.e(TAG, e.message.toString())
-//                    _errorState.postValue("Error occurred while fetching categories from database")
-//                }
-//            }
-//        }
-//    }
+        fun fetchCategories() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val result = _repository.getCategories()
+                withContext(Dispatchers.Main){
+                    _categories.postValue(result.body())
+                }
+            } catch (e: Exception){
+                withContext(Dispatchers.Main){
+                    Log.e(TAG, e.message.toString())
+                    e.printStackTrace()
+                    _errorState.postValue("Error occurred while fetching categories from database")
+                }
+            }
+        }
+    }
 
     fun addCategory(categoryName: String) {
-        Log.e(TAG, "Adding $categoryName category.")
+        val handler = CoroutineExceptionHandler{ _, e ->
+            e.printStackTrace()
+        }
+
+        viewModelScope.launch(Dispatchers.IO + handler) {
+            try {
+                val result = _repository.insertCategory(categoryName, null)
+                if (!result.isSuccessful) throw Exception("Category insertion failed")
+            } catch (e: Exception){
+                Log.e(TAG, "addCategory: category insertion failed")
+                e.printStackTrace()
+            }
+        }
+        Log.i(TAG, "Adding $categoryName category.")
     }
 
     fun updateCategory(categoryId: Int) {
@@ -177,9 +217,9 @@ class StaffGoodsVM: ViewModel() {
     init {
 
         _categories.value = listOf(
-            CategoryDTO(0, "Rizky"),
-            CategoryDTO(1, "Piva"),
-            CategoryDTO(2, "Nealko")
+            CategoryDTO(0, "Rizky", null),
+            CategoryDTO(1, "Piva", null),
+            CategoryDTO(2, "Nealko", null)
         )
 
         _allergens.value = listOf(

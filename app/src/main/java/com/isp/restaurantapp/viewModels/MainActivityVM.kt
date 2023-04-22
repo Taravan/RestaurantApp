@@ -7,9 +7,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.models.dto.TableDTO
-import com.isp.restaurantapp.repositories.RepositoryDataMock
+import com.isp.restaurantapp.repositories.RepositoryRetrofit
 import com.isp.restaurantapp.repositories.interfaces.TableGetterService
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivityVM : ViewModel() {
 
@@ -22,7 +25,7 @@ class MainActivityVM : ViewModel() {
     private var swipeCounter = 0
 
     private val _tablesRepository: TableGetterService by lazy {
-        RepositoryDataMock()
+        RepositoryRetrofit()
     }
 
     private var _tables: MutableList<TableDTO> = mutableListOf()
@@ -30,9 +33,15 @@ class MainActivityVM : ViewModel() {
         get() = _tables
 
     fun fetchTables(){
-        viewModelScope.launch {
+        val handler = CoroutineExceptionHandler{ _, throwable ->
+            throwable.printStackTrace()
+        }
+        viewModelScope.launch(Dispatchers.IO + handler) {
             try {
-                _tables = _tablesRepository.getTables().toMutableList()
+                val result = _tablesRepository.getTables()
+                withContext(Dispatchers.Main){
+                    _tables = result.toMutableList()
+                }
             } catch (e: Exception){
                 Log.e(TAG, e.message.toString())
                 throw e

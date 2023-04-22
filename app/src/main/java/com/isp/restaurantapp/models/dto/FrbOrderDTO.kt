@@ -13,7 +13,7 @@ data class FrbOrderDTO(
     val itemName: String = "",
     var lastUpdate: Timestamp = Timestamp.now(),
     val price: Double = 0.0,
-    val receiptId: Int = -1,
+    var receiptId: Int = -1,
     var state: String = "",
     val tableId: Int = -1,
     val tableNumber: Int = -1,

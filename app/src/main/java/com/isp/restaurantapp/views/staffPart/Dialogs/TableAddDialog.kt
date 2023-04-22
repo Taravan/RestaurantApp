@@ -1,25 +1,20 @@
 package com.isp.restaurantapp.views.staffPart.Dialogs
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.isp.restaurantapp.R
+import androidx.fragment.app.viewModels
 import com.isp.restaurantapp.databinding.StaffDialogNewTableBinding
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
 class TableAddDialog: DialogFragment() {
 
     private lateinit var _binding: StaffDialogNewTableBinding
-    private lateinit var _viewModel: StaffGoodsVM
+    private val _viewModel: StaffGoodsVM by viewModels(ownerProducer = {requireParentFragment()})
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +23,7 @@ class TableAddDialog: DialogFragment() {
     ): View {
 
         _binding = StaffDialogNewTableBinding.inflate(inflater, container, false)
-        _viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
+        //_viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 

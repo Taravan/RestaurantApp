@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.isp.restaurantapp.databinding.StaffDialogNewProductBinding
 import com.isp.restaurantapp.models.dto.CategoryDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
@@ -16,7 +15,7 @@ import com.isp.restaurantapp.views.staffPart.adapters.ProductAddAllergensAdapter
 class ProductAddDialog: DialogFragment() {
 
     private lateinit var _binding: StaffDialogNewProductBinding
-    private lateinit var _viewModel: StaffGoodsVM
+    private val _viewModel: StaffGoodsVM by viewModels(ownerProducer = {requireParentFragment()})
 
     private lateinit var _adapterSpinner: CategoriesSpinnerAdapter
     private lateinit var _adapterAllergens: ProductAddAllergensAdapter
@@ -28,7 +27,7 @@ class ProductAddDialog: DialogFragment() {
     ): View {
 
         _binding = StaffDialogNewProductBinding.inflate(inflater, container, false)
-        _viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
+        //_viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 

@@ -25,7 +25,7 @@ import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.ActivityMainBinding
 import com.isp.restaurantapp.viewModels.MainActivityVM
 import com.isp.restaurantapp.views.customerPart.CustomerActivity
-import com.isp.restaurantapp.views.customerPart.StaffMainScreen
+import com.isp.restaurantapp.views.staffPart.StaffMainScreen
 import java.util.concurrent.Executors
 
 private const val CAMERA_PERMISSION_REQUEST_CODE = 1

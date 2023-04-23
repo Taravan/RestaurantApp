@@ -63,6 +63,10 @@ class RepositoryRetrofit(
         _apiService.create(TableInserterService::class.java)
     }
 
+    private val _tableDeleter: TableDeleterService by lazy{
+        _apiService.create(TableDeleterService::class.java)
+    }
+
     private val _categoryGetter: CategoryGetterService by lazy{
         _apiService.create(CategoryGetterService::class.java)
     }
@@ -73,6 +77,10 @@ class RepositoryRetrofit(
 
     private val _categoryUpdater: CategoryUpdaterService by lazy{
         _apiService.create(CategoryUpdaterService::class.java)
+    }
+
+    private val _categoryDeleter: CategoryDeleterService by lazy{
+        _apiService.create(CategoryDeleterService::class.java)
     }
 
 
@@ -100,6 +108,10 @@ class RepositoryRetrofit(
         Log.i(TAG, "insertTable: ${_tableInserter.toString()}")
         Log.i(TAG, "insertTable: ${_apiService.toString()}")
         return _tableInserter.insertTable(tableNumber, qrCode)
+    }
+
+    override suspend fun deleteTable(id: Int): Response<InsertedId> {
+        return _tableDeleter.deleteTable(id)
     }
 
     override suspend fun getGoods(): List<GoodsItemDTO> {
@@ -137,6 +149,10 @@ class RepositoryRetrofit(
 
     override suspend fun updateCategory(id: Int, name: String, desc: String?): Response<InsertedId> {
         return _categoryUpdater.updateCategory(id, name, desc)
+    }
+
+    override suspend fun deleteCategory(id: Int): Response<InsertedId> {
+        return _categoryDeleter.deleteCategory(id)
     }
 
     override suspend fun updateOrdersReceiptId(orderIdsWithReceipt: OrderIdsWithReceiptIdDTO): Response<InsertedId> {

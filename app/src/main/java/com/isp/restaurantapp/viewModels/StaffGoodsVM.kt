@@ -121,8 +121,23 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun deleteTable(tableId: Int) {
-        val tableToDelete = (_tables.value?.find { it.id == tableId } ?: "") as TableDTO
-        Log.e(TAG, "Deleting table number: ${tableToDelete.tableNumber.toString()}.")
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Log.i(TAG, "addTable: initing table delete")
+                val result = _repository.deleteTable(tableId)
+                if (!result.isSuccessful) throw Exception("Table insertion failed")
+                withContext(Dispatchers.Main) {
+                    Log.i(
+                        TAG,
+                        "deleteTable: delete table complete, ${result.body()?.id.toString()} rows effected"
+                    )
+                }
+            }
+            catch (e: Exception){
+                Log.e(TAG, "deleteTable: Error while deleting table ${e.message}")
+                e.printStackTrace()
+            }
+        }
     }
 
     /**
@@ -172,8 +187,23 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun deleteCategory(categoryId: Int) {
-        val categoryToDelete = (_categories.value?.find { it.id ==categoryId } ?: "") as CategoryDTO
-        Log.e(TAG, "Deleting category: ${categoryToDelete.name}.")
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Log.i(TAG, "deleteCategory: initing table category")
+                val result = _repository.deleteCategory(categoryId)
+                if (!result.isSuccessful) throw Exception("Table insertion failed")
+                withContext(Dispatchers.Main) {
+                    Log.i(
+                        TAG,
+                        "deleteCategory: delete category complete, ${result.body()?.id.toString()} rows effected"
+                    )
+                }
+            }
+            catch (e: Exception){
+                Log.e(TAG, "deleteCategory: Error while deleting category ${e.message}")
+                e.printStackTrace()
+            }
+        }
     }
 
 

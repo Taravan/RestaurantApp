@@ -81,6 +81,10 @@ class RepositoryDataMock: RepositoryAbstract() {
         TODO("Not yet implemented")
     }
 
+    override suspend fun deleteCategory(id: Int): Response<InsertedId> {
+        TODO("Not yet implemented")
+    }
+
     fun getItems(): List<GoodsItemDTO>{
         return goods2
     }
@@ -106,6 +110,10 @@ class RepositoryDataMock: RepositoryAbstract() {
     }
 
     override suspend fun insertTable(tableNumber: Int, qrCode: String): Response<InsertedId> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteTable(id: Int): Response<InsertedId> {
         TODO("Not yet implemented")
     }
 

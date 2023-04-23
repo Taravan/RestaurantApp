@@ -8,6 +8,7 @@ abstract class RepositoryAbstract:
     TableGetterService,
     TableUpdaterService,
     TableInserterService,
+    TableDeleterService,
     GoodsGetterService,
     OrderInserterService,
     ReceiptInsertedService,
@@ -15,6 +16,7 @@ abstract class RepositoryAbstract:
     StaffAccountGetterService,
     CategoryGetterService,
     CategoryInserterService,
-    CategoryUpdaterService
+    CategoryUpdaterService,
+    CategoryDeleterService
 {
 }

@@ -62,11 +62,11 @@ class TablesOverviewAdapter(private val viewModel: StaffGoodsVM, private var tab
     private fun deleteTableConfirmationDialog(context: Context, table: TableDTO) {
 
         val builder = AlertDialog.Builder(context)
-        builder.setMessage("Are you sure you want to delete table ${table.tableNumber.toString()} ?")
-        builder.setPositiveButton("Ok") { _, _ ->
+        builder.setMessage(context.getString(R.string.table_delete, table.tableNumber.toString()))
+        builder.setPositiveButton(context.getString(R.string.btn_delete)) { _, _ ->
             viewModel.deleteTable(table.id)
         }
-        builder.setNegativeButton("Cancel", null)
+        builder.setNegativeButton(context.getString(R.string.btn_cancel), null)
         val dialog = builder.create()
         dialog.show()
     }

@@ -17,6 +17,7 @@
         <TextView
             android:id="@+id/payWelcomeText"
             android:text="@string/pay_welcome_text"
+            android:textStyle="bold"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

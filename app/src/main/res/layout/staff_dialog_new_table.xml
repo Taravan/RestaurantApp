@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
-            android:hint="Table Number"
+            android:hint="@string/hint_table_number"
             />
 
         <EditText
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
-            android:hint="QR Code"
+            android:hint="@string/hint_qr_code"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +41,7 @@
                 android:id="@+id/btn_create_table"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Create"
+                android:text="@string/btn_create"
                 android:layout_margin="5dp"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
@@ -54,7 +54,7 @@
                 android:id="@+id/btn_cancel_table"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Cancel"
+                android:text="@string/btn_cancel"
                 android:layout_margin="5dp"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"

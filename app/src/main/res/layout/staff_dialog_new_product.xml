@@ -19,7 +19,7 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
-            android:hint="Name"
+            android:hint="@string/hint_name"
             />
 
         <EditText
@@ -28,7 +28,7 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
-            android:hint="Description"
+            android:hint="@string/hint_desc"
             />
 
         <Spinner
@@ -55,7 +55,7 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
-            android:hint="Price"
+            android:hint="@string/hint_price"
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,7 +68,7 @@
                 android:id="@+id/btn_create_product"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Create"
+                android:text="@string/btn_create"
                 android:layout_margin="5dp"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
@@ -81,7 +81,7 @@
                 android:id="@+id/btn_cancel_product"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="Cancel"
+                android:text="@string/btn_cancel"
                 android:layout_margin="5dp"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"

@@ -72,6 +72,9 @@
 
     // STAFF PART
 
+    // Login
+    <string name="display_warning">WARNING: This part was designed for tablets or devices with big screen only. It is not recommended to use it on small screen devices.</string>
+
     // Order rov
     <string name="table_prefix">Table: </string>
     <string name="pending_order_dbInsert_failed">Nepodařilo se vytvořir objednávku do podnikové databáze</string>
@@ -85,5 +88,27 @@
 
     // Staff login
     <string name="string_account_not_found">Account either does not exist or the password is not valid</string>
+
+    // Staff Goods
+    <string name="txt_products">Menu: </string>
+    <string name="txt_tables">Tables: </string>
+    <string name="txt_categories">Categories: </string>
+    <string name="btn_add">+</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_remove">-</string>
+
+    <string name="hint_table_number">Table Number</string>
+    <string name="hint_qr_code">QR Code</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_desc">Description</string>
+    <string name="hint_price">Price</string>
+    <string name="hint_category_name">Category Name</string>
+    <string name="btn_create">Create</string>
+    <string name="btn_cancel">Cancel</string>
+
+    <string name="category_delete">Are you sure you want to delete category %1$s?</string>
+    <string name="table_delete">Are you sure you want to delete table %1$s?</string>
+    <string name="product_delete">Are you sure you want to delete %1$s?</string>
+
 
 </resources>

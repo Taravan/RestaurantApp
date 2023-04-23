@@ -61,11 +61,11 @@ class MenuOverviewAdapter(private val viewModel: StaffGoodsVM, private var items
     private fun deleteProductConfirmationDialog(context: Context, product: GoodsItemDTO) {
 
         val builder = AlertDialog.Builder(context)
-        builder.setMessage("Are you sure you want to delete ${product.goodsName} ?")
-        builder.setPositiveButton("Ok") { _, _ ->
+        builder.setMessage(context.getString(R.string.product_delete, product.goodsName))
+        builder.setPositiveButton(context.getString(R.string.btn_delete)) { _, _ ->
             viewModel.deleteProduct(product.goodsId)
         }
-        builder.setNegativeButton("Cancel", null)
+        builder.setNegativeButton(context.getString(R.string.btn_cancel), null)
         val dialog = builder.create()
         dialog.show()
     }

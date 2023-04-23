@@ -31,14 +31,6 @@ class ProductAddDialog: DialogFragment() {
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 
-//        val categories = listOf(
-//            CategoryDTO(0, "Rizky"),
-//            CategoryDTO(1, "Pivo"),
-//            CategoryDTO(2, "Nealko")
-//        )
-
-
-        //TODO
         val categories = _viewModel.categories.value ?: emptyList()
 //        _adapterSpinner = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         _adapterSpinner = CategoriesSpinnerAdapter(requireContext(), categories)

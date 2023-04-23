@@ -62,11 +62,11 @@ class CategoriesOverviewAdapter(private val viewModel: StaffGoodsVM, private var
     private fun deleteCategoryConfirmationDialog(context: Context, category: CategoryDTO) {
 
         val builder = AlertDialog.Builder(context)
-        builder.setMessage("Are you sure you want to delete category ${category.name} ?")
-        builder.setPositiveButton("Ok") { _, _ ->
+        builder.setMessage(context.getString(R.string.category_delete, category.name))
+        builder.setPositiveButton(context.getString(R.string.btn_delete)) { _, _ ->
             viewModel.deleteCategory(category.id)
         }
-        builder.setNegativeButton("Cancel", null)
+        builder.setNegativeButton(context.getString(R.string.btn_cancel), null)
         val dialog = builder.create()
         dialog.show()
     }

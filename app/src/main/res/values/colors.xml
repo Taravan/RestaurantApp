@@ -10,6 +10,7 @@
     <color name="qrBackground">#3C81A1</color>
     <color name="recycleLine">#D8D6D6</color>
     <color name="dark_gray">#706868</color>
+    <color name="light_gray">#9C9A9A</color>
     <color name="red">#F44336</color>
     <color name="green">#8BC34A</color>
     <color name="table_unchecked">#47AEDC</color>

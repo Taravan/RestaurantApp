@@ -35,12 +35,11 @@
             android:id="@+id/tabLayoutMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            app:tabIndicatorColor="@color/light_gray"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/black"
             app:tabIndicatorHeight="3dp"
             app:tabMode="auto"
-            app:tabSelectedTextColor="@color/black"
+            app:tabSelectedTextColor="@color/light_gray"
             app:tabTextColor="@color/dark_gray"
             app:layout_constraintTop_toTopOf="parent"/>
 

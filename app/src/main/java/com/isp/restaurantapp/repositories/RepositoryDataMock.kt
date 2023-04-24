@@ -85,6 +85,10 @@ class RepositoryDataMock: RepositoryAbstract() {
         TODO("Not yet implemented")
     }
 
+    override suspend fun getAllergens(): Response<List<AllergenDTO>> {
+        TODO("Not yet implemented")
+    }
+
     fun getItems(): List<GoodsItemDTO>{
         return goods2
     }

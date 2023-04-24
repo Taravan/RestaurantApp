@@ -83,6 +83,9 @@ class RepositoryRetrofit(
         _apiService.create(CategoryDeleterService::class.java)
     }
 
+    private val _allergensGetter: AllergenGetterService by lazy{
+        _apiService.create(AllergenGetterService::class.java)
+    }
 
     override suspend fun getOrdersByTableId(tableId: Int): List<OrderByTableIdDTO> {
         return ordersByTableIdGetterService.getOrdersByTableId(tableId)
@@ -105,8 +108,6 @@ class RepositoryRetrofit(
     }
 
     override suspend fun insertTable(tableNumber: Int, qrCode: String): Response<InsertedId> {
-        Log.i(TAG, "insertTable: ${_tableInserter.toString()}")
-        Log.i(TAG, "insertTable: ${_apiService.toString()}")
         return _tableInserter.insertTable(tableNumber, qrCode)
     }
 
@@ -153,6 +154,10 @@ class RepositoryRetrofit(
 
     override suspend fun deleteCategory(id: Int): Response<InsertedId> {
         return _categoryDeleter.deleteCategory(id)
+    }
+
+    override suspend fun getAllergens(): Response<List<AllergenDTO>> {
+        return _allergensGetter.getAllergens()
     }
 
     override suspend fun updateOrdersReceiptId(orderIdsWithReceipt: OrderIdsWithReceiptIdDTO): Response<InsertedId> {

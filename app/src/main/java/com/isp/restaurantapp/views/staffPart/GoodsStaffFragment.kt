@@ -39,6 +39,7 @@ class GoodsStaffFragment: Fragment() {
         _viewModel.fetchTables()
         _viewModel.fetchCategories()
         _viewModel.fetchGoods()
+        _viewModel.fetchAllergens()
 
         _adapterTables = TablesOverviewAdapter(_viewModel)
         _adapterCategories = CategoriesOverviewAdapter(_viewModel)

@@ -1,10 +1,7 @@
 package com.isp.restaurantapp.viewModels
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.isp.restaurantapp.models.dto.*
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
@@ -52,19 +49,31 @@ class StaffGoodsVM: ViewModel() {
 
     private val _allergens = MutableLiveData<List<AllergenDTO>>()
     val allergens: LiveData<List<AllergenDTO>>
-        get() = _allergens
+        get() = _allergens.map { it.sortedBy { it.id } }
 
-    private var _selectedAllergens = mutableListOf<AllergenDTO>()
-    val selectedAllergens: List<AllergenDTO>
+    private val _selectedAllergens: MutableLiveData<MutableSet<AllergenDTO>> by lazy{
+        MutableLiveData<MutableSet<AllergenDTO>>(mutableSetOf())
+    }
+    val selectedAllergens: LiveData<MutableSet<AllergenDTO>>
         get() = _selectedAllergens
 
     fun resetSelectedAllergens() {
-        _selectedAllergens.clear()
+        _selectedAllergens.value?.clear()
     }
 
     fun updateSelectedList(operation: Boolean, allergen: AllergenDTO) {
-        if (operation) _selectedAllergens.add(allergen)
-        else _selectedAllergens.remove(allergen)
+        if (operation){
+            Log.i(TAG, "updateSelectedList: added $allergen")
+            _selectedAllergens.value?.add(allergen)
+        }
+        else {
+            Log.i(TAG, "updateSelectedList: removed $allergen")
+            _selectedAllergens.value?.remove(allergen)
+        }
+    }
+
+    fun isAllergen(allergen: AllergenDTO): Boolean{
+        return _selectedAllergens.value?.contains(allergen) ?: false
     }
 
 
@@ -230,8 +239,22 @@ class StaffGoodsVM: ViewModel() {
         }
     }
 
+    fun fetchAllergens(){
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                val result = _repository.getAllergens()
+                withContext(Dispatchers.Main){
+                    _allergens.postValue(result.body())
+                }
+            } catch (e: Exception){
+                Log.e(TAG, "fetchAllergens: Error fetching allergens" )
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun addProduct(name: String, desc: String, category: CategoryDTO, allergens: List<AllergenDTO>) {
-        Log.e(TAG, "Adding $name , ${category.id.toString()} , ${allergens.size.toString()}")
+        Log.e(TAG, "Adding name=$name , cat=${category.id} , allergens=$allergens")
     }
 
     fun updateProduct(productId: Int) {
@@ -242,23 +265,6 @@ class StaffGoodsVM: ViewModel() {
     fun deleteProduct(productId: Int) {
         val productToDelete = (_goods.value?.find { it.goodsId == productId } ?: "") as GoodsItemDTO
         Log.e(TAG, "Deleting product: ${productToDelete.goodsName}.")
-    }
-
-    init {
-
-        _categories.value = listOf(
-            CategoryDTO(0, "Rizky", null),
-            CategoryDTO(1, "Piva", null),
-            CategoryDTO(2, "Nealko", null)
-        )
-
-        _allergens.value = listOf(
-            AllergenDTO(0, "Lepek"),
-            AllergenDTO(1, "Mléko"),
-            AllergenDTO(2, "Skořápky")
-        )
-
-
     }
 
 

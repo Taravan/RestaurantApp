@@ -42,10 +42,11 @@ class ProductAddAllergensAdapter(private val viewModel: StaffGoodsVM, private va
         fun bind(allergen: AllergenDTO, viewModel: StaffGoodsVM){
 
             binding.allergen = allergen
+            binding.viewmodel = viewModel
 
-            binding.checkAllergen.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.updateSelectedList(isChecked, allergen)
-            }
+//            binding.checkAllergen.setOnCheckedChangeListener { _, isChecked ->
+//                viewModel.updateSelectedList(isChecked, allergen)
+//            }
 
             binding.executePendingBindings()
 

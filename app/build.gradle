@@ -29,6 +29,7 @@ android {
         // target .php files
         buildConfigField("String", "SELECT_STAFF_ACCOUNT", "\"select_account.php\"")
         buildConfigField("String", "SELECT_TABLES", "\"select_tables.php\"")
+        buildConfigField("String", "SELECT_ALLERGENS", "\"select_allergens.php\"")
         buildConfigField("String", "INSERT_TABLE", "\"insert_table.php\"")
         buildConfigField("String", "UPDATE_TABLE", "\"update_table.php\"")
         buildConfigField("String", "DELETE_TABLE", "\"delete_table.php\"")

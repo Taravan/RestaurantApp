@@ -15,6 +15,7 @@ import com.isp.restaurantapp.databinding.StaffFragmentLoginBinding
 import com.isp.restaurantapp.models.exceptions.AccountDoesntExistException
 import com.isp.restaurantapp.viewModels.StaffLoginVM
 import com.isp.restaurantapp.viewModels.StaffMainScreenVM
+import com.isp.restaurantapp.views.staffPart.dialogs.ApiUrlDialog
 
 class LoginStaffFragment: Fragment() {
     companion object{
@@ -55,6 +56,10 @@ class LoginStaffFragment: Fragment() {
             }
         }
 
+        _binding.btnSetApiUrl.setOnClickListener {
+            openApiUrlDialog()
+        }
+
         return _binding.root
     }
 
@@ -84,10 +89,15 @@ class LoginStaffFragment: Fragment() {
         try{
             _viewModel.fetchAccount()
         } catch (ea: AccountDoesntExistException){
-            Toast.makeText(context, "Account doesnt exist", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Account does not exist", Toast.LENGTH_SHORT).show()
         } catch (e: java.lang.Exception){
             Log.e(TAG, "login: $e")
         }
+    }
+
+    private fun openApiUrlDialog() {
+        val dialog = ApiUrlDialog()
+        dialog.show(childFragmentManager, "SetApiUrl")
     }
 
 }

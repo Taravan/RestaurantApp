@@ -1,4 +1,4 @@
-package com.isp.restaurantapp.views.staffPart.Dialogs
+package com.isp.restaurantapp.views.staffPart.dialogs
 
 
 import android.os.Bundle

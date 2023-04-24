@@ -8,17 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.isp.restaurantapp.databinding.StaffFragmentGoodsBinding
 import com.isp.restaurantapp.models.dto.CategoryDTO
+import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
-import com.isp.restaurantapp.views.staffPart.Dialogs.CategoryAddDialog
-import com.isp.restaurantapp.views.staffPart.Dialogs.ProductAddDialog
-import com.isp.restaurantapp.views.staffPart.Dialogs.TableAddDialog
 import com.isp.restaurantapp.views.staffPart.adapters.CategoriesOverviewAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.MenuOverviewAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.TablesOverviewAdapter
 import com.isp.restaurantapp.views.staffPart.dialogs.*
 
-class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, CategoriesOverviewAdapter.Callback {
+class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, CategoriesOverviewAdapter.Callback, MenuOverviewAdapter.Callback {
 
     private lateinit var _binding: StaffFragmentGoodsBinding
     private lateinit var _viewModel: StaffGoodsVM
@@ -46,7 +44,7 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
 
         _adapterTables = TablesOverviewAdapter(_viewModel, this)
         _adapterCategories = CategoriesOverviewAdapter(_viewModel, this)
-        _adapterMenu = MenuOverviewAdapter(_viewModel)
+        _adapterMenu = MenuOverviewAdapter(_viewModel, this)
 
         val recyclerViewTables = _binding.recTablesOverview
         val recyclerViewCategories = _binding.recCategoriesOverview
@@ -93,9 +91,7 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
     }
 
     override fun updateTableDialog(table: TableDTO) {
-
         _viewModel.setUpdatedTable(table)
-
         val dialog = TableUpdateDialog()
         dialog.show(childFragmentManager, "UpdateTable")
     }
@@ -109,9 +105,7 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
     }
 
     override fun updateCategoryDialog(category: CategoryDTO) {
-
         _viewModel.setUpdatedCategory(category)
-
         val dialog = CategoryUpdateDialog()
         dialog.show(childFragmentManager, "UpdateCategory")
     }
@@ -122,6 +116,12 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
     private fun openNewProductDialog() {
         val dialog = ProductAddDialog()
         dialog.show(childFragmentManager, "AddProduct")
+    }
+
+    override fun updateProductDialog(product: GoodsItemDTO) {
+        _viewModel.setUpdatedProduct(product)
+        val dialog = ProductUpdateDialog()
+        dialog.show(childFragmentManager, "UpdateProduct")
     }
 
 }

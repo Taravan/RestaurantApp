@@ -84,4 +84,11 @@ class StaffLoginVM: ViewModel() {
     fun resetExceptionState(){
         _errorException.postValue(null)
     }
+
+    val apiUrl = MutableLiveData<String>("")
+    fun onSaveApiUrl() {
+        //TODO: Save url
+        Log.e(TAG, "Saving: " + apiUrl.value)
+    }
+
 }

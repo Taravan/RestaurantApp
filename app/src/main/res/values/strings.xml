@@ -112,5 +112,9 @@
     <string name="table_delete">Are you sure you want to delete table %1$s?</string>
     <string name="product_delete">Are you sure you want to delete %1$s?</string>
 
+    // Api url
+    <string name="hint_api_url">url</string>
+    <string name="btn_save">Save</string>
+
 
 </resources>

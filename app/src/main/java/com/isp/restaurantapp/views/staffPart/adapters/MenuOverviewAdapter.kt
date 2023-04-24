@@ -12,8 +12,12 @@ import com.isp.restaurantapp.databinding.StaffRvMenuOverviewBinding
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
-class MenuOverviewAdapter(private val viewModel: StaffGoodsVM, private var items: List<GoodsItemDTO> = emptyList()):
+class MenuOverviewAdapter(private val viewModel: StaffGoodsVM, private val callback: Callback, private var items: List<GoodsItemDTO> = emptyList()):
     RecyclerView.Adapter<MenuOverviewAdapter.MenuOverviewViewHolder>(){
+
+    interface Callback {
+        fun updateProductDialog(product: GoodsItemDTO)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuOverviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -44,9 +48,14 @@ class MenuOverviewAdapter(private val viewModel: StaffGoodsVM, private var items
         fun bind(item: GoodsItemDTO, viewModel: StaffGoodsVM){
             binding.item = item
 
-            binding.cardMenuOverview.setOnClickListener {
-
+            binding.cardMenuOverview.setOnLongClickListener {
+                callback.updateProductDialog(item)
+                return@setOnLongClickListener true
             }
+
+//            binding.cardMenuOverview.setOnClickListener {
+//                callback.updateProductDialog(item)
+//            }
 
             binding.btnDeleteProduct.setOnClickListener {
                 deleteProductConfirmationDialog(binding.root.context, item)

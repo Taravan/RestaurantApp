@@ -274,6 +274,23 @@ class StaffGoodsVM: ViewModel() {
     /**
      * Products
      */
+
+    private var updatedProductGoodsId: Int = 0
+    val updatedProductName = MutableLiveData<String>()
+    val updatedProductDesc = MutableLiveData<String>()
+    val updatedProductCatId = MutableLiveData<Int>()
+    val updatedProductAllergensId = MutableLiveData<MutableSet<String>>()
+    val updatedProductPrice = MutableLiveData<String>()
+
+    fun setUpdatedProduct(product: GoodsItemDTO) {
+        updatedProductGoodsId = product.goodsId
+        updatedProductName.value = product.goodsName
+        updatedProductDesc.value = product.goodsDesc ?: ""
+        updatedProductCatId.value = product.categoryId
+        //TODO
+        updatedProductPrice.value = product.price.toString()
+    }
+
     private val _goods = MutableLiveData<List<GoodsItemDTO>>()
     val goods: LiveData<List<GoodsItemDTO>>
         get() = _goods.map { list ->
@@ -344,9 +361,14 @@ class StaffGoodsVM: ViewModel() {
 
     }
 
-    fun updateProduct(productId: Int) {
-        val productToUpdate = (_goods.value?.find { it.goodsId == productId } ?: "") as GoodsItemDTO
-        Log.e(TAG, "Updating product: ${productToUpdate.goodsName}.")
+    fun updateProduct() {
+        val productToUpdate = (_goods.value?.find { it.goodsId == updatedProductGoodsId } ?: "") as GoodsItemDTO
+        Log.e(TAG, "Updating product: id: ${productToUpdate.goodsId} -> ${updatedProductGoodsId}, " +
+                "name: ${productToUpdate.goodsName} -> ${updatedProductName.value} " +
+                ", desc: ${productToUpdate.goodsDesc} -> ${updatedProductDesc.value}, " +
+                "cat: ${productToUpdate.categoryId} -> ${updatedProductCatId.value}, " +
+                "price: ${productToUpdate.price} -> ${updatedProductPrice.value}" +
+                "allergens: TODO.")
     }
 
     fun deleteProduct(productId: Int) {

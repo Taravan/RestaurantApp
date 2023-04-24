@@ -58,11 +58,22 @@ class MainActivityVM : ViewModel() {
         get() = _tableQr
 
     fun onQrScanned(decodedValue: String) {
+        // Try to find api url
+        getApiUrlFromQr(decodedValue)
+
+        // Try to match table
         if (_tables.size < 1) fetchTables()
         val table = _tables.find { it.qrCode == decodedValue }
         if (table != null) {
             _navigateToNext.postValue(table)
         }
+    }
+
+    private fun getApiUrlFromQr(code: String) {
+        val regex = Regex("#\\*#(.*?)#\\*#")
+        val matchResult = regex.find(code)
+        val apiUrl: String = matchResult?.groupValues?.get(1) ?: ""
+        //TODO: Save somewhere
     }
 
 

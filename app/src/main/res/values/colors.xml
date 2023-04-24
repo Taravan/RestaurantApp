@@ -15,4 +15,6 @@
     <color name="green">#8BC34A</color>
     <color name="table_unchecked">#47AEDC</color>
     <color name="table_checked">#FFC107</color>
+    <color name="btn_red">#CE2323</color>
+    <color name="btn_blue">#1C93A3</color>
 </resources>

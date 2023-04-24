@@ -104,6 +104,7 @@
     <string name="hint_price">Price</string>
     <string name="hint_category_name">Category Name</string>
     <string name="btn_create">Create</string>
+    <string name="btn_update">Update</string>
     <string name="btn_cancel">Cancel</string>
 
     <string name="category_delete">Are you sure you want to delete category %1$s?</string>

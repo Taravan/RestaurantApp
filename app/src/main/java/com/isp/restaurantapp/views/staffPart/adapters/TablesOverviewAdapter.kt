@@ -2,10 +2,12 @@ package com.isp.restaurantapp.views.staffPart.adapters
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffRvTableOverviewBinding
@@ -13,8 +15,12 @@ import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
-class TablesOverviewAdapter(private val viewModel: StaffGoodsVM, private var tables: List<TableDTO> = emptyList()):
+class TablesOverviewAdapter(private val viewModel: StaffGoodsVM, private val callback: Callback , private var tables: List<TableDTO> = emptyList()):
     RecyclerView.Adapter<TablesOverviewAdapter.TableOverviewViewHolder>(){
+
+    interface Callback {
+        fun updateTableDialog(table: TableDTO)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TableOverviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -45,9 +51,14 @@ class TablesOverviewAdapter(private val viewModel: StaffGoodsVM, private var tab
         fun bind(table: TableDTO, viewModel: StaffGoodsVM){
             binding.table = table
 
-            binding.cardTableOverview.setOnClickListener {
-
+            binding.cardTableOverview.setOnLongClickListener {
+                callback.updateTableDialog(table)
+                return@setOnLongClickListener true
             }
+
+//            binding.cardTableOverview.setOnClickListener {
+//                callback.updateTableDialog(table)
+//            }
 
             binding.btnDeleteTable.setOnClickListener {
                 deleteTableConfirmationDialog(binding.root.context, table)

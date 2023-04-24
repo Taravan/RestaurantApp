@@ -13,8 +13,12 @@ import com.isp.restaurantapp.models.dto.CategoryDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
-class CategoriesOverviewAdapter(private val viewModel: StaffGoodsVM, private var categories: List<CategoryDTO> = emptyList()):
+class CategoriesOverviewAdapter(private val viewModel: StaffGoodsVM, private val callback: Callback, private var categories: List<CategoryDTO> = emptyList()):
     RecyclerView.Adapter<CategoriesOverviewAdapter.CategoryOverviewViewHolder>(){
+
+    interface Callback{
+        fun updateCategoryDialog(category: CategoryDTO)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryOverviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -45,9 +49,14 @@ class CategoriesOverviewAdapter(private val viewModel: StaffGoodsVM, private var
         fun bind(category: CategoryDTO, viewModel: StaffGoodsVM){
             binding.category = category
 
-            binding.cardCategoryOverview.setOnClickListener {
-
+            binding.cardCategoryOverview.setOnLongClickListener {
+                callback.updateCategoryDialog(category)
+                return@setOnLongClickListener true
             }
+
+//            binding.cardCategoryOverview.setOnClickListener {
+//                callback.updateCategoryDialog(category)
+//            }
 
             binding.btnDeleteCategory.setOnClickListener {
                 deleteCategoryConfirmationDialog(binding.root.context, category)

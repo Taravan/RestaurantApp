@@ -80,6 +80,17 @@ class StaffGoodsVM: ViewModel() {
     /**
      * Tables
      */
+    private var updatedTableId: Int = 0
+    val updatedTableNumber = MutableLiveData<String>()
+    val updatedTableQrCode = MutableLiveData<String>()
+
+    fun setUpdatedTable(table: TableDTO) {
+        updatedTableId = table.id
+        updatedTableNumber.value = table.tableNumber.toString()
+        updatedTableQrCode.value = table.qrCode
+    }
+
+
     private val _tables = MutableLiveData<List<TableDTO>>()
     val tables: LiveData<List<TableDTO>>
         get() = _tables
@@ -124,9 +135,11 @@ class StaffGoodsVM: ViewModel() {
         }
     }
 
-    fun updateTable(tableId: Int, tableNumber: String, qrCode: String) {
-        val tableToUpdate = (_tables.value?.find { it.id == tableId } ?: "") as TableDTO
-        Log.e(TAG, "Updating table number: ${tableToUpdate.tableNumber.toString()}.")
+    fun updateTable() {
+        val tableToUpdate = (_tables.value?.find { it.id == updatedTableId} ?: "") as TableDTO
+        Log.e(TAG, "Updating table: id: ${tableToUpdate.id.toString()} -> ${updatedTableId.toString()} "+
+                "number: ${tableToUpdate.tableNumber.toString()} -> ${updatedTableNumber.value} " +
+                "and qr: ${tableToUpdate.qrCode} -> ${updatedTableQrCode.value}.")
     }
 
     fun deleteTable(tableId: Int) {
@@ -152,6 +165,24 @@ class StaffGoodsVM: ViewModel() {
     /**
      * Categories
      */
+
+//    private val _updatedCatId = MutableLiveData<Int>()
+//    private val updatedCatId: LiveData<Int>
+//        get() = _updatedCatId
+//
+//    private val _updatedCatName = MutableLiveData<String>()
+//    val updatedCatName: LiveData<String>
+//        get() = _updatedCatName
+
+
+    private var updatedCatId: Int = 0
+    val updatedCatName = MutableLiveData<String>()
+
+    fun setUpdatedCategory(category: CategoryDTO) {
+        updatedCatId = category.id
+        updatedCatName.value = category.name
+    }
+
     private val _categories = MutableLiveData<List<CategoryDTO>>()
     val categories: LiveData<List<CategoryDTO>>
         get() = _categories
@@ -190,9 +221,10 @@ class StaffGoodsVM: ViewModel() {
         Log.i(TAG, "Adding $categoryName category.")
     }
 
-    fun updateCategory(categoryId: Int) {
-        val categoryToUpdate = (_categories.value?.find { it.id ==categoryId } ?: "") as CategoryDTO
-        Log.e(TAG, "Updating category: ${categoryToUpdate.name}.")
+    fun updateCategory() {
+        val categoryToUpdate = (_categories.value?.find { it.id == updatedCatId } ?: "") as CategoryDTO
+        Log.e(TAG, "Updating category: id: ${categoryToUpdate.id.toString()} -> ${updatedCatId.toString()} "+
+                "name: ${categoryToUpdate.name.toString()} -> ${updatedCatName.value}.")
     }
 
     fun deleteCategory(categoryId: Int) {

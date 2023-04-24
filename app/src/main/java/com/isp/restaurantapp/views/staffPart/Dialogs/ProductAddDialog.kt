@@ -73,8 +73,9 @@ class ProductAddDialog: DialogFragment() {
             val name = _binding.etAddProductName.text.toString()
             val desc = _binding.etAddProductDesc.text.toString()
             val cat = _binding.spinnerCategory.selectedItem as CategoryDTO
+            val price = _binding.etAddProductPrice.text.toString()
 
-            _viewModel.addProduct(name, desc, cat, _viewModel.selectedAllergens.value.orEmpty().toList())
+            _viewModel.addProduct(name, desc, cat, price, _viewModel.selectedAllergens.value.orEmpty().toList())
             _viewModel.resetSelectedAllergens()
             dismiss()
 

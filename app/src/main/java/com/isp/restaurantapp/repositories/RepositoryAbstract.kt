@@ -18,6 +18,7 @@ abstract class RepositoryAbstract:
     CategoryInserterService,
     CategoryUpdaterService,
     CategoryDeleterService,
-    AllergenGetterService
+    AllergenGetterService,
+    GoodsItemInserterService
 {
 }

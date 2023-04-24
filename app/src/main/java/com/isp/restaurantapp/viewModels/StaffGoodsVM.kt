@@ -221,7 +221,11 @@ class StaffGoodsVM: ViewModel() {
      */
     private val _goods = MutableLiveData<List<GoodsItemDTO>>()
     val goods: LiveData<List<GoodsItemDTO>>
-        get() = _goods
+        get() = _goods.map {
+            it.distinctBy {
+                it.goodsId
+            }
+        }
 
     fun fetchGoods() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -253,8 +257,26 @@ class StaffGoodsVM: ViewModel() {
         }
     }
 
-    fun addProduct(name: String, desc: String, category: CategoryDTO, allergens: List<AllergenDTO>) {
-        Log.e(TAG, "Adding name=$name , cat=${category.id} , allergens=$allergens")
+    fun addProduct(name: String, desc: String?, category: CategoryDTO, price: String, allergens: List<AllergenDTO>) {
+        Log.i(TAG, "Adding name=$name , cat=${category.id} , allergens=$allergens")
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                val allergenIds = allergens.map {
+                    it.id
+                }
+                val priceDouble = price.toDouble()
+                val data = InsertGoodsItemDTO(name, desc, category.id, priceDouble, allergenIds)
+                val result = _repository.insertGoodsItemWithAllergens(data)
+                withContext(Dispatchers.Main){
+                    Log.i(TAG, "addProduct: new product added with id ${result.body()?.id}")
+                }
+
+            } catch (e: Exception){
+                Log.e(TAG, "addProduct: adding goods item failed with exception: $e")
+                e.printStackTrace()
+            }
+        }
+
     }
 
     fun updateProduct(productId: Int) {

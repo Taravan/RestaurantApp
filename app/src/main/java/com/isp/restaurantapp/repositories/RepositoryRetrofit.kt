@@ -87,6 +87,10 @@ class RepositoryRetrofit(
         _apiService.create(AllergenGetterService::class.java)
     }
 
+    private val _goodsInserter: GoodsItemInserterService by lazy{
+        _apiService.create(GoodsItemInserterService::class.java)
+    }
+
     override suspend fun getOrdersByTableId(tableId: Int): List<OrderByTableIdDTO> {
         return ordersByTableIdGetterService.getOrdersByTableId(tableId)
     }
@@ -162,6 +166,10 @@ class RepositoryRetrofit(
 
     override suspend fun updateOrdersReceiptId(orderIdsWithReceipt: OrderIdsWithReceiptIdDTO): Response<InsertedId> {
         return _ordersReceiptIdUpdater.updateOrdersReceiptId(orderIdsWithReceipt)
+    }
+
+    override suspend fun insertGoodsItemWithAllergens(goodsWithAllergens: InsertGoodsItemDTO): Response<InsertedId> {
+        return _goodsInserter.insertGoodsItemWithAllergens(goodsWithAllergens)
     }
 
 }

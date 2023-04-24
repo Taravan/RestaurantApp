@@ -36,10 +36,10 @@ class StaffGoodsVM: ViewModel() {
     val errorState: LiveData<String>
         get() = _errorState
 
-    private val _errorException: MutableLiveData<Exception?> by lazy{
-        MutableLiveData<Exception?>()
+    private val _errorException: MutableLiveData<Throwable?> by lazy{
+        MutableLiveData<Throwable?>()
     }
-    val errorException: LiveData<Exception?>
+    val errorException: LiveData<Throwable?>
         get() = _errorException
 
     fun resetErrorState(){
@@ -120,6 +120,7 @@ class StaffGoodsVM: ViewModel() {
                 val result = _repository.insertTable(number, qrCode)
                 Log.i(TAG, "addTable: isSsucessful = ${result.isSuccessful}, tableNumber = $number")
                 if (!result.isSuccessful) throw Exception("Table insertion failed")
+                fetchTables()
                 withContext(Dispatchers.Main) {
                     Log.i(
                         TAG,
@@ -137,9 +138,26 @@ class StaffGoodsVM: ViewModel() {
 
     fun updateTable() {
         val tableToUpdate = (_tables.value?.find { it.id == updatedTableId} ?: "") as TableDTO
-        Log.e(TAG, "Updating table: id: ${tableToUpdate.id.toString()} -> ${updatedTableId.toString()} "+
+        Log.i(TAG, "Updating table: id: ${tableToUpdate.id.toString()} -> ${updatedTableId.toString()} "+
                 "number: ${tableToUpdate.tableNumber.toString()} -> ${updatedTableNumber.value} " +
                 "and qr: ${tableToUpdate.qrCode} -> ${updatedTableQrCode.value}.")
+
+        val handler = CoroutineExceptionHandler{_, throwable ->
+            _errorException.postValue(throwable)
+            throwable.printStackTrace()
+        }
+
+        val newNumber: Int = updatedTableNumber.value?.toInt() ?: 0
+        val newQr: String = updatedTableQrCode.value.toString()
+
+        viewModelScope.launch(Dispatchers.IO + handler){
+            _repository.updateTable(
+                updatedTableId,
+                newNumber,
+                newQr
+            )
+            fetchTables()
+        }
     }
 
     fun deleteTable(tableId: Int) {
@@ -148,12 +166,7 @@ class StaffGoodsVM: ViewModel() {
                 Log.i(TAG, "addTable: initing table delete")
                 val result = _repository.deleteTable(tableId)
                 if (!result.isSuccessful) throw Exception("Table insertion failed")
-                withContext(Dispatchers.Main) {
-                    Log.i(
-                        TAG,
-                        "deleteTable: delete table complete, ${result.body()?.id.toString()} rows effected"
-                    )
-                }
+                fetchTables()
             }
             catch (e: Exception){
                 Log.e(TAG, "deleteTable: Error while deleting table ${e.message}")
@@ -225,6 +238,21 @@ class StaffGoodsVM: ViewModel() {
         val categoryToUpdate = (_categories.value?.find { it.id == updatedCatId } ?: "") as CategoryDTO
         Log.e(TAG, "Updating category: id: ${categoryToUpdate.id.toString()} -> ${updatedCatId.toString()} "+
                 "name: ${categoryToUpdate.name.toString()} -> ${updatedCatName.value}.")
+
+
+        val handler = CoroutineExceptionHandler{ _, throwable ->
+            _errorException.postValue(throwable)
+            throwable.printStackTrace()
+        }
+
+        viewModelScope.launch(Dispatchers.IO + handler){
+            _repository.updateCategory(
+                updatedCatId,
+                updatedCatName.value.toString(),
+                categoryToUpdate.description
+            )
+            fetchCategories()
+        }
     }
 
     fun deleteCategory(categoryId: Int) {
@@ -233,12 +261,7 @@ class StaffGoodsVM: ViewModel() {
                 Log.i(TAG, "deleteCategory: initing table category")
                 val result = _repository.deleteCategory(categoryId)
                 if (!result.isSuccessful) throw Exception("Table insertion failed")
-                withContext(Dispatchers.Main) {
-                    Log.i(
-                        TAG,
-                        "deleteCategory: delete category complete, ${result.body()?.id.toString()} rows effected"
-                    )
-                }
+                fetchCategories()
             }
             catch (e: Exception){
                 Log.e(TAG, "deleteCategory: Error while deleting category ${e.message}")
@@ -253,8 +276,8 @@ class StaffGoodsVM: ViewModel() {
      */
     private val _goods = MutableLiveData<List<GoodsItemDTO>>()
     val goods: LiveData<List<GoodsItemDTO>>
-        get() = _goods.map {
-            it.distinctBy {
+        get() = _goods.map { list ->
+            list.distinctBy {
                 it.goodsId
             }
         }
@@ -290,6 +313,13 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun addProduct(name: String, desc: String?, category: CategoryDTO, price: String, allergens: List<AllergenDTO>) {
+        val handler = CoroutineExceptionHandler{ _, e ->
+            if (e is NumberFormatException){
+                _errorException.postValue(e)
+            }
+            e.printStackTrace()
+        }
+
         Log.i(TAG, "Adding name=$name , cat=${category.id} , allergens=$allergens")
         viewModelScope.launch(Dispatchers.IO){
             try {
@@ -303,9 +333,12 @@ class StaffGoodsVM: ViewModel() {
                     Log.i(TAG, "addProduct: new product added with id ${result.body()?.id}")
                 }
 
+            } catch (e: NumberFormatException){
+                Log.e(TAG, "addProduct: adding goods item failed with exception: $e")
+                throw e
             } catch (e: Exception){
                 Log.e(TAG, "addProduct: adding goods item failed with exception: $e")
-                e.printStackTrace()
+                throw e
             }
         }
 
@@ -317,8 +350,16 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun deleteProduct(productId: Int) {
-        val productToDelete = (_goods.value?.find { it.goodsId == productId } ?: "") as GoodsItemDTO
-        Log.e(TAG, "Deleting product: ${productToDelete.goodsName}.")
+        Log.e(TAG, "Deleting product.")
+        val handler = CoroutineExceptionHandler{ _, e ->
+            _errorState.postValue("Something went wrong")
+            e.printStackTrace()
+        }
+
+        viewModelScope.launch(Dispatchers.IO + handler){
+            val result = _repository.deleteGoodsItem(productId)
+            fetchGoods()
+        }
     }
 
 

@@ -41,24 +41,22 @@ class TerminalHolderStaffFragment: Fragment() {
                 _viewModel.resetErrorState()
             }
         }
-//
-//        _viewModel.fetchPendingOrders()
-//        _viewModel.fetchProcessedOrders()
+
+
         adapterTop = PendingOrdersAdapter(_viewModel)
         val recyclerViewTop = _binding.topRecycler
         recyclerViewTop.adapter = adapterTop
 
+        // REALTIME
         _viewModel.getPendingOrders().observe(viewLifecycleOwner){
             adapterTop.updateData(it)
         }
 
+        // REALTIME
         _viewModel.getConfirmedOrders().observe(viewLifecycleOwner){
             adapterBottom.updateData(it)
         }
 
-//        _viewModel.pendingOrders.observe(viewLifecycleOwner) { pendingOrders ->
-//            adapterTop.updateData(pendingOrders)
-//        }
 
         adapterBottom = ProcessedOrdersAdapter(_viewModel)
         val recyclerViewBottom = _binding.bottomRecycler

@@ -1,8 +1,10 @@
 package com.isp.restaurantapp.views.staffPart.adapters
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
@@ -51,13 +53,27 @@ class ProcessedOrdersAdapter(private val viewModel: StaffTerminalHolderVM, priva
             binding.order = order
 
             binding.cardProcessedHolder.setOnClickListener {
-                //viewModel.processProcessedOrder(order.orderId)
+                viewOrder(binding.root.context, order)
             }
 
             binding.executePendingBindings()
 
         }
 
+        private fun viewOrder(context: Context, order: FrbOrderDTO){
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(R.string.string_buy_confirmation_title)
+
+            val msg: String = context.getString(
+                R.string.string_order_info_text,
+                order.itemName, "${order.tableNumber}"
+            )
+            builder.setMessage(msg)
+
+            builder.setPositiveButton("Ok", null)
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 
 }

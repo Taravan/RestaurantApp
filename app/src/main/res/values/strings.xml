@@ -35,9 +35,9 @@
     <string name="btn_signup">Sign Up</string>
     <string name="btn_create_acc">Create</string>
     <string name="btn_back_to_login">Back to Log in</string>
-    <string name="toast_bad_email">Email není v platném tvaru</string>
-    <string name="toast_bad_passwd">Heslo musí obsahovat alespoň 8 znaků z toho 1 velké pímeno, 1 malé a jednu číslici!</string>
-    <string name="toast_bad_passwd_conf">Hesla se neshodují</string>
+    <string name="toast_bad_email">Email is not in valid form</string>
+    <string name="toast_bad_passwd">Password has to have at least 8 characters with 1 upper case, 1 lower case and 1 digit!</string>
+    <string name="toast_bad_passwd_conf">Passwords don\'t match</string>
 
     // Account fragment
     <string name="account_welcome_text">Your account</string>
@@ -49,18 +49,19 @@
     <string name="item_name">Item Name</string>
     <string name="btn_price">0.0</string>
     <string name="check_all">All</string>
-    <string name="string_buy_confirmation_title">Potvrzení objednávky</string>
-    <string name="string_buy_confirmation_text">Objednat %1$s Kč?</string>
+    <string name="string_buy_confirmation_title">Order confirmation</string>
+    <string name="string_buy_confirmation_text">Order %1$s Kč?</string>
+    <string name="string_order_info_text">Item: %1$s, table: %2$s </string>
 
 
     // Pay fragment
     <string name="btn_pay">Pay</string>
     <string name="pay_welcome_text">Select what to pay</string>
-    <string name="pay_wait_for_waiter">Označeno k platbě, vyčkejte na obsluhu</string>
-    <string name="pay_nothing_to_pay_for">Nejprve označte položky k placení</string>
+    <string name="pay_wait_for_waiter">Item marked for payment, please wait for waitress</string>
+    <string name="pay_nothing_to_pay_for">Select items to pay</string>
     
     //Allergen fragment
-    <string name="submitUserAllergens">Potvrdit</string>
+    <string name="submitUserAllergens">Submit</string>
 
     // Bottom menu
     <string name="title_menu">Menu</string>
@@ -77,13 +78,13 @@
 
     // Order rov
     <string name="table_prefix">Table: </string>
-    <string name="pending_order_dbInsert_failed">Nepodařilo se vytvořir objednávku do podnikové databáze</string>
+    <string name="pending_order_dbInsert_failed">Order failed to be inserted to database</string>
 
     // Staff Tables
     <string name="table_prefix_no_colon">Table </string>
     <string name="to_pay">To pay: </string>
     <string name="price_left_suffix"> left</string>
-    <string name="string_error_fetching_tables">Nastala chyba při načítání stolů</string>
+    <string name="string_error_fetching_tables">An error occurred with loading of tables</string>
 
 
     // Staff login

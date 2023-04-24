@@ -14,11 +14,9 @@ abstract class RepositoryAbstract:
     ReceiptInsertedService,
     OrdersUpdateReceiptIdService,
     StaffAccountGetterService,
-    CategoryGetterService,
-    CategoryInserterService,
-    CategoryUpdaterService,
-    CategoryDeleterService,
-    AllergenGetterService,
-    GoodsItemInserterService
+    CategoryGetterService, CategoryInserterService,
+    CategoryUpdaterService, CategoryDeleterService,
+    AllergenGetterService, AllergensForGoodsItemGetter,
+    GoodsItemInserterService, GoodsItemUpdaterService, GoodsItemDeleterService
 {
 }

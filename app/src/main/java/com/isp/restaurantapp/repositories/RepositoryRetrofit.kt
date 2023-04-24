@@ -91,6 +91,18 @@ class RepositoryRetrofit(
         _apiService.create(GoodsItemInserterService::class.java)
     }
 
+    private val _goodsUpdater: GoodsItemUpdaterService by lazy {
+        _apiService.create(GoodsItemUpdaterService::class.java)
+    }
+
+    private val _goodsDeleter: GoodsItemDeleterService by lazy{
+        _apiService.create(GoodsItemDeleterService::class.java)
+    }
+
+    private val _allergensForItem: AllergensForGoodsItemGetter by lazy{
+        _apiService.create(AllergensForGoodsItemGetter::class.java)
+    }
+
     override suspend fun getOrdersByTableId(tableId: Int): List<OrderByTableIdDTO> {
         return ordersByTableIdGetterService.getOrdersByTableId(tableId)
     }
@@ -164,12 +176,24 @@ class RepositoryRetrofit(
         return _allergensGetter.getAllergens()
     }
 
+    override suspend fun getAllergensForGoodsItem(goodsId: Int): Response<List<AllergenDTO>> {
+        return _allergensForItem.getAllergensForGoodsItem(goodsId)
+    }
+
     override suspend fun updateOrdersReceiptId(orderIdsWithReceipt: OrderIdsWithReceiptIdDTO): Response<InsertedId> {
         return _ordersReceiptIdUpdater.updateOrdersReceiptId(orderIdsWithReceipt)
     }
 
     override suspend fun insertGoodsItemWithAllergens(goodsWithAllergens: InsertGoodsItemDTO): Response<InsertedId> {
         return _goodsInserter.insertGoodsItemWithAllergens(goodsWithAllergens)
+    }
+
+    override suspend fun updateGoodsItemWithAllergens(goodsWithAllergens: UpdateGoodsItemDTO): Response<InsertedId> {
+        return _goodsUpdater.updateGoodsItemWithAllergens(goodsWithAllergens)
+    }
+
+    override suspend fun deleteGoodsItem(id: Int): Response<InsertedId> {
+        return _goodsDeleter.deleteGoodsItem(id)
     }
 
 }

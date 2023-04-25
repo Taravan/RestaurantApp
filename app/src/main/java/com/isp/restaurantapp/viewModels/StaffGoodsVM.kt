@@ -5,10 +5,8 @@ import androidx.lifecycle.*
 import com.isp.restaurantapp.models.dto.*
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
 import kotlin.math.log
 
 class StaffGoodsVM: ViewModel() {
@@ -275,20 +273,42 @@ class StaffGoodsVM: ViewModel() {
      * Products
      */
 
+
+    lateinit var productToUpdate: GoodsItemDTO
+    private val _fetchedProductsAllergens = MutableLiveData<MutableSet<AllergenDTO>>()
+    val fetchedProductsAllergens: LiveData<MutableSet<AllergenDTO>>
+        get() = _fetchedProductsAllergens
+
     private var updatedProductGoodsId: Int = 0
     val updatedProductName = MutableLiveData<String>()
     val updatedProductDesc = MutableLiveData<String>()
-    val updatedProductCatId = MutableLiveData<Int>()
-    val updatedProductAllergensId = MutableLiveData<MutableSet<String>>()
+    val updatedProductCatPosition = MutableLiveData<Int>()
+    private val _updatedProductAllergens = MutableLiveData<MutableSet<AllergenDTO>>()
     val updatedProductPrice = MutableLiveData<String>()
 
-    fun setUpdatedProduct(product: GoodsItemDTO) {
-        updatedProductGoodsId = product.goodsId
-        updatedProductName.value = product.goodsName
-        updatedProductDesc.value = product.goodsDesc ?: ""
-        updatedProductCatId.value = product.categoryId
-        //TODO
-        updatedProductPrice.value = product.price.toString()
+    fun updateSelectedListForUpdate(operation: Boolean, allergen: AllergenDTO) {
+        if (operation){
+            Log.i(TAG, "updateSelectedList: added $allergen")
+            _updatedProductAllergens.value?.add(allergen)
+        }
+        else {
+            Log.i(TAG, "updateSelectedList: removed $allergen")
+            _updatedProductAllergens.value?.remove(allergen)
+        }
+    }
+
+    fun isAllergenForUpdate(allergen: AllergenDTO): Boolean{
+        return _updatedProductAllergens.value?.contains(allergen) ?: false
+    }
+
+    fun setUpdatedProduct() {
+        updatedProductGoodsId = productToUpdate.goodsId
+        updatedProductName.value = productToUpdate.goodsName
+        updatedProductDesc.value = productToUpdate.goodsDesc ?: ""
+        updatedProductCatPosition.value = _categories.value?.indexOfFirst { it.id == productToUpdate.categoryId } ?: 0
+        //fetchAllergensForGoodsItem(product.goodsId)
+        _updatedProductAllergens.value = _fetchedProductsAllergens.value
+        updatedProductPrice.value = productToUpdate.price.toString()
     }
 
     private val _goods = MutableLiveData<List<GoodsItemDTO>>()
@@ -314,9 +334,23 @@ class StaffGoodsVM: ViewModel() {
             }
         }
     }
+    fun fetchAllergensForGoodsItem(productId: Int) {
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                val result = _repository.getAllergensForGoodsItem(productId)
+                withContext(Dispatchers.Main){
+                    _fetchedProductsAllergens.postValue(result.body()?.toMutableSet())
+                }
+            } catch (e: Exception){
+                Log.e(TAG, "fetchAllergensForGoodsItem: Error fetching allergens" )
+                e.printStackTrace()
+            }
+        }
+
+    }
 
     fun fetchAllergens(){
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(IO){
             try {
                 val result = _repository.getAllergens()
                 withContext(Dispatchers.Main){
@@ -366,9 +400,9 @@ class StaffGoodsVM: ViewModel() {
         Log.e(TAG, "Updating product: id: ${productToUpdate.goodsId} -> ${updatedProductGoodsId}, " +
                 "name: ${productToUpdate.goodsName} -> ${updatedProductName.value} " +
                 ", desc: ${productToUpdate.goodsDesc} -> ${updatedProductDesc.value}, " +
-                "cat: ${productToUpdate.categoryId} -> ${updatedProductCatId.value}, " +
-                "price: ${productToUpdate.price} -> ${updatedProductPrice.value}" +
-                "allergens: TODO.")
+                "cat: ${categories.value?.find { it.id == productToUpdate.categoryId }?.name} -> ${categories.value?.get(updatedProductCatPosition.value ?: 0)?.name ?: ""}, " +
+                "price: ${productToUpdate.price} -> ${updatedProductPrice.value} " +
+                "allergens: ${_updatedProductAllergens.value?.size}.")
     }
 
     fun deleteProduct(productId: Int) {

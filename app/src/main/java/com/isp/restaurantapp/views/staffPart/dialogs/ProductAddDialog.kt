@@ -32,9 +32,7 @@ class ProductAddDialog: DialogFragment() {
         _binding.viewModel = _viewModel
 
         val categories = _viewModel.categories.value ?: emptyList()
-//        _adapterSpinner = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         _adapterSpinner = CategoriesSpinnerAdapter(requireContext(), categories)
-//        _adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         _binding.spinnerCategory.adapter = _adapterSpinner
 
         _adapterAllergens = ProductAddAllergensAdapter(_viewModel)

@@ -39,6 +39,7 @@
             android:layout_height="50dp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginVertical="10dp"
+            android:selectedItemPosition="@={viewModel.updatedProductCatPosition}"
             />
 
         <androidx.recyclerview.widget.RecyclerView

@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.isp.restaurantapp.databinding.StaffDialogUpdateTableBinding
-import com.isp.restaurantapp.models.dto.TableDTO
+import com.isp.restaurantapp.databinding.StaffDialogUpdateCategoryBinding
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
-class TableUpdateDialog(): DialogFragment() {
+class CategoryUpdateDialog(): DialogFragment() {
 
-    private lateinit var _binding: StaffDialogUpdateTableBinding
+    private lateinit var _binding: StaffDialogUpdateCategoryBinding
     private val _viewModel: StaffGoodsVM by viewModels(ownerProducer = { requireParentFragment() })
 
 
@@ -22,18 +21,18 @@ class TableUpdateDialog(): DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = StaffDialogUpdateTableBinding.inflate(inflater, container, false)
+        _binding = StaffDialogUpdateCategoryBinding.inflate(inflater, container, false)
         //_viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 
-        _binding.btnUpdateTable.setOnClickListener {
+        _binding.btnUpdateCategory.setOnClickListener {
 
-            _viewModel.updateTable()
+            _viewModel.updateCategory()
             dismiss()
         }
 
-        _binding.btnCancelUpdateTable.setOnClickListener {
+        _binding.btnCancelCategoryUpdate.setOnClickListener {
             dismiss()
         }
 

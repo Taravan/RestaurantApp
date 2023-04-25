@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.models.dto.TableDTO
+import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
 import com.isp.restaurantapp.repositories.interfaces.TableGetterService
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,21 +25,18 @@ class MainActivityVM : ViewModel() {
     // Counting continuous swipes of an user
     private var swipeCounter = 0
 
-    private val _tablesRepository: TableGetterService by lazy {
-        RepositoryRetrofit()
-    }
-
     private var _tables: MutableList<TableDTO> = mutableListOf()
     val tables: MutableList<TableDTO>
         get() = _tables
 
-    fun fetchTables(){
+    fun fetchTables(repository: RepositoryAbstract){
         val handler = CoroutineExceptionHandler{ _, throwable ->
             throwable.printStackTrace()
         }
+
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
-                val result = _tablesRepository.getTables()
+                val result = repository.getTables()
                 withContext(Dispatchers.Main){
                     _tables = result.toMutableList()
                 }
@@ -58,23 +56,18 @@ class MainActivityVM : ViewModel() {
         get() = _tableQr
 
     fun onQrScanned(decodedValue: String) {
-        // Try to find api url
-        getApiUrlFromQr(decodedValue)
 
         // Try to match table
-        if (_tables.size < 1) fetchTables()
+        val isUrl = RepositoryRetrofit.setUrl(decodedValue)
+        if (isUrl && _tables.size < 1){
+            fetchTables(RepositoryRetrofit())
+        }
         val table = _tables.find { it.qrCode == decodedValue }
         if (table != null) {
             _navigateToNext.postValue(table)
         }
     }
 
-    private fun getApiUrlFromQr(code: String) {
-        val regex = Regex("#\\*#(.*?)#\\*#")
-        val matchResult = regex.find(code)
-        val apiUrl: String = matchResult?.groupValues?.get(1) ?: ""
-        //TODO: Save somewhere
-    }
 
 
     /**

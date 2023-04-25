@@ -1,16 +1,19 @@
 package com.isp.restaurantapp.views.staffPart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.isp.restaurantapp.databinding.StaffFragmentGoodsBinding
 import com.isp.restaurantapp.models.dto.CategoryDTO
 import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
+import com.isp.restaurantapp.viewModels.StaffMainScreenVM
 import com.isp.restaurantapp.views.staffPart.adapters.CategoriesOverviewAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.MenuOverviewAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.TablesOverviewAdapter
@@ -18,12 +21,18 @@ import com.isp.restaurantapp.views.staffPart.dialogs.*
 
 class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, CategoriesOverviewAdapter.Callback {
 
+    companion object{
+        private const val TAG = "GoodsStaffFragment"
+    }
+
     private lateinit var _binding: StaffFragmentGoodsBinding
     private lateinit var _viewModel: StaffGoodsVM
 
     private lateinit var _adapterTables: TablesOverviewAdapter
     private lateinit var _adapterCategories: CategoriesOverviewAdapter
     private lateinit var _adapterMenu: MenuOverviewAdapter
+
+    private val _activityViewModel: StaffMainScreenVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +45,11 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
         _binding = StaffFragmentGoodsBinding.inflate(inflater, container, false)
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
+
+        _activityViewModel.encodedApiUrl.observe(viewLifecycleOwner){
+            _viewModel.prefix = it
+            Log.i(TAG, "onCreateView: set up prefix to view-model $it")
+        }
 
         _viewModel.fetchTables()
         _viewModel.fetchCategories()

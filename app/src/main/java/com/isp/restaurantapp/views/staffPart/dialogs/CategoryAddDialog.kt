@@ -6,15 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.isp.restaurantapp.databinding.StaffDialogUpdateCategoryBinding
-import com.isp.restaurantapp.databinding.StaffDialogUpdateTableBinding
+import com.isp.restaurantapp.databinding.StaffDialogNewCategoryBinding
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
-class CategoryUpdateDialog(): DialogFragment() {
+class CategoryAddDialog: DialogFragment() {
 
-    private lateinit var _binding: StaffDialogUpdateCategoryBinding
-    private val _viewModel: StaffGoodsVM by viewModels(ownerProducer = { requireParentFragment() })
-
+    private lateinit var _binding: StaffDialogNewCategoryBinding
+    private val _viewModel: StaffGoodsVM by viewModels(ownerProducer = {requireParentFragment()})
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,18 +20,21 @@ class CategoryUpdateDialog(): DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = StaffDialogUpdateCategoryBinding.inflate(inflater, container, false)
+
+        _binding = StaffDialogNewCategoryBinding.inflate(inflater, container, false)
         //_viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 
-        _binding.btnUpdateCategory.setOnClickListener {
+        _binding.btnCreateCategory.setOnClickListener {
 
-            _viewModel.updateCategory()
+            val categoryName = _binding.etAddCategoryName.text.toString()
+            _viewModel.addCategory(categoryName)
             dismiss()
+
         }
 
-        _binding.btnCancelCategoryUpdate.setOnClickListener {
+        _binding.btnCancelCategory.setOnClickListener {
             dismiss()
         }
 

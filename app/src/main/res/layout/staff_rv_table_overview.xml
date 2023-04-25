@@ -4,6 +4,9 @@
 
     <data>
         <variable
+            name="viewModel"
+            type="com.isp.restaurantapp.viewModels.StaffGoodsVM" />
+        <variable
             name="table"
             type="com.isp.restaurantapp.models.dto.TableDTO" />
     </data>

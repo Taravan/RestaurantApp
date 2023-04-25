@@ -88,8 +88,6 @@ class TerminalHolderStaffFragment: Fragment() {
 
         _binding.btnTables.setOnClickListener {
             navController.navigate(R.id.nav_staffTables)
-            //val action = OverviewStaffFragmentDirections.actionNavStaffOverviewToNavStaffTables()
-            //navController.navigate(action)
         }
 
         _binding.btnMenuUpdate.setOnClickListener {

@@ -75,6 +75,8 @@
 
     // Login
     <string name="display_warning">WARNING: This part was designed for tablets or devices with big screen only. It is not recommended to use it on small screen devices.</string>
+    <string name="string_bad_url_format">Url needs to be in following format: #*#https://ulr.com/*#*</string>
+    <string name="string_bad_url_timeout">Couldn\'t contact API server. Open settings and check if your URL is correct</string>
 
     // Order rov
     <string name="table_prefix">Table:</string>

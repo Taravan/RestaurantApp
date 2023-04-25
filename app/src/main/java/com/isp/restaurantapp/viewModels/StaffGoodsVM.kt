@@ -14,14 +14,11 @@ import kotlin.math.log
 class StaffGoodsVM: ViewModel() {
 
     companion object {
-        const val TAG = "StaffGoodsVM"
+        private const val TAG = "StaffGoodsVM"
     }
 
-//    private val _ordersRealtimeRepository: FrbRealtimeGetterByTableIdAndStateService<FrbOrderDTO>
-//            by lazy {
-//                FrbRealtimeGetterByTableIdAndStateServiceImpl()
-//            }
 
+    var prefix: String = ""
     /**
      * Repository for database actions, eg. Tables getter
      */
@@ -47,9 +44,11 @@ class StaffGoodsVM: ViewModel() {
         _errorException.postValue(null)
     }
 
+
+
     private val _allergens = MutableLiveData<List<AllergenDTO>>()
     val allergens: LiveData<List<AllergenDTO>>
-        get() = _allergens.map { it.sortedBy { it.id } }
+        get() = _allergens.map { list -> list.sortedBy { it.id } }
 
     private val _selectedAllergens: MutableLiveData<MutableSet<AllergenDTO>> by lazy{
         MutableLiveData<MutableSet<AllergenDTO>>(mutableSetOf())
@@ -99,6 +98,11 @@ class StaffGoodsVM: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val tables = _repository.getTables()
+                // Delete prefix URL
+                tables.forEach {
+                    it.qrCode = it.qrCode.replace(prefix, "")
+                    Log.i(TAG, "fetchTables: new QrCode without prefix: ${it.qrCode}")
+                }
                 withContext(Dispatchers.Main){
                     _tables.postValue(tables)
                 }
@@ -117,7 +121,9 @@ class StaffGoodsVM: ViewModel() {
             try {
                 Log.i(TAG, "addTable: initing table insertion")
                 val number: Int = tableNumber.toInt()
-                val result = _repository.insertTable(number, qrCode)
+                val newQr = getQrWithPrefix(qrCode)
+                val result = _repository.insertTable(number, newQr)
+
                 Log.i(TAG, "addTable: isSsucessful = ${result.isSuccessful}, tableNumber = $number")
                 if (!result.isSuccessful) throw Exception("Table insertion failed")
                 fetchTables()
@@ -148,7 +154,7 @@ class StaffGoodsVM: ViewModel() {
         }
 
         val newNumber: Int = updatedTableNumber.value?.toInt() ?: 0
-        val newQr: String = updatedTableQrCode.value.toString()
+        val newQr: String = getQrWithPrefix(updatedTableQrCode.value.toString())
 
         viewModelScope.launch(Dispatchers.IO + handler){
             _repository.updateTable(
@@ -175,6 +181,9 @@ class StaffGoodsVM: ViewModel() {
         }
     }
 
+    private fun getQrWithPrefix(qrCode: String): String {
+        return prefix + qrCode
+    }
     /**
      * Categories
      */

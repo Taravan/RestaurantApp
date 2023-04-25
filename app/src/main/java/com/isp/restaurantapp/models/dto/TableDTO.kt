@@ -18,6 +18,6 @@ import kotlinx.parcelize.Parcelize
 data class TableDTO(
     var id: Int = 0,
     var tableNumber: Int = 0,
-    val qrCode: String
+    var qrCode: String
 ): BaseModel(id), Parcelable
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.isp.restaurantapp.databinding.StaffDialogUpdateTableBinding
-import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
 class TableUpdateDialog(): DialogFragment() {

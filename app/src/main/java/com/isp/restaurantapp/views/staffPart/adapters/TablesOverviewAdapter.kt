@@ -15,7 +15,10 @@ import com.isp.restaurantapp.models.dto.GoodsItemDTO
 import com.isp.restaurantapp.models.dto.TableDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 
-class TablesOverviewAdapter(private val viewModel: StaffGoodsVM, private val callback: Callback , private var tables: List<TableDTO> = emptyList()):
+class TablesOverviewAdapter
+    (private val viewModel: StaffGoodsVM,
+     private val callback: Callback ,
+     private var tables: List<TableDTO> = emptyList()):
     RecyclerView.Adapter<TablesOverviewAdapter.TableOverviewViewHolder>(){
 
     interface Callback {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.isp.restaurantapp.databinding.StaffDialogUpdateProductBinding
+import com.isp.restaurantapp.models.dto.CategoryDTO
 import com.isp.restaurantapp.viewModels.StaffGoodsVM
 import com.isp.restaurantapp.views.staffPart.adapters.CategoriesSpinnerAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.ProductUpdateAllergensAdapter
@@ -49,6 +50,7 @@ class ProductUpdateDialog(): DialogFragment() {
 
         _binding.btnUpdateProduct.setOnClickListener {
 
+            _viewModel.updatedProductCategory = _binding.spinnerCategoryUpdate.selectedItem as CategoryDTO
             _viewModel.updateProduct()
             dismiss()
         }

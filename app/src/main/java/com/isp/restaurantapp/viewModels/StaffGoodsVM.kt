@@ -96,6 +96,7 @@ class StaffGoodsVM: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val tables = _repository.getTables()
+                Log.i(TAG, "fetchTables: prefix $prefix")
                 // Delete prefix URL
                 tables.forEach {
                     it.qrCode = it.qrCode.replace(prefix, "")

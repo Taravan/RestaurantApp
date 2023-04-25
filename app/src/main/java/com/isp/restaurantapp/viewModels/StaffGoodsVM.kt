@@ -5,6 +5,10 @@ import androidx.lifecycle.*
 import com.isp.restaurantapp.models.dto.*
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlin.math.log
@@ -96,11 +100,11 @@ class StaffGoodsVM: ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val tables = _repository.getTables()
-                Log.i(TAG, "fetchTables: prefix $prefix")
                 // Delete prefix URL
+                Log.i(TAG, "fetchTables: prefix:$prefix")
                 tables.forEach {
-                    it.qrCode = it.qrCode.replace(prefix, "")
-                    Log.i(TAG, "fetchTables: new QrCode without prefix: ${it.qrCode}")
+                    it.qrCode = it.qrCode.split(RepositoryRetrofit.CODE)[2]
+                    Log.i(TAG, "fetchTables: newQr: ${it.qrCode}")
                 }
                 withContext(Dispatchers.Main){
                     _tables.postValue(tables)
@@ -244,8 +248,8 @@ class StaffGoodsVM: ViewModel() {
 
     fun updateCategory() {
         val categoryToUpdate = (_categories.value?.find { it.id == updatedCatId } ?: "") as CategoryDTO
-        Log.e(TAG, "Updating category: id: ${categoryToUpdate.id.toString()} -> ${updatedCatId.toString()} "+
-                "name: ${categoryToUpdate.name.toString()} -> ${updatedCatName.value}.")
+        Log.e(TAG, "Updating category: id: ${categoryToUpdate.id} -> $updatedCatId "+
+                "name: ${categoryToUpdate.name} -> ${updatedCatName.value}.")
 
 
         val handler = CoroutineExceptionHandler{ _, throwable ->
@@ -344,6 +348,7 @@ class StaffGoodsVM: ViewModel() {
             }
         }
     }
+
     fun fetchAllergensForGoodsItem(productId: Int) {
         viewModelScope.launch(Dispatchers.IO){
             try {
@@ -360,7 +365,7 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun fetchAllergens(){
-        viewModelScope.launch(IO){
+        viewModelScope.launch(Dispatchers.IO){
             try {
                 val result = _repository.getAllergens()
                 withContext(Dispatchers.Main){
@@ -373,6 +378,7 @@ class StaffGoodsVM: ViewModel() {
         }
     }
 
+
     fun addProduct(name: String, desc: String?, category: CategoryDTO, price: String, allergens: List<AllergenDTO>) {
         val handler = CoroutineExceptionHandler{ _, e ->
             if (e is NumberFormatException){
@@ -382,7 +388,7 @@ class StaffGoodsVM: ViewModel() {
         }
 
         Log.i(TAG, "Adding name=$name , cat=${category.id} , allergens=$allergens")
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO + handler){
             try {
                 val allergenIds = allergens.map {
                     it.id
@@ -406,13 +412,43 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun updateProduct() {
+        val handler = CoroutineExceptionHandler{ _, throwable ->
+            if (throwable is NumberFormatException)
+                Log.i(TAG, "updateProduct: Wrong number format")
+            _errorException.postValue(throwable)
+            throwable.printStackTrace()
+        }
+
         val productToUpdate = (_goods.value?.find { it.goodsId == updatedProductGoodsId } ?: "") as GoodsItemDTO
-        Log.e(TAG, "Updating product: id: ${productToUpdate.goodsId} -> ${updatedProductGoodsId}, " +
-                "name: ${productToUpdate.goodsName} -> ${updatedProductName.value} " +
-                ", desc: ${productToUpdate.goodsDesc} -> ${updatedProductDesc.value}, " +
-                "cat: ${categories.value?.find { it.id == productToUpdate.categoryId }?.name} -> ${categories.value?.get(updatedProductCatPosition.value ?: 0)?.name ?: ""}, " +
-                "price: ${productToUpdate.price} -> ${updatedProductPrice.value} " +
-                "allergens: ${_updatedProductAllergens.value?.size}.")
+
+
+        viewModelScope.launch(IO + handler){
+            try {
+                val newPrice: Double = updatedProductPrice.value.toString().toDouble()
+
+                Log.e(TAG, "Updating product: id: ${productToUpdate.goodsId} -> ${updatedProductGoodsId}, " +
+                        "name: ${productToUpdate.goodsName} -> ${updatedProductName.value} " +
+                        ", desc: ${productToUpdate.goodsDesc} -> ${updatedProductDesc.value}, " +
+                        "cat: ${categories.value?.find { it.id == productToUpdate.categoryId }?.name} -> ${categories.value?.get(updatedProductCatPosition.value ?: 0)?.name ?: ""}, " +
+                        "price: ${productToUpdate.price} -> ${updatedProductPrice.value} " +
+                        "allergens: ${_updatedProductAllergens.value?.size}.")
+                val newProduct = UpdateGoodsItemDTO(
+                    updatedProductGoodsId,
+                    updatedProductName.value.toString(),
+                    updatedProductDesc.value,
+                    1,  // TODO: [Pro Tomáše] Semka dej skutečnou id kategorie (bez té šílenosti)
+                    newPrice,
+                    _updatedProductAllergens.value.orEmpty().map { it.id }
+                )
+
+                val result = _repository.updateGoodsItemWithAllergens(newProduct)
+                Log.i(TAG, "updateProduct: rows effected: ${result.body()?.id}")
+
+            }
+            catch (e: Exception){
+                throw e
+            }
+        }
     }
 
     fun deleteProduct(productId: Int) {

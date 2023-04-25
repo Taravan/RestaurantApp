@@ -27,8 +27,10 @@ class RepositoryRetrofit(
 
         private var urlNew: String = ""
         private var isUrlSet = false
+
         const val CODE = "#*#"
-        val REGEX = Regex("#\\*#(.*?)#\\*#")
+        private val escapedCode = Regex.escape(CODE)
+        val REGEX = Regex("$escapedCode(.*?)$escapedCode")
 
         private fun findUrl(input: String): String{
             val matchResult = REGEX.find(input)

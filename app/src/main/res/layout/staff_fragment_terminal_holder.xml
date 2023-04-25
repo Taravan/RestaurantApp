@@ -6,6 +6,9 @@
         <variable
             name="viewModel"
             type="com.isp.restaurantapp.viewModels.StaffTerminalHolderVM" />
+        <variable
+            name="activityVM"
+            type="com.isp.restaurantapp.viewModels.StaffMainScreenVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +23,20 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHeight_percent="0.1"/>
+
+        <ImageButton
+            android:id="@+id/btn_staff_logout"
+            android:src="@drawable/ic_logout"
+            android:scaleType="centerCrop"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/top_recycler"
+            app:layout_constraintRight_toRightOf="parent"
+            android:onClickListener="@{() -> activityVM.logOut()}"
+            />
 
         <fragment
             android:id="@+id/staff_fragment_holder"

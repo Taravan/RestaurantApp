@@ -77,12 +77,12 @@
     <string name="display_warning">WARNING: This part was designed for tablets or devices with big screen only. It is not recommended to use it on small screen devices.</string>
 
     // Order rov
-    <string name="table_prefix">Table: </string>
+    <string name="table_prefix">Table:</string>
     <string name="pending_order_dbInsert_failed">Order failed to be inserted to database</string>
 
     // Staff Tables
-    <string name="table_prefix_no_colon">Table </string>
-    <string name="to_pay">To pay: </string>
+    <string name="table_prefix_no_colon">Table</string>
+    <string name="to_pay">To pay:</string>
     <string name="price_left_suffix"> left</string>
     <string name="string_error_fetching_tables">An error occurred with loading of tables</string>
 
@@ -91,9 +91,9 @@
     <string name="string_account_not_found">Account either does not exist or the password is not valid</string>
 
     // Staff Goods
-    <string name="txt_products">Menu: </string>
-    <string name="txt_tables">Tables: </string>
-    <string name="txt_categories">Categories: </string>
+    <string name="txt_products">Menu:</string>
+    <string name="txt_tables">Tables:</string>
+    <string name="txt_categories">Categories:</string>
     <string name="btn_add">+</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_remove">-</string>

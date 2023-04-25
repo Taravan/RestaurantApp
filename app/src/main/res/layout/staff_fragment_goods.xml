@@ -18,17 +18,18 @@
             android:layout_height="0dp"
             android:layout_marginVertical="5dp"
             app:layout_constraintHeight_percent="0.1"
-            app:layout_constraintRight_toRightOf="@id/rec_tables_overview"
-            app:layout_constraintLeft_toLeftOf="@id/rec_tables_overview"
+            app:layout_constraintRight_toRightOf="@id/card_rec_tables_overview"
+            app:layout_constraintLeft_toLeftOf="@id/card_rec_tables_overview"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/txt_tables_overview"
                 android:text="@string/txt_tables"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
-                android:layout_margin="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="5dp"
@@ -41,7 +42,6 @@
                 android:text="@string/btn_add"
                 android:gravity="center"
                 android:autoSizeTextType="uniform"
-                android:layout_margin="5dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -56,17 +56,18 @@
             android:layout_height="0dp"
             android:layout_marginVertical="5dp"
             app:layout_constraintHeight_percent="0.1"
-            app:layout_constraintRight_toRightOf="@id/rec_tables_overview"
-            app:layout_constraintLeft_toLeftOf="@id/rec_tables_overview"
+            app:layout_constraintRight_toRightOf="@id/card_rec_tables_overview"
+            app:layout_constraintLeft_toLeftOf="@id/card_rec_tables_overview"
             app:layout_constraintTop_toBottomOf="@id/guide_goods">
 
             <TextView
                 android:id="@+id/txt_categories_overview"
                 android:text="@string/txt_categories"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
-                android:layout_margin="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="5dp"
@@ -79,7 +80,6 @@
                 android:text="@string/btn_add"
                 android:gravity="center"
                 android:autoSizeTextType="uniform"
-                android:layout_margin="5dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -88,33 +88,49 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_tables_overview"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_rec_tables_overview"
+            app:cardElevation="3dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginVertical="5dp"
             android:layout_marginHorizontal="50dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
             app:layout_constraintWidth_percent="0.3"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_tables"
-            app:layout_constraintBottom_toTopOf="@id/guide_goods"
-            />
+            app:layout_constraintBottom_toTopOf="@id/guide_goods">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_categories_overview"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_tables_overview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_rec_categories_overview"
+            app:cardElevation="3dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginVertical="5dp"
             android:layout_marginHorizontal="50dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
             app:layout_constraintWidth_percent="0.3"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_categories"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_categories_overview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                />
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_menu"
@@ -123,16 +139,17 @@
             android:layout_marginVertical="5dp"
             app:layout_constraintHeight_percent="0.11"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="@id/rec_menu_overview"
-            app:layout_constraintLeft_toLeftOf="@id/rec_menu_overview">
+            app:layout_constraintRight_toRightOf="@id/card_rec_menu_overview"
+            app:layout_constraintLeft_toLeftOf="@id/card_rec_menu_overview">
 
             <TextView
                 android:id="@+id/txt_menu_overview"
                 android:text="@string/txt_products"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
-                android:layout_margin="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="5dp"
@@ -145,7 +162,6 @@
                 android:text="@string/btn_add"
                 android:gravity="center"
                 android:autoSizeTextType="uniform"
-                android:layout_margin="5dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:layout_constraintDimensionRatio="1:1"
@@ -154,19 +170,27 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rec_menu_overview"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_rec_menu_overview"
+            app:cardElevation="3dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginVertical="5dp"
             android:layout_marginHorizontal="50dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="vertical"
-            app:layout_constraintRight_toLeftOf="@id/rec_tables_overview"
+            app:layout_constraintRight_toLeftOf="@id/card_rec_tables_overview"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_menu"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_menu_overview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                />
+
+        </androidx.cardview.widget.CardView>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_goods"

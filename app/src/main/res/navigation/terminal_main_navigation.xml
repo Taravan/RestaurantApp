@@ -13,13 +13,21 @@
 
         <action
             android:id="@+id/action_loginStaffFragment_to_terminalHolderStaffFragment"
-            app:destination="@id/terminalHolderStaffFragment" />
+            app:destination="@id/terminalHolderStaffFragment"
+            app:popUpTo="@id/loginStaffFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/terminalHolderStaffFragment"
         android:name="com.isp.restaurantapp.views.staffPart.TerminalHolderStaffFragment"
         android:label="TerminalHolderStaffFragment"
-        tools:layout="@layout/staff_fragment_terminal_holder"/>
+        tools:layout="@layout/staff_fragment_terminal_holder">
+        <action
+            android:id="@+id/action_terminalHolderStaffFragment_to_loginStaffFragment"
+            app:destination="@id/loginStaffFragment"
+            app:popUpTo="@id/loginStaffFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

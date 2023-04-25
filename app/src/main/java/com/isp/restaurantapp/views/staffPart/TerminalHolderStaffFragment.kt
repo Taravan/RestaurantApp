@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffFragmentTerminalHolderBinding
+import com.isp.restaurantapp.viewModels.StaffMainScreenVM
 import com.isp.restaurantapp.viewModels.StaffTerminalHolderVM
 import com.isp.restaurantapp.views.staffPart.adapters.PendingOrdersAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.ProcessedOrdersAdapter
@@ -19,6 +22,7 @@ class TerminalHolderStaffFragment: Fragment() {
 
     private lateinit var _binding: StaffFragmentTerminalHolderBinding
     private lateinit var _viewModel: StaffTerminalHolderVM
+    private val _activityViewModel: StaffMainScreenVM by activityViewModels()
 
     private lateinit var adapterTop: PendingOrdersAdapter
     private lateinit var adapterBottom: ProcessedOrdersAdapter
@@ -34,6 +38,7 @@ class TerminalHolderStaffFragment: Fragment() {
         _binding = StaffFragmentTerminalHolderBinding.inflate(inflater, container, false)
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
+        _binding.activityVM = _activityViewModel
 
         _viewModel.errorState.observe(viewLifecycleOwner){
             if (it.isNotEmpty()){
@@ -66,6 +71,8 @@ class TerminalHolderStaffFragment: Fragment() {
             adapterBottom.updateData(processedOrders)
         }
 
+        //TODO: Observer on viewModels isLoggedIn and jump to onLogOutRedirect()
+
         return _binding.root
     }
 
@@ -74,7 +81,6 @@ class TerminalHolderStaffFragment: Fragment() {
 
         val navHostFragment = childFragmentManager.findFragmentById(R.id.staff_fragment_holder) as NavHostFragment
         val navController = navHostFragment.navController
-        Log.e("fff", navController.currentDestination.toString())
 
         _binding.btnOverview.setOnClickListener {
             navController.navigate(R.id.nav_staffOverview)
@@ -90,8 +96,11 @@ class TerminalHolderStaffFragment: Fragment() {
             navController.navigate(R.id.nav_staffGoods)
         }
 
+    }
 
-
+    private fun onLogOutRedirect() {
+        val action = TerminalHolderStaffFragmentDirections.actionTerminalHolderStaffFragmentToLoginStaffFragment()
+        findNavController().navigate(action)
     }
 
 }

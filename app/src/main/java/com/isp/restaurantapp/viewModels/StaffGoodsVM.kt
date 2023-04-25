@@ -412,13 +412,43 @@ class StaffGoodsVM: ViewModel() {
     }
 
     fun updateProduct() {
+        val handler = CoroutineExceptionHandler{ _, throwable ->
+            if (throwable is NumberFormatException)
+                Log.i(TAG, "updateProduct: Wrong number format")
+            _errorException.postValue(throwable)
+            throwable.printStackTrace()
+        }
+
         val productToUpdate = (_goods.value?.find { it.goodsId == updatedProductGoodsId } ?: "") as GoodsItemDTO
-        Log.e(TAG, "Updating product: id: ${productToUpdate.goodsId} -> ${updatedProductGoodsId}, " +
-                "name: ${productToUpdate.goodsName} -> ${updatedProductName.value} " +
-                ", desc: ${productToUpdate.goodsDesc} -> ${updatedProductDesc.value}, " +
-                "cat: ${categories.value?.find { it.id == productToUpdate.categoryId }?.name} -> ${categories.value?.get(updatedProductCatPosition.value ?: 0)?.name ?: ""}, " +
-                "price: ${productToUpdate.price} -> ${updatedProductPrice.value} " +
-                "allergens: ${_updatedProductAllergens.value?.size}.")
+
+
+        viewModelScope.launch(IO + handler){
+            try {
+                val newPrice: Double = updatedProductPrice.value.toString().toDouble()
+
+                Log.e(TAG, "Updating product: id: ${productToUpdate.goodsId} -> ${updatedProductGoodsId}, " +
+                        "name: ${productToUpdate.goodsName} -> ${updatedProductName.value} " +
+                        ", desc: ${productToUpdate.goodsDesc} -> ${updatedProductDesc.value}, " +
+                        "cat: ${categories.value?.find { it.id == productToUpdate.categoryId }?.name} -> ${categories.value?.get(updatedProductCatPosition.value ?: 0)?.name ?: ""}, " +
+                        "price: ${productToUpdate.price} -> ${updatedProductPrice.value} " +
+                        "allergens: ${_updatedProductAllergens.value?.size}.")
+                val newProduct = UpdateGoodsItemDTO(
+                    updatedProductGoodsId,
+                    updatedProductName.value.toString(),
+                    updatedProductDesc.value,
+                    1,  // TODO: [Pro Tomáše] Semka dej skutečnou id kategorie (bez té šílenosti)
+                    newPrice,
+                    _updatedProductAllergens.value.orEmpty().map { it.id }
+                )
+
+                val result = _repository.updateGoodsItemWithAllergens(newProduct)
+                Log.i(TAG, "updateProduct: rows effected: ${result.body()?.id}")
+
+            }
+            catch (e: Exception){
+                throw e
+            }
+        }
     }
 
     fun deleteProduct(productId: Int) {

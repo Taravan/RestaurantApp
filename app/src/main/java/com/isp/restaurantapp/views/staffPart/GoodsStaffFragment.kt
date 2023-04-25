@@ -19,7 +19,7 @@ import com.isp.restaurantapp.views.staffPart.adapters.MenuOverviewAdapter
 import com.isp.restaurantapp.views.staffPart.adapters.TablesOverviewAdapter
 import com.isp.restaurantapp.views.staffPart.dialogs.*
 
-class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, CategoriesOverviewAdapter.Callback, MenuOverviewAdapter.Callback {
+class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, CategoriesOverviewAdapter.Callback {
 
     companion object{
         private const val TAG = "GoodsStaffFragment"
@@ -58,7 +58,7 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
 
         _adapterTables = TablesOverviewAdapter(_viewModel, this)
         _adapterCategories = CategoriesOverviewAdapter(_viewModel, this)
-        _adapterMenu = MenuOverviewAdapter(_viewModel, this)
+        _adapterMenu = MenuOverviewAdapter(_viewModel)
 
         val recyclerViewTables = _binding.recTablesOverview
         val recyclerViewCategories = _binding.recCategoriesOverview
@@ -74,6 +74,10 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
 
         _viewModel.categories.observe(viewLifecycleOwner) { categories ->
             _adapterCategories.updateData(categories)
+        }
+
+        _viewModel.fetchedProductsAllergens.observe(viewLifecycleOwner) {
+            updateProductDialog()
         }
 
         _viewModel.goods.observe(viewLifecycleOwner) { goods ->
@@ -111,7 +115,7 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
     }
 
     /**
-     * Category create dialog
+     * Category dialogs
      */
     private fun openNewCategoryDialog() {
         val dialog = CategoryAddDialog()
@@ -125,15 +129,15 @@ class GoodsStaffFragment: Fragment(), TablesOverviewAdapter.Callback, Categories
     }
 
     /**
-     * Product create dialog
+     * Product dialogs
      */
     private fun openNewProductDialog() {
         val dialog = ProductAddDialog()
         dialog.show(childFragmentManager, "AddProduct")
     }
 
-    override fun updateProductDialog(product: GoodsItemDTO) {
-        _viewModel.setUpdatedProduct(product)
+    private fun updateProductDialog() {
+        _viewModel.setUpdatedProduct()
         val dialog = ProductUpdateDialog()
         dialog.show(childFragmentManager, "UpdateProduct")
     }

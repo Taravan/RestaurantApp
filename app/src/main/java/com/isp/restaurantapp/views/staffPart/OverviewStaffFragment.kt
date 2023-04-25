@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.isp.restaurantapp.databinding.StaffFragmentOverviewBinding
 import com.isp.restaurantapp.viewModels.StaffOverviewVM
+import com.isp.restaurantapp.views.staffPart.adapters.OverviewOrdersAdapter
 
 class OverviewStaffFragment: Fragment() {
 
     private lateinit var _binding: StaffFragmentOverviewBinding
     private lateinit var _viewModel: StaffOverviewVM
+
+    private lateinit var _adapterOrders: OverviewOrdersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,6 +28,14 @@ class OverviewStaffFragment: Fragment() {
         _binding = StaffFragmentOverviewBinding.inflate(inflater, container, false)
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
+
+        val recyclerViewOrders = _binding.recLeftOverview
+        _adapterOrders = OverviewOrdersAdapter(_viewModel)
+        recyclerViewOrders.adapter = _adapterOrders
+
+        _viewModel.allOrders.observe(viewLifecycleOwner) { orders ->
+            _adapterOrders.updateData(orders)
+        }
 
         return _binding.root
     }

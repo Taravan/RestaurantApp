@@ -9,7 +9,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.math.log
 
 class StaffGoodsVM: ViewModel() {
 
@@ -99,9 +98,10 @@ class StaffGoodsVM: ViewModel() {
             try {
                 val tables = _repository.getTables()
                 // Delete prefix URL
+                Log.i(TAG, "fetchTables: prefix:$prefix")
                 tables.forEach {
-                    it.qrCode = it.qrCode.replace(prefix, "")
-                    Log.i(TAG, "fetchTables: new QrCode without prefix: ${it.qrCode}")
+                    it.qrCode = it.qrCode.split(RepositoryRetrofit.CODE)[2]
+                    Log.i(TAG, "fetchTables: newQr: ${it.qrCode}")
                 }
                 withContext(Dispatchers.Main){
                     _tables.postValue(tables)
@@ -245,8 +245,8 @@ class StaffGoodsVM: ViewModel() {
 
     fun updateCategory() {
         val categoryToUpdate = (_categories.value?.find { it.id == updatedCatId } ?: "") as CategoryDTO
-        Log.e(TAG, "Updating category: id: ${categoryToUpdate.id.toString()} -> ${updatedCatId.toString()} "+
-                "name: ${categoryToUpdate.name.toString()} -> ${updatedCatName.value}.")
+        Log.e(TAG, "Updating category: id: ${categoryToUpdate.id} -> $updatedCatId "+
+                "name: ${categoryToUpdate.name} -> ${updatedCatName.value}.")
 
 
         val handler = CoroutineExceptionHandler{ _, throwable ->
@@ -347,7 +347,7 @@ class StaffGoodsVM: ViewModel() {
         }
 
         Log.i(TAG, "Adding name=$name , cat=${category.id} , allergens=$allergens")
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO + handler){
             try {
                 val allergenIds = allergens.map {
                     it.id

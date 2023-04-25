@@ -10,20 +10,66 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+/**
+ * Creates a Retrofit service class
+ *
+ * Target url depends whether [UrlChecker.setUrl] is called.
+ *  after it is called and the methods returns true (thats means that
+ *  proper URL has been found) the whole project will start to use
+ *  this url
+ * If it is not called with true result, it uses target url passed via parameter in constructor
+ */
 class RepositoryRetrofit(
     private val url: String = BuildConfig.API_URL
 ): RepositoryAbstract() {
-    companion object{
+    companion object UrlChecker{
         private const val TAG = "RepositoryRetrofit"
+
+        private var urlNew: String = ""
+        private var isUrlSet = false
+        val REGEX = Regex("#\\*#(.*?)#\\*#")
+
+        private fun findUrl(input: String): String{
+            val matchResult = REGEX.find(input)
+
+            return matchResult?.groupValues?.get(1).orEmpty()
+        }
+        fun setUrl(input: String): Boolean{
+            if (isUrlSet) return true
+            val found = findUrl(input)
+            if (found.isNotEmpty()){
+                urlNew = found
+                isUrlSet = true
+            }
+            return isUrlSet
+        }
+        fun setUrlRepeated(input: String): Boolean{
+            var isFound = false
+            val found = findUrl(input)
+            if (found.isNotEmpty()){
+                urlNew = found
+                isUrlSet = true
+                isFound = true
+            }
+            return isFound
+        }
+
     }
 
     private val _apiService: Retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl(url)
+        initialize()
+    }
+
+    private fun initialize(): Retrofit{
+        val urlToBuild = urlNew.ifEmpty { url }
+
+        Log.e(TAG, "initialize: urlNew = $urlNew")
+        return Retrofit.Builder()
+            .baseUrl(urlToBuild)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
 
     private val tableGetterService: TableGetterService by lazy {
         _apiService.create(TableGetterService::class.java)  // instantiate api interface

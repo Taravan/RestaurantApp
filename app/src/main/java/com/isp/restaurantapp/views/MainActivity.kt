@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         viewModel = ViewModelProvider(this)[MainActivityVM::class.java]
 
 
-        viewModel.fetchTables()
+        //viewModel.fetchTables()
 
 
         // TODO: Make scanner slower

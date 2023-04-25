@@ -12,10 +12,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffFragmentLoginBinding
+import com.isp.restaurantapp.repositories.ApiSettings
 import com.isp.restaurantapp.models.exceptions.AccountDoesntExistException
+import com.isp.restaurantapp.models.exceptions.RetrofitFailedException
 import com.isp.restaurantapp.viewModels.StaffLoginVM
 import com.isp.restaurantapp.viewModels.StaffMainScreenVM
 import com.isp.restaurantapp.views.staffPart.dialogs.ApiUrlDialog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginStaffFragment: Fragment() {
     companion object{
@@ -23,8 +29,11 @@ class LoginStaffFragment: Fragment() {
     }
 
     private val _mainViewModel: StaffMainScreenVM by activityViewModels()
+
+    private lateinit var _apiSettings: ApiSettings
     private lateinit var _binding: StaffFragmentLoginBinding
     private lateinit var _viewModel: StaffLoginVM
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +45,13 @@ class LoginStaffFragment: Fragment() {
 
         _binding = StaffFragmentLoginBinding.inflate(inflater, container, false)
         _binding.lifecycleOwner = viewLifecycleOwner
+
         _binding.viewModel = _viewModel
+
+
+        // LOAD DATASTORE
+        _apiSettings = ApiSettings(_binding.root.context)
+        loadUrlFromDatastore()
 
         _viewModel.staffAccount.observe(viewLifecycleOwner){
             Log.i(TAG, "onCreateView: logged as $it")
@@ -46,13 +61,29 @@ class LoginStaffFragment: Fragment() {
             }
         }
 
+        // Expose encoded api url to whole project
+        _viewModel.apiUrl.observe(viewLifecycleOwner){
+            _mainViewModel.setEncodedApiUrl(it)
+        }
+
+        /**
+         * Error handling, show error states to the user
+         */
         _viewModel.errorException.observe(viewLifecycleOwner){
             it?.let {
-                if (it is AccountDoesntExistException){
-                    Toast.makeText(context, getString(R.string.string_account_not_found), Toast.LENGTH_SHORT)
-                        .show()
-                    _viewModel.resetExceptionState()
+                when (it){
+                    is AccountDoesntExistException -> {
+                        Toast.makeText(context, getString(R.string.string_account_not_found), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    is RetrofitFailedException -> {
+                        Toast.makeText(context, getString(R.string.string_bad_url_format), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(context, getString(R.string.string_bad_url_timeout), Toast.LENGTH_LONG).show()
+                    }
                 }
+                _viewModel.resetExceptionState()
             }
         }
 
@@ -62,6 +93,7 @@ class LoginStaffFragment: Fragment() {
 
         return _binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,8 +111,6 @@ class LoginStaffFragment: Fragment() {
 
         _binding.btnStaffLogIn.setOnClickListener {
             login()
-//            val action = LoginStaffFragmentDirections.actionLoginStaffFragmentToTerminalHolderStaffFragment()
-//            navController.navigate(action)
         }
 
     }
@@ -95,9 +125,30 @@ class LoginStaffFragment: Fragment() {
         }
     }
 
+    private fun loadUrlFromDatastore() {
+        CoroutineScope(Dispatchers.IO).launch{
+            val apiRead: String = _apiSettings.getApiKey()
+            withContext(Dispatchers.Main){
+                _viewModel.apiUrl.postValue(apiRead)
+                Log.e(TAG, "LoadUrlFromDataStore: apiUrl loaded from datastore with $apiRead")
+            }
+        }
+    }
+
     private fun openApiUrlDialog() {
         val dialog = ApiUrlDialog()
         dialog.show(childFragmentManager, "SetApiUrl")
     }
 
+
+//    private fun saveUrlToDataStore(){
+//        CoroutineScope(Dispatchers.IO).launch {
+//            _viewModel.apiUrl.value?.let {
+//                    value -> _apiSettings.writeApiUrl(value)
+//                Log.i(TAG, "saveUrlToDataStore: api url written with $value")
+//            }
+//        }
+//    }
 }
+
+

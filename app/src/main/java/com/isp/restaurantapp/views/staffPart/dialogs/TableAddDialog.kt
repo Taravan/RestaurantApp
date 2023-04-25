@@ -23,7 +23,6 @@ class TableAddDialog: DialogFragment() {
     ): View {
 
         _binding = StaffDialogNewTableBinding.inflate(inflater, container, false)
-        //_viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
         _binding.lifecycleOwner = viewLifecycleOwner
         _binding.viewModel = _viewModel
 

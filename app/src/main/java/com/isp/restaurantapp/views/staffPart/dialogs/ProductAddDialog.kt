@@ -56,7 +56,6 @@ class ProductAddDialog: DialogFragment() {
             _adapterAllergens.updateData(allergens)
         }
 
-
 //        _binding.spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 //                val selectedCategory = p0?.getItemAtPosition(p2) as CategoryDTO
@@ -64,9 +63,6 @@ class ProductAddDialog: DialogFragment() {
 //            override fun onNothingSelected(p0: AdapterView<*>?) {
 //            }
 //        }
-
-
-
 
         _binding.btnCreateProduct.setOnClickListener {
 

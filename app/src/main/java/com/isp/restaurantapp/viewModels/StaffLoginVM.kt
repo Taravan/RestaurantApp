@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.isp.restaurantapp.models.Encryption
 import com.isp.restaurantapp.models.StaffAccount
 import com.isp.restaurantapp.models.exceptions.AccountDoesntExistException
+import com.isp.restaurantapp.models.exceptions.RetrofitFailedException
 import com.isp.restaurantapp.repositories.RepositoryAbstract
 import com.isp.restaurantapp.repositories.RepositoryRetrofit
 import kotlinx.coroutines.*
@@ -17,10 +18,7 @@ class StaffLoginVM: ViewModel() {
         private const val TAG = "StaffLoginVM"
     }
 
-    private val _repository: RepositoryAbstract
-    by lazy{
-        RepositoryRetrofit()
-    }
+    private lateinit var _repository: RepositoryAbstract
 
     val emailString: MutableLiveData<String> = MutableLiveData()
     val passwdString: MutableLiveData<String> = MutableLiveData()
@@ -51,6 +49,16 @@ class StaffLoginVM: ViewModel() {
 
 
     fun fetchAccount(){
+        // CHECK IF SET UP URL IS CORRECT, if not, return. Otherwise
+        try {
+            if (!RepositoryRetrofit.setUrlRepeated(apiUrl.value.toString()))
+                throw RetrofitFailedException()
+        } catch (e: Exception){
+            _errorException.postValue(e)
+            return
+        }
+
+        _repository = RepositoryRetrofit()
         val account: String = emailString.value.toString()
         val password: String = passwdString.value.toString()
 
@@ -58,14 +66,16 @@ class StaffLoginVM: ViewModel() {
         val handler = CoroutineExceptionHandler{ _, throwable ->
             if (throwable is AccountDoesntExistException){
                 Log.e(TAG, "fetchAccount: Account doesn't exist")
-                _errorException.postValue(throwable)
             }
+
+            _errorException.postValue(throwable)
             throwable.printStackTrace()
         }
 
         Log.i(TAG, "fetchAccount: hashedPassword passed: $hashedPassword")
         viewModelScope.launch(Dispatchers.IO + handler){
             try {
+
                 val result = _repository.getStaffAccount(account, hashedPassword)
                 if (result.body().isNullOrEmpty())
                     throw AccountDoesntExistException()
@@ -86,9 +96,5 @@ class StaffLoginVM: ViewModel() {
     }
 
     val apiUrl = MutableLiveData<String>("")
-    fun onSaveApiUrl() {
-        //TODO: Save url
-        Log.e(TAG, "Saving: " + apiUrl.value)
-    }
 
 }

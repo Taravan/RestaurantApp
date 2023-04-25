@@ -20,6 +20,7 @@ class CategoryAddDialog: DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
 
+
         _binding = StaffDialogNewCategoryBinding.inflate(inflater, container, false)
         //_viewModel = ViewModelProvider(this)[StaffGoodsVM::class.java]
         _binding.lifecycleOwner = viewLifecycleOwner

@@ -8,6 +8,8 @@ import com.isp.restaurantapp.viewModels.StaffMainScreenVM
 
 class StaffMainScreen : AppCompatActivity() {
 
+
+
     private lateinit var _viewModel: StaffMainScreenVM
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +18,8 @@ class StaffMainScreen : AppCompatActivity() {
         setContentView(R.layout.activity_staff_main_screen)
 
         _viewModel = ViewModelProvider(this)[StaffMainScreenVM::class.java]
+
     }
+
+
 }

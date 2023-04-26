@@ -111,9 +111,11 @@ class PayVM : ViewModel() {
 
     fun deletePendingOrder(order: FrbOrderDTO){
         val handler = CoroutineExceptionHandler{ _, throwable ->
+            if (throwable is OrderNotPendingDeleteException)
+                _errorException.postValue(throwable)
             throwable.printStackTrace()
         }
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO + handler){
             try {
                 if (order.state != FrbFieldsOrders.States.PENDING.value)
                     throw OrderNotPendingDeleteException()
@@ -128,6 +130,7 @@ class PayVM : ViewModel() {
             }
             catch (e: Exception){
                 Log.e(TAG, "deletePendingOrder: ${e.message}")
+                throw e
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.isp.restaurantapp.views.customerPart.adapters
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -48,10 +50,26 @@ class PayAdapterRealtime(private val viewModel: PayVM, private var unpaidList: L
                 viewModel.updateSelectedList(isChecked, item)
             }
 
+            binding.txtItemName.setOnLongClickListener {
+                openDeleteDialog(binding.root.context, item)
+                return@setOnLongClickListener true
+            }
+
             binding.executePendingBindings()
 
         }
 
+    }
+
+    private fun openDeleteDialog(context: Context, order: FrbOrderDTO) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.pay_dialog_delete_title)
+        builder.setMessage(context.getString(R.string.pay_dialog_delete_message, order.itemName))
+        builder.setPositiveButton(R.string.btn_yes) { _, _ ->
+            viewModel.deletePendingOrder(order)
+        }
+        builder.setNegativeButton(R.string.btn_no, null)
+        builder.create().show()
     }
 
 }

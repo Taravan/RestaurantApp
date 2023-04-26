@@ -76,7 +76,7 @@ class MenuAdapter(
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle(item.goodsName)
                 builder.setMessage(item.goodsDesc)
-                builder.setNeutralButton("Close", null)
+                builder.setNeutralButton(R.string.btn_close, null)
                 builder.create().show()
             }
         }
@@ -91,11 +91,11 @@ class MenuAdapter(
             " ${goodsItem.goodsName}, ${goodsItem.price}")
         builder.setMessage(msg)
 
-        builder.setPositiveButton("Ok") { _, _ ->
+        builder.setPositiveButton(R.string.btn_Ok) { _, _ ->
             // Perform action when "ok" button is clicked
             orderItem(goodsItem)
         }
-        builder.setNegativeButton("Cancel", null)
+        builder.setNegativeButton(R.string.btn_cancel, null)
         val dialog = builder.create()
         dialog.show()
     }

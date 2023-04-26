@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.FragmentPayBinding
+import com.isp.restaurantapp.models.exceptions.OrderNotPendingDeleteException
 import com.isp.restaurantapp.viewModels.CustomerActivityVM
 import com.isp.restaurantapp.viewModels.PayVM
 import com.isp.restaurantapp.views.customerPart.adapters.PayAdapterRealtime
@@ -49,6 +50,19 @@ class PayFragment : Fragment() {
         val recyclerView = binding.itemsToPayRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
         recyclerView.adapter = adapter
+
+        viewModel.errorException.observe(viewLifecycleOwner){
+            it?.let {
+                if (it is OrderNotPendingDeleteException)
+                    Toast.makeText(
+                        context,
+                        getString(R.string.string_non_pending_exception),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                viewModel.resetException()
+            }
+        }
 
         activityViewModel.user.observe(viewLifecycleOwner){
         }

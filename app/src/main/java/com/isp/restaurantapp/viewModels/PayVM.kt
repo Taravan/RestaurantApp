@@ -41,7 +41,15 @@ class PayVM : ViewModel() {
         FrbOrderDeleter()
     }
 
+    private val _errorException: MutableLiveData<Throwable?> by lazy{
+        MutableLiveData<Throwable?>()
+    }
+    val errorException: LiveData<Throwable?>
+        get() = _errorException
 
+    fun resetException(){
+        _errorException.postValue(null)
+    }
 
     private var _selectedItemsToPay = mutableListOf<FrbOrderDTO>()
     val selectedItemsToPay: List<FrbOrderDTO>

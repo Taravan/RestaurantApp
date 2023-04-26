@@ -59,6 +59,7 @@
     <string name="pay_welcome_text">Select what to pay</string>
     <string name="pay_wait_for_waiter">Item marked for payment, please wait for waitress</string>
     <string name="pay_nothing_to_pay_for">Select items to pay</string>
+    <string name="string_non_pending_exception">You cannot delete other then pending order</string>
     
     //Allergen fragment
     <string name="submitUserAllergens">Submit</string>

@@ -11,8 +11,11 @@ import com.isp.restaurantapp.models.dto.FrbOrderDTO
 import com.isp.restaurantapp.models.exceptions.OrderNotPendingDeleteException
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
 import com.isp.restaurantapp.repositories.concrete.FrbOrderDeleter
+import com.isp.restaurantapp.repositories.concrete.FrbRealtimeByStateGetterServiceImpl
+import com.isp.restaurantapp.repositories.concrete.FrbRealtimeGetterByTableIdAndStateServiceImpl
 import com.isp.restaurantapp.repositories.concrete.FrbRealtimeOrderABC
 import com.isp.restaurantapp.repositories.interfaces.FrbDocumentDeleter
+import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeByStateGetterService
 import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeGetterService
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +24,8 @@ import kotlinx.coroutines.withContext
 
 class StaffOverviewVM: ViewModel() {
 
-    private val _repository: FrbRealtimeGetterService<FrbOrderDTO> = FrbRealtimeOrderABC()
+    private val _repositoryAll: FrbRealtimeGetterService<FrbOrderDTO> = FrbRealtimeOrderABC()
+    private val _repositoryPaid: FrbRealtimeByStateGetterService<FrbOrderDTO> = FrbRealtimeByStateGetterServiceImpl()
 
     private val _allOrders = MutableLiveData<List<FrbOrderDTO>>()
     val allOrders: LiveData<List<FrbOrderDTO>>
@@ -46,10 +50,23 @@ class StaffOverviewVM: ViewModel() {
         val itemsMLD = MutableLiveData<List<FrbOrderDTO>>()
 
         viewModelScope.launch(Dispatchers.IO){
-            _repository.getItemsRealtime().collect() {
+            _repositoryAll.getItemsRealtime().collect() {
                 val sorted = it.sortedBy {  it.state }
                 withContext(Dispatchers.Main){
                     itemsMLD.value = sorted
+                }
+            }
+        }
+        return itemsMLD
+    }
+    fun getRealtimeOrdersPaid(): LiveData<List<FrbOrderDTO>>{
+        val itemsMLD = MutableLiveData<List<FrbOrderDTO>>()
+
+        val byState = FrbFieldsOrders.States.PAID
+        viewModelScope.launch(Dispatchers.IO){
+            _repositoryPaid.getItemsRealtime(byState).collect() {
+                withContext(Dispatchers.Main){
+                    itemsMLD.value = it
                 }
             }
         }

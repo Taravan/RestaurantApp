@@ -297,6 +297,7 @@ class StaffGoodsVM: ViewModel() {
     val updatedProductName = MutableLiveData<String>()
     val updatedProductDesc = MutableLiveData<String>()
     val updatedProductCatPosition = MutableLiveData<Int>()
+    lateinit var updatedProductCategory :CategoryDTO
     private val _updatedProductAllergens = MutableLiveData<MutableSet<AllergenDTO>>()
     val updatedProductPrice = MutableLiveData<String>()
 
@@ -320,7 +321,6 @@ class StaffGoodsVM: ViewModel() {
         updatedProductName.value = productToUpdate.goodsName
         updatedProductDesc.value = productToUpdate.goodsDesc ?: ""
         updatedProductCatPosition.value = _categories.value?.indexOfFirst { it.id == productToUpdate.categoryId } ?: 0
-        //fetchAllergensForGoodsItem(product.goodsId)
         _updatedProductAllergens.value = _fetchedProductsAllergens.value
         updatedProductPrice.value = productToUpdate.price.toString()
     }
@@ -429,14 +429,14 @@ class StaffGoodsVM: ViewModel() {
                 Log.e(TAG, "Updating product: id: ${productToUpdate.goodsId} -> ${updatedProductGoodsId}, " +
                         "name: ${productToUpdate.goodsName} -> ${updatedProductName.value} " +
                         ", desc: ${productToUpdate.goodsDesc} -> ${updatedProductDesc.value}, " +
-                        "cat: ${categories.value?.find { it.id == productToUpdate.categoryId }?.name} -> ${categories.value?.get(updatedProductCatPosition.value ?: 0)?.name ?: ""}, " +
+                        "cat: ${categories.value?.find { it.id == productToUpdate.categoryId }?.name} -> ${updatedProductCategory.name}, " +
                         "price: ${productToUpdate.price} -> ${updatedProductPrice.value} " +
                         "allergens: ${_updatedProductAllergens.value?.size}.")
                 val newProduct = UpdateGoodsItemDTO(
                     updatedProductGoodsId,
                     updatedProductName.value.toString(),
                     updatedProductDesc.value,
-                    1,  // TODO: [Pro Tomáše] Semka dej skutečnou id kategorie (bez té šílenosti)
+                    updatedProductCategory.id,
                     newPrice,
                     _updatedProductAllergens.value.orEmpty().map { it.id }
                 )

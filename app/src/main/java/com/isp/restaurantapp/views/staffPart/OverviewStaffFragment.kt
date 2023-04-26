@@ -33,7 +33,7 @@ class OverviewStaffFragment: Fragment() {
         _adapterOrders = OverviewOrdersAdapter(_viewModel)
         recyclerViewOrders.adapter = _adapterOrders
 
-        _viewModel.allOrders.observe(viewLifecycleOwner) { orders ->
+        _viewModel.getRealtimeOrdersAll().observe(viewLifecycleOwner) { orders ->
             _adapterOrders.updateData(orders)
         }
 

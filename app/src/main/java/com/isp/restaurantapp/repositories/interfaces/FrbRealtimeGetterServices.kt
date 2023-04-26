@@ -25,3 +25,8 @@ interface FrbRealtimeByStateGetterService<T>{
         limit: Long = 1000,
         orderDirection: Direction = Direction.ASCENDING): Flow<List<T>>
 }
+interface FrbRealtimeGetterService<T>{
+    fun getItemsRealtime(
+        limit: Long = 1000,
+        orderDirection: Direction = Direction.ASCENDING): Flow<List<T>>
+}

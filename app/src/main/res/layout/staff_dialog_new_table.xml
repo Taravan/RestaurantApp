@@ -13,6 +13,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:autoSizeMinTextSize="30sp"
+            android:text="@string/table_add_title"/>
+
         <EditText
             android:id="@+id/et_add_table_number"
             android:layout_width="match_parent"

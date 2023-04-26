@@ -76,7 +76,7 @@ class TablesOverviewAdapter
     private fun deleteTableConfirmationDialog(context: Context, table: TableDTO) {
 
         val builder = AlertDialog.Builder(context)
-        builder.setMessage(context.getString(R.string.table_delete, table.tableNumber.toString()))
+        builder.setMessage(context.getString(R.string.table_delete, table.tableNumber))
         builder.setPositiveButton(context.getString(R.string.btn_delete)) { _, _ ->
             viewModel.deleteTable(table.id)
         }

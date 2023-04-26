@@ -18,78 +18,84 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:id="@+id/layout_order_overview"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:text="@{Integer.toString(item.tableNumber)}"
-                            android:gravity="fill"
-                            android:autoSizeTextType="uniform"
-                            android:maxLines="1"
-                            android:layout_margin="5dp"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            />
+                        <LinearLayout
+                            android:id="@+id/layout_order_overview"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:text="@{item.itemName}"
-                            android:gravity="fill"
-                            android:autoSizeTextType="uniform"
-                            android:maxLines="1"
-                            android:layout_margin="5dp"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="3"
-                            />
+                            <TextView
+                                android:text="@{Integer.toString(item.tableNumber)}"
+                                android:gravity="fill"
+                                android:autoSizeTextType="uniform"
+                                android:maxLines="1"
+                                android:layout_margin="5dp"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                />
 
-                        <TextView
-                            app:timestampFormatted="@{item.lastUpdate}"
-                            android:gravity="center"
-                            android:autoSizeTextType="uniform"
-                            android:maxLines="1"
-                            android:layout_margin="5dp"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="2"
-                            />
+                            <TextView
+                                android:text="@{item.itemName}"
+                                android:gravity="fill"
+                                android:autoSizeTextType="uniform"
+                                android:maxLines="1"
+                                android:layout_margin="5dp"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="3"
+                                />
 
-                        <TextView
-                            android:text="@{item.state}"
-                            android:gravity="center"
-                            android:autoSizeTextType="uniform"
-                            android:maxLines="1"
-                            android:layout_margin="5dp"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="2"
-                            />
+                            <TextView
+                                app:timestampFormatted="@{item.lastUpdate}"
+                                android:gravity="center"
+                                android:autoSizeTextType="uniform"
+                                android:maxLines="1"
+                                android:layout_margin="5dp"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="2"
+                                />
 
-                        <TextView
-                            android:text='@{String.format("%.1f", item.price)}'
-                            android:gravity="center"
-                            android:autoSizeTextType="uniform"
-                            android:maxLines="1"
-                            android:layout_margin="5dp"
-                            android:layout_width="0dp"
-                            android:layout_height="50dp"
-                            android:layout_weight="1"
-                            />
+                            <TextView
+                                android:text="@{item.state}"
+                                android:gravity="center"
+                                android:autoSizeTextType="uniform"
+                                android:maxLines="1"
+                                android:layout_margin="5dp"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="2"
+                                />
 
-                    </LinearLayout>
+                            <TextView
+                                android:text='@{String.format("%.1f", item.price)}'
+                                android:gravity="center"
+                                android:autoSizeTextType="uniform"
+                                android:maxLines="1"
+                                android:layout_margin="5dp"
+                                android:layout_width="0dp"
+                                android:layout_height="50dp"
+                                android:layout_weight="1"
+                                />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_margin="8dp"
+                            android:background="@color/recycleLine"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/layout_order_overview" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="8dp"
-                    android:background="@color/recycleLine"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/card_order_orverview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

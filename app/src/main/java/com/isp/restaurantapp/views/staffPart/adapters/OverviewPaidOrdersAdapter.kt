@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.isp.restaurantapp.R
-import com.isp.restaurantapp.databinding.StaffRvOverviewOrderBinding
 import com.isp.restaurantapp.databinding.StaffRvOverviewPaidBinding
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
 import com.isp.restaurantapp.viewModels.StaffOverviewVM
@@ -42,11 +41,8 @@ class OverviewPaidOrdersAdapter(private val viewModel: StaffOverviewVM, private 
     inner class OverviewPaidOrderViewHolder(private val binding: StaffRvOverviewPaidBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FrbOrderDTO, viewModel: StaffOverviewVM) {
-
             binding.item = item
             binding.executePendingBindings()
-
         }
-
     }
 }

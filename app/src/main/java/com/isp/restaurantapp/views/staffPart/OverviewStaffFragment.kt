@@ -48,8 +48,16 @@ class OverviewStaffFragment: Fragment() {
         _adapterOrders = OverviewOrdersAdapter(_viewModel)
         recyclerViewOrders.adapter = _adapterOrders
 
+        val recyclerViewPaidOrders = _binding.recRightOverview
+        _adapterPaidOrders = OverviewPaidOrdersAdapter(_viewModel)
+        recyclerViewPaidOrders.adapter = _adapterPaidOrders
+
         _viewModel.getRealtimeOrdersAll().observe(viewLifecycleOwner) { orders ->
             _adapterOrders.updateData(orders)
+        }
+
+        _viewModel.getRealtimeOrdersPaid().observe(viewLifecycleOwner) { orders ->
+            _adapterPaidOrders.updateData(orders)
         }
 
         return _binding.root

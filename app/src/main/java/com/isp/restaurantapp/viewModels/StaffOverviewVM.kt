@@ -27,10 +27,6 @@ class StaffOverviewVM: ViewModel() {
     private val _repositoryAll: FrbRealtimeGetterService<FrbOrderDTO> = FrbRealtimeOrderABC()
     private val _repositoryPaid: FrbRealtimeByStateGetterService<FrbOrderDTO> = FrbRealtimeByStateGetterServiceImpl()
 
-    private val _allOrders = MutableLiveData<List<FrbOrderDTO>>()
-    val allOrders: LiveData<List<FrbOrderDTO>>
-        get() = _allOrders
-
     private val _errorException: MutableLiveData<Throwable?> by lazy{
         MutableLiveData<Throwable?>()
     }
@@ -98,12 +94,4 @@ class StaffOverviewVM: ViewModel() {
             }
         }
     }
-
-    init {
-        _allOrders.value = listOf(
-            FrbOrderDTO("0", 0, 0, "ObjJedna", Timestamp.now(), 0.0, 0, "Paid", 0, 0, "0"),
-            FrbOrderDTO("1", 1, 1, "ObjDva", Timestamp.now(), 0.1, 1, "Pending", 1, 1, "1")
-        )
-    }
-
 }

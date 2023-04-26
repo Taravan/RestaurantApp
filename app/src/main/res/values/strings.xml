@@ -52,6 +52,8 @@
     <string name="string_buy_confirmation_title">Order confirmation</string>
     <string name="string_buy_confirmation_text">Order %1$s Kč?</string>
     <string name="string_order_info_text">Item: %1$s, table: %2$s </string>
+    <string name="btn_close">Close</string>
+    <string name="btn_Ok">OK</string>
 
 
     // Pay fragment
@@ -60,6 +62,10 @@
     <string name="pay_wait_for_waiter">Item marked for payment, please wait for waitress</string>
     <string name="pay_nothing_to_pay_for">Select items to pay</string>
     <string name="string_non_pending_exception">You cannot delete other then pending order</string>
+    <string name="pay_dialog_delete_title">Delete order</string>
+    <string name="pay_dialog_delete_message">Are you sure you want to cancel order %1$s?</string>
+    <string name="btn_yes">Yes</string>
+    <string name="btn_no">No</string>
     
     //Allergen fragment
     <string name="submitUserAllergens">Submit</string>

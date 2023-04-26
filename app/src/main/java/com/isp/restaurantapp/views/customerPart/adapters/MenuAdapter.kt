@@ -35,6 +35,11 @@ class MenuAdapter(
                 orderConfirmationDialog(binding.root.context, goodsItem)
             }
 
+            binding.itemName.setOnLongClickListener {
+                itemDescriptionDialog(binding.root.context, goodsItem)
+                return@setOnLongClickListener true
+            }
+
             binding.root.context
             binding.executePendingBindings()
         }
@@ -65,6 +70,18 @@ class MenuAdapter(
         notifyDataSetChanged()
     }
 
+    private fun itemDescriptionDialog(context: Context, item: GoodsItemDTO) {
+        if (item.goodsDesc != null) {
+            if (item.goodsDesc != "") {
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle(item.goodsName)
+                builder.setMessage(item.goodsDesc)
+                builder.setNeutralButton(R.string.btn_close, null)
+                builder.create().show()
+            }
+        }
+    }
+
     private fun orderConfirmationDialog(context: Context, goodsItem: GoodsItemDTO){
         val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.string_buy_confirmation_title)
@@ -74,11 +91,11 @@ class MenuAdapter(
             " ${goodsItem.goodsName}, ${goodsItem.price}")
         builder.setMessage(msg)
 
-        builder.setPositiveButton("Ok") { _, _ ->
+        builder.setPositiveButton(R.string.btn_Ok) { _, _ ->
             // Perform action when "ok" button is clicked
             orderItem(goodsItem)
         }
-        builder.setNegativeButton("Cancel", null)
+        builder.setNegativeButton(R.string.btn_cancel, null)
         val dialog = builder.create()
         dialog.show()
     }

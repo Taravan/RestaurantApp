@@ -50,7 +50,7 @@
                         />
 
                     <TextView
-                        android:text="@{item.price.toString()}"
+                        android:text='@{String.format("%.1f", item.price)}'
                         android:gravity="center"
                         android:autoSizeTextType="uniform"
                         android:maxLines="1"

@@ -32,7 +32,7 @@
 
         <Button
             android:id="@+id/btnOrder"
-            android:text="@{item.price.toString() }"
+            android:text='@{String.format("%.1f", item.price)}'
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="16dp"

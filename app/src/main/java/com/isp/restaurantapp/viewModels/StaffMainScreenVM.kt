@@ -13,20 +13,14 @@ class StaffMainScreenVM: ViewModel() {
     }
 
 
-    private val _staffAccount: MutableLiveData<StaffAccount> by lazy{
-        MutableLiveData<StaffAccount>()
+    private val _staffAccount: MutableLiveData<StaffAccount?> by lazy{
+        MutableLiveData<StaffAccount?>()
     }
-    val staffAccount: LiveData<StaffAccount>
+    val staffAccount: LiveData<StaffAccount?>
         get() = _staffAccount
-    fun setStaffAccount(staffAccount: StaffAccount){
+    fun setStaffAccount(staffAccount: StaffAccount?){
         _staffAccount.postValue(staffAccount)
     }
-
-    fun logOut() {
-        //TODO: Finish logout
-        Log.e(TAG, "Log out")
-    }
-
 
     private val _encodedApiUrl: MutableLiveData<String> by lazy{
         MutableLiveData<String>()

@@ -48,6 +48,11 @@ class TerminalHolderStaffFragment: Fragment() {
         }
 
 
+        _activityViewModel.staffAccount.observe(viewLifecycleOwner){
+            if (it == null)
+                onLogOutRedirect()
+        }
+
         adapterTop = PendingOrdersAdapter(_viewModel)
         val recyclerViewTop = _binding.topRecycler
         recyclerViewTop.adapter = adapterTop
@@ -92,6 +97,10 @@ class TerminalHolderStaffFragment: Fragment() {
 
         _binding.btnMenuUpdate.setOnClickListener {
             navController.navigate(R.id.nav_staffGoods)
+        }
+
+        _binding.btnStaffLogout.setOnClickListener {
+            _activityViewModel.setStaffAccount(null)
         }
 
     }

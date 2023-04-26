@@ -101,7 +101,7 @@ class LoginStaffFragment: Fragment() {
         val navController = findNavController()
 
 
-        _viewModel.staffAccount.observe(viewLifecycleOwner){
+        _mainViewModel.staffAccount.observe(viewLifecycleOwner){
             it?.let {
                 val action = LoginStaffFragmentDirections.actionLoginStaffFragmentToTerminalHolderStaffFragment()
                 navController.navigate(action)

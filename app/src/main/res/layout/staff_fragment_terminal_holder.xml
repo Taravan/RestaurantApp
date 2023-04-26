@@ -35,7 +35,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/top_recycler"
             app:layout_constraintRight_toRightOf="parent"
-            android:onClickListener="@{() -> activityVM.logOut()}"
             />
 
         <fragment

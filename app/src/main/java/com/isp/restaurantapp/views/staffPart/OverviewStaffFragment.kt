@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.isp.restaurantapp.R
 import com.isp.restaurantapp.databinding.StaffFragmentOverviewBinding
+import com.isp.restaurantapp.models.exceptions.OrderNotPendingDeleteException
 import com.isp.restaurantapp.viewModels.StaffOverviewVM
 import com.isp.restaurantapp.views.staffPart.adapters.OverviewOrdersAdapter
 
@@ -24,6 +27,16 @@ class OverviewStaffFragment: Fragment() {
     ): View {
 
         _viewModel = ViewModelProvider(this)[StaffOverviewVM::class.java]
+
+        _viewModel.errorException.observe(viewLifecycleOwner){
+            it?.let {
+                if (it is OrderNotPendingDeleteException)
+                    Toast.makeText(context, getString(R.string.string_non_pending_exception),
+                        Toast.LENGTH_SHORT).show()
+
+                _viewModel.resetErrorException()
+            }
+        }
 
         _binding = StaffFragmentOverviewBinding.inflate(inflater, container, false)
         _binding.lifecycleOwner = viewLifecycleOwner

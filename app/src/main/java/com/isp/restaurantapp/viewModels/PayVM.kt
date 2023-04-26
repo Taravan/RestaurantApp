@@ -8,15 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
 import com.isp.restaurantapp.models.Resource
 import com.isp.restaurantapp.models.dto.FrbOrderDTO
+import com.isp.restaurantapp.models.exceptions.OrderNotPendingDeleteException
 import com.isp.restaurantapp.models.firebase.FrbFieldsOrders
+import com.isp.restaurantapp.repositories.concrete.FrbOrderDeleter
 import com.isp.restaurantapp.repositories.concrete.FrbOrderStateUpdater
 import com.isp.restaurantapp.repositories.concrete.FrbRealtimeOrder
+import com.isp.restaurantapp.repositories.interfaces.FrbDocumentDeleter
 import com.isp.restaurantapp.repositories.interfaces.FrbDocumentStateUpdaterService
 import com.isp.restaurantapp.repositories.interfaces.FrbRealtimeGetterByTableIdService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class PayVM : ViewModel() {
 
@@ -37,38 +37,16 @@ class PayVM : ViewModel() {
         FrbOrderStateUpdater()
     }
 
+    private val _orderDeleter: FrbDocumentDeleter<FrbOrderDTO> by lazy {
+        FrbOrderDeleter()
+    }
 
-//    private val _unpaidItems = MutableLiveData<List<OrderByTableIdDTO>>()
-//    val unpaidItems: LiveData<List<OrderByTableIdDTO>> = _unpaidItems
 
-
-    /*
-    **** STARÉ S UNPAID ITEMS
-    private var _selectedItemsToPay = mutableListOf<OrderByTableIdDTO>()
-    val selectedItemsToPay: List<OrderByTableIdDTO>
-        get() = _selectedItemsToPay
-     */
 
     private var _selectedItemsToPay = mutableListOf<FrbOrderDTO>()
     val selectedItemsToPay: List<FrbOrderDTO>
         get() = _selectedItemsToPay
 
-//    fun fetchUnpaidItems(tableNumber: Int) {
-//        if (tableNumber < 0 || tableNumber>1000){
-//            Log.e(TAG, "Invalid table number: $tableNumber")
-//            return
-//        }
-//        try {
-//            viewModelScope.launch(Dispatchers.IO){
-//                val result = data.getUnpaidOrdersByTableId(tableNumber)
-//                withContext(Dispatchers.Main){
-//                    _unpaidItems.postValue(result)
-//                }
-//            }
-//        } catch (e: Exception){
-//                throw e
-//        }
-//    }
 
     /**
      * REALTIME
@@ -122,29 +100,28 @@ class PayVM : ViewModel() {
         }
 
     }
-//
-//    fun updateSelectedList(operation: Boolean, item: OrderByTableIdDTO) {
-//        if (operation) _selectedItemsToPay.add(item)
-//        else _selectedItemsToPay.remove(item)
-//    }
-//
-//    fun payForSelectedItems(uid: String) {
-//        val documents = mutableListOf<FrbOrderDTO>()
-//
-//        _selectedItemsToPay.toList().forEach { item ->
-//            documents.add(FrbOrderMapper.toFrbOrderDTO(item, FrbFieldsOrders.States.FOR_PAYMENT, uid))
-//            Log.w(TAG, item.goodsName)
-//        }
-//        viewModelScope.launch(Dispatchers.IO){
-//            val result = _orderInserter.insertDocuments(documents, uid)
-//            withContext(Dispatchers.Main){
-//                when(result){
-//                    is Resource.Failure -> { throw result.exception }
-//                    else -> {}
-//                }
-//            }
-//        }
-//
-//    }
+
+    fun deletePendingOrder(order: FrbOrderDTO){
+        val handler = CoroutineExceptionHandler{ _, throwable ->
+            throwable.printStackTrace()
+        }
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                if (order.state != FrbFieldsOrders.States.PENDING.value)
+                    throw OrderNotPendingDeleteException()
+                when (val result = _orderDeleter.deleteDocument(order)){
+                    is Resource.Failure -> throw result.exception
+                    is Resource.Success -> Log.i(
+                        TAG,
+                        "deletePendingOrder: Order deleted successfully"
+                    )
+                    Resource.Loading -> {}
+                }
+            }
+            catch (e: Exception){
+                Log.e(TAG, "deletePendingOrder: ${e.message}")
+            }
+        }
+    }
 
 }

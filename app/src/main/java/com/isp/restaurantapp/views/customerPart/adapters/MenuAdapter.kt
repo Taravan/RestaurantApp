@@ -35,6 +35,11 @@ class MenuAdapter(
                 orderConfirmationDialog(binding.root.context, goodsItem)
             }
 
+            binding.itemName.setOnLongClickListener {
+                itemDescriptionDialog(binding.root.context, goodsItem)
+                return@setOnLongClickListener true
+            }
+
             binding.root.context
             binding.executePendingBindings()
         }
@@ -63,6 +68,18 @@ class MenuAdapter(
     fun updateData(newGoodsItemList: List<GoodsItemDTO>) {
         this.itemsList = newGoodsItemList
         notifyDataSetChanged()
+    }
+
+    private fun itemDescriptionDialog(context: Context, item: GoodsItemDTO) {
+        if (item.goodsDesc != null) {
+            if (item.goodsDesc != "") {
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle(item.goodsName)
+                builder.setMessage(item.goodsDesc)
+                builder.setNeutralButton("Close", null)
+                builder.create().show()
+            }
+        }
     }
 
     private fun orderConfirmationDialog(context: Context, goodsItem: GoodsItemDTO){

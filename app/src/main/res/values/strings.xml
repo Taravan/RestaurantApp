@@ -36,7 +36,7 @@
     <string name="btn_create_acc">Create</string>
     <string name="btn_back_to_login">Back to Log in</string>
     <string name="toast_bad_email">Email is not in valid form</string>
-    <string name="toast_bad_passwd">Password has to have at least 8 characters with 1 upper case, 1 lower case and 1 digit!</string>
+    <string name="toast_bad_passwd">Password has to have at least 8 characters with 1 upper case, 1 lower case, 1 special and 1 digit!</string>
     <string name="toast_bad_passwd_conf">Passwords don\'t match</string>
 
     // Account fragment
@@ -126,7 +126,7 @@
     <string name="product_update_title">Update product</string>
 
     <string name="category_delete">Are you sure you want to delete category %1$s?</string>
-    <string name="table_delete">Are you sure you want to delete table %1d?</string>
+    <string name="table_delete">Are you sure you want to delete table %1d? All orders on this table will be lost!</string>
     <string name="product_delete">Are you sure you want to delete %1$s?</string>
 
     // Overview

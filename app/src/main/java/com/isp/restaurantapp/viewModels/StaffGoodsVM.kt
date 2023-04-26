@@ -99,7 +99,7 @@ class StaffGoodsVM: ViewModel() {
     fun fetchTables() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val tables = _repository.getTables()
+                val tables = _repository.getTables().sortedBy { it.tableNumber }
                 // Delete prefix URL
                 Log.i(TAG, "fetchTables: prefix:$prefix")
                 tables.forEach {
@@ -238,6 +238,7 @@ class StaffGoodsVM: ViewModel() {
             try {
                 val result = _repository.insertCategory(categoryName, null)
                 if (!result.isSuccessful) throw Exception("Category insertion failed")
+                fetchCategories()
             } catch (e: Exception){
                 Log.e(TAG, "addCategory: category insertion failed")
                 e.printStackTrace()
@@ -330,7 +331,7 @@ class StaffGoodsVM: ViewModel() {
         get() = _goods.map { list ->
             list.distinctBy {
                 it.goodsId
-            }
+            }.sortedBy { it.categoryId }
         }
 
     fun fetchGoods() {
@@ -399,6 +400,7 @@ class StaffGoodsVM: ViewModel() {
                 withContext(Dispatchers.Main){
                     Log.i(TAG, "addProduct: new product added with id ${result.body()?.id}")
                 }
+                fetchGoods()
 
             } catch (e: NumberFormatException){
                 Log.e(TAG, "addProduct: adding goods item failed with exception: $e")
@@ -443,6 +445,7 @@ class StaffGoodsVM: ViewModel() {
 
                 val result = _repository.updateGoodsItemWithAllergens(newProduct)
                 Log.i(TAG, "updateProduct: rows effected: ${result.body()?.id}")
+                fetchGoods()
 
             }
             catch (e: Exception){

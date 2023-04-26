@@ -29,11 +29,11 @@ class LoginVM : ViewModel() {
     }
 
     val email: MutableLiveData<String> by lazy {
-        MutableLiveData<String>("nekdo@seznam.cz")
+        MutableLiveData<String>("")
     }
 
     val password: MutableLiveData<String> by lazy {
-        MutableLiveData<String>("password123")
+        MutableLiveData<String>("")
     }
 
     private val _text = MutableLiveData<String>().apply {
